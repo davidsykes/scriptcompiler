@@ -1,0 +1,36 @@
+
+
+
+
+myScript()
+{
+	//hello, world
+
+
+	gimmer = 42;
+	gimmer=gimmer+1;
+
+
+	if(gimmer==1 or gimmer==5)
+	{
+		gimmer = 69;
+	}
+
+	function(1,2);
+
+	if(function())
+	{
+		gimmer = function(2);
+	}
+
+	do
+	{
+		gimmer = gimmer - 1;
+	}
+	while(gimmer<42);
+
+	function(function(1));
+
+	//er, it seems to work then
+
+}
