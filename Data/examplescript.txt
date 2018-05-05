@@ -1,0 +1,56 @@
+myScript()
+{
+	engineFunction(1, 2, 3);
+
+	do
+	{
+		global_var = global_var - 1;
+	}
+	while(global_var and global_var);
+
+
+	global_var = 42;
+	global_var = global_var + 1;
+	global_var = global_var + another_global_var;
+
+	//there are no local variables this time
+
+	if(global_var==42)
+	{
+	}
+
+	if(global_var>another_global_var)
+	{
+	}
+
+	if( (global_var>42)&&(1<2) )
+	{
+	}
+
+	if(global_var==42)
+	{
+	}
+	elseif(1==1)
+	{
+	}
+	else
+	{
+	}
+
+	engineFunction();
+	engineFunction(42);
+	engineFunction(42, 69);
+	//engineFunction("hello");
+	global_var = engineFunction();
+
+	if( engineFunction() )
+	{
+	}
+
+	//note, engine functions sometimes will tell the interpreter to drop out of further
+	//processing.
+
+	do_animation( "george", "shrug" );
+
+}
+
