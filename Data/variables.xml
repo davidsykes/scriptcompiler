@@ -1,12 +1,11 @@
 <xml>
-   <globals>      
+   <globals>
+      <flag name="another_global_var" value="0" />
+      <flag name="global_var" value="0" />
       <flag name="result" value="0" />
-      <flag name="gimmer" value="42" />
    </globals>
 
 
-   <functions>
-      <func name="function" vars="2" />
-   </functions>
+
 </xml>
 
