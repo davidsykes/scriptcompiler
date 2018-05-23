@@ -24,8 +24,18 @@ def Quit(mess):
 	print mess
 	sys.exit(-1)
 
+def fetch_output_folder(parameters):
+	return p.GetOption('output')
+
+def make_output_script_path(script_path, output_folder):
+	(full_path, extension) = os.path.splitext(script)
+	(folder, file_name) = os.path.split(full_path)
+	if output_folder:
+		return os.path.join(output_folder, file_name)
+	return full_path
+
 try:
-	p = Parameters(['test'],'[variables,functions]','[undefined]', sys.argv[1:])
+	p = Parameters(['test'],'[variables,functions,output]','[undefined]', sys.argv[1:])
 except ParamError, e:
 	Useage('Param error: ' + e.value )
 
@@ -40,6 +50,8 @@ if len(p.GetParameters()) < 1:
 
 if p.GetOption('variables') == None and p.GetOption('functions') == None:
 	Useage('No variable or functions file specified')
+
+output_folder = fetch_output_folder(p)
 
 variableengine = VariableEngine()
 try:
@@ -62,13 +74,17 @@ for script in p.GetParameters():
 	try:
 		e.Process()
 		try:
-			(a,b) = os.path.splitext(script)
-			target = a + '.obj'
+			output_script_path = make_output_script_path(script, output_folder)
+			#print 'target_script_path:', target_script_path
+			#(a,b) = os.path.splitext(script)
+			target = output_script_path + '.obj'
 			print 'target', target
 			objf = open(target, 'w')
-			lstf = open(a+'.lst', 'w')
+			lstf = open(output_script_path + '.lst', 'w')
 			scriptengine.Write(objf, lstf)
 		except IOError, e:
 			Useage(e)
 	except CompileError, e:
 		Quit(''.join([script, '(', str(e.line), '): ', e.value]))
+
+
