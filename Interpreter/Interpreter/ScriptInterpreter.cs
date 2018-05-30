@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Interpreter
 {
@@ -6,7 +7,7 @@ namespace Interpreter
     {
         public ScriptInterpreter(BinaryReader script)
         {
-            
+            if (script == null) throw new ArgumentNullException();
         }
 
         public void Run()

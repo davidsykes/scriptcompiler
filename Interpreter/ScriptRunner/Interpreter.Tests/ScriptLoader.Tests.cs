@@ -22,11 +22,11 @@ namespace Interpreter.Tests
 
             scripts.Count.Should().Be(3);
 
-            scripts.Keys.ToList().Should().BeEquivalentTo(2);   //{"Script 1","Script ","Script 3"});
+            scripts.Keys.ToList().Should().BeEquivalentTo("Script 1", "Script 2", "Script 3");
 
-            scripts["Script1"].Should().AllBeEquivalentTo(_script1);
-            scripts["Script2"].Should().AllBeEquivalentTo(_script2);
-            scripts["Script3"].Should().AllBeEquivalentTo(_script3);
+            Encoding.UTF8.GetString(scripts["Script 1"].GetScriptBinary()).Should().Be("One");
+            Encoding.UTF8.GetString(scripts["Script 2"].GetScriptBinary()).Should().Be("Two");
+            Encoding.UTF8.GetString(scripts["Script 3"].GetScriptBinary()).Should().Be("Three");
         }
 
 
@@ -44,8 +44,8 @@ namespace Interpreter.Tests
 			writer.Write(3);
 
             WriteScript(writer, "Script 1", _script1);
-            //WriteScript(writer, "Script 2", _script2);
-            //WriteScript(writer, "Script 3", _script3);
+            WriteScript(writer, "Script 2", _script2);
+            WriteScript(writer, "Script 3", _script3);
 
             return data.GetBuffer();
         }
@@ -54,8 +54,8 @@ namespace Interpreter.Tests
         {
             writer.Write(scriptName.Length);
 			writer.Write(Encoding.ASCII.GetBytes(scriptName));
-			//writer.Write(scriptData.Length);
-			//writer.Write(scriptData);
+			writer.Write(scriptData.Length);
+			writer.Write(scriptData);
         }
 
         #endregion
