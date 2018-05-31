@@ -6,16 +6,14 @@ namespace Interpreter
 {
     public class ScriptLoader
     {
-        public static Dictionary<string, SingleScript> LoadScripts(byte[] scriptData)
+        public static Dictionary<string, SingleScript> LoadScripts(BinaryReader scriptsData)
         {
-            var binaryReader = new BinaryReader(new MemoryStream(scriptData));
-
-            var scriptCount = binaryReader.ReadInt32();
+            var scriptCount = scriptsData.ReadInt32();
 
             var scripts = new Dictionary<string, SingleScript>();
 
             for (var script = 1; script <= scriptCount; script += 1)
-                AddScript(scripts, binaryReader);
+                AddScript(scripts, scriptsData);
 
             return scripts;
         }

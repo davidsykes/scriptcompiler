@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Interpreter;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using Interpreter;
 
 namespace ScriptRunner
 {
@@ -11,18 +12,21 @@ namespace ScriptRunner
             try
             {
                 CheckArgumentsHaveBeenSupplied(args);
-
-
                 var scriptPath = args[0];
-                CheckScriptPathIsValid(scriptPath);
-                var scriptData = LoadScriptData(scriptPath);
+                var scriptToRun = args[1];
 
-                var scriptInterpreter = new ScriptInterpreter(scriptData);
+                CheckScriptPathIsValid(scriptPath);
+
+                var scriptCollection = ScriptLoader.LoadScripts(CreateBinaryReaderForScriptFile(scriptPath));
+
+                CheckScriptNameIsValid(scriptCollection, scriptToRun);
+
+                var scriptInterpreter = new ScriptInterpreter(scriptCollection[scriptToRun]);
                 scriptInterpreter.Run();
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(exception.Message);
             }
         }
 
@@ -30,7 +34,7 @@ namespace ScriptRunner
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
             if (args.Length != 2)
-                throw new ArgumentException("Script path not supplied");
+                throw new ArgumentException("Useage: {Script Path} {Script To Run}");
         }
 
         static void CheckScriptPathIsValid(string scriptPath)
@@ -39,11 +43,16 @@ namespace ScriptRunner
                 throw new ArgumentException($"Script file {scriptPath} not found");
         }
 
-        static BinaryReader LoadScriptData(string scriptPath)
+        static BinaryReader CreateBinaryReaderForScriptFile(string scriptPath)
         {
             return new BinaryReader(File.Open(scriptPath, FileMode.Open));
         }
 
+        static void CheckScriptNameIsValid(Dictionary<string, SingleScript> scriptCollection, string scriptToRun)
+        {
+            if (!scriptCollection.ContainsKey(scriptToRun))
+                throw new ArgumentException($"Script '{scriptToRun}' not found");
+        }
     }
 }
 

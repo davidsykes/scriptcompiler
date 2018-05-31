@@ -32,7 +32,7 @@ namespace Interpreter.Tests
 
         #region Supporting Code
 
-        byte[] CreateScriptFileWithSeveralScripts()
+        BinaryReader CreateScriptFileWithSeveralScripts()
         {
             _script1 = Encoding.ASCII.GetBytes("One");
             _script2 = Encoding.ASCII.GetBytes("Two");
@@ -47,7 +47,7 @@ namespace Interpreter.Tests
             WriteScript(writer, "Script 2", _script2);
             WriteScript(writer, "Script 3", _script3);
 
-            return data.GetBuffer();
+            return new BinaryReader(new MemoryStream(data.GetBuffer()));
         }
 
         static void WriteScript(BinaryWriter writer, string scriptName, byte[] scriptData)

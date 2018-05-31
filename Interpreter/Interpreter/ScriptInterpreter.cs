@@ -1,13 +1,12 @@
 ﻿using System;
-using System.IO;
 
 namespace Interpreter
 {
     public class ScriptInterpreter : IScriptInterpreter
     {
-        public ScriptInterpreter(BinaryReader script)
+        public ScriptInterpreter(SingleScript scriptData)
         {
-            if (script == null) throw new ArgumentNullException();
+            if (scriptData == null) throw new ArgumentNullException();
         }
 
         public void Run()
