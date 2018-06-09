@@ -21,13 +21,17 @@ namespace ScriptRunner
 
                 CheckScriptNameIsValid(scriptCollection, scriptToRun);
 
-                var scriptInterpreter = new ScriptInterpreter(scriptCollection[scriptToRun]);
+                var fnRoutinesCaller = new FnRoutinesCaller();
+                var variablesManager = new VariablesManager();
+                var stack = new ValueStack();
+                var scriptInterpreter = new ScriptInterpreter(scriptToRun, scriptCollection[scriptToRun], fnRoutinesCaller, variablesManager, stack);
                 scriptInterpreter.Run();
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception.Message);
             }
+            Console.WriteLine("Done");
         }
 
         static void CheckArgumentsHaveBeenSupplied(string[] args)
@@ -50,6 +54,7 @@ namespace ScriptRunner
 
         static void CheckScriptNameIsValid(Dictionary<string, SingleScript> scriptCollection, string scriptToRun)
         {
+            if (scriptCollection == null) throw new ArgumentNullException(nameof(scriptCollection));
             if (!scriptCollection.ContainsKey(scriptToRun))
                 throw new ArgumentException($"Script '{scriptToRun}' not found");
         }

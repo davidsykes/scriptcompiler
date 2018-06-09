@@ -1,7 +1,7 @@
 ﻿
 namespace Interpreter
 {
-    public class IScriptInterpreter
+    public interface IScriptInterpreter
     {
     }
 }
