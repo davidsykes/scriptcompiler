@@ -54,7 +54,7 @@ namespace Interpreter.Tests
             _stack.PopValue().Should().Be(11);
         }
 
-        #region Add
+        #region 9 Add
 
         [Test]
         public void TheAddCommandPopsTheTwoValuesAtTheBottomOfTheStackAddsThemAndPushesTheResult()
@@ -95,7 +95,52 @@ namespace Interpreter.Tests
 
         #endregion
 
-        #region LogicalOr
+        #region 19 VariableEquals
+
+        [Test]
+        public void TheVariableEqualsCommandPopsTheTwoValuesAtTheBottomOfTheStackVariableEqualsThemAndPushesTheResult()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.VariableEquals();
+            _stack.PopValue().Should().Be(0);
+
+            _stack.PushValue(12);
+            _stack.PushValue(12);
+            _stack.VariableEquals();
+            _stack.PopValue().Should().Be(1);
+
+            _stack.IsEmpty.Should().BeTrue();
+        }
+
+        [Test]
+        public void TheVariableEqualsCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+            _stack.PushValue(56);
+
+            _stack.VariableEquals();
+
+            _stack.PopValue().Should().Be(1);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheVariableEqualsCommandThrowsAnExceptionWhenThereAreInsufficientValuesToVariableEquals()
+        {
+            _stack.PushValue(11);
+
+            Action act = () => _stack.VariableEquals();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
+        #region 21 LogicalOr
 
         [Test]
         public void TheLogicalOrCommandPopsTheTwoValuesAtTheBottomOfTheStackLogicalOrsThemAndPushesTheResult()

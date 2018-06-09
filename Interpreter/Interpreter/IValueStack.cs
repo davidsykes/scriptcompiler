@@ -9,6 +9,7 @@ namespace Interpreter
         bool IsEmpty { get; }
         List<object> PopValues(int parameterCount);
         void Add();
+        void VariableEquals();
         void LogicalOr();
     }
 }

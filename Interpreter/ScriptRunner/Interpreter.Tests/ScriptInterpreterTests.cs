@@ -161,6 +161,20 @@ namespace Interpreter.Tests
 
         #endregion
 
+        #region 19 VariableEquals
+
+        [Test]
+        public void TheEqualsCommandCallsTheStackEVariablequalsCommand()
+        {
+            _script.AddCommand(ScriptToken.VariableEquals);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.VariableEquals());
+        }
+
+        #endregion
+
         #region 21 LogicalOr
 
         [Test]
