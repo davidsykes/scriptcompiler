@@ -53,8 +53,16 @@ namespace Interpreter
                     SetVariableToBottomValueOfStack();
                     break;
 
+                case ScriptToken.Jfalse:                //  6
+                    MoveScriptPointerIfStackValueIsZero();
+                    break;
+
+                case ScriptToken.Jtrue:                //  6
+                    MoveScriptPointerIfStackValueIsNotZero();
+                    break;
+
                 case ScriptToken.Jall:                  //  8
-                    _scriptData.MoveScriptPointer(_scriptData.GetInteger());
+                    MoveScriptPointerAlways();
                     break;
 
                 case ScriptToken.Add:                   //  9
@@ -106,6 +114,26 @@ namespace Interpreter
 
             var result = _fnRoutinesCaller.CallFnRoutine(fnRoutineName, parameters);
             _stack.PushValue(result);
+        }
+
+        void MoveScriptPointerIfStackValueIsNotZero()
+        {
+            var distance = _scriptData.GetInteger();
+            if (_stack.PopValue() != 0)
+                _scriptData.MoveScriptPointer(distance);
+        }
+
+        void MoveScriptPointerIfStackValueIsZero()
+        {
+            var distance = _scriptData.GetInteger();
+            if (_stack.PopValue() == 0)
+                _scriptData.MoveScriptPointer(distance);
+        }
+
+        void MoveScriptPointerAlways()
+        {
+            var distance = _scriptData.GetInteger();
+            _scriptData.MoveScriptPointer(distance);
         }
 
         List<object> GetStackParametersIfRequired(int parameterCount)

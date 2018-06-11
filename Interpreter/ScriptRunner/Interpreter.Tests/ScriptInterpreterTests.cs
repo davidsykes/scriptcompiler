@@ -147,6 +147,62 @@ namespace Interpreter.Tests
 
         #endregion
 
+        #region 6 Jfalse
+
+        [Test]
+        public void TheJneCommandMovesTheScriptPointerWhenTheBottomOfTheValueStackIsZero()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(0);
+            _script.AddCommand(ScriptToken.Jfalse);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _script.JumpPosition.Should().Be(42);
+        }
+
+        [Test]
+        public void TheJneCommandDoesNotMoveTheScriptPointerWhenTheBottomOfTheValueStackIsNotZero()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(1);
+            _script.AddCommand(ScriptToken.Jfalse);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _script.JumpPosition.Should().Be(0);
+        }
+
+        #endregion
+
+        #region 7 Jtrue
+
+        [Test]
+        public void TheJtrueCommandMovesTheScriptPointerWhenTheBottomOfTheValueStackIsNotZero()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(1);
+            _script.AddCommand(ScriptToken.Jtrue);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _script.JumpPosition.Should().Be(42);
+        }
+
+        [Test]
+        public void TheJtrueCommandDoesNotMoveTheScriptPointerWhenTheBottomOfTheValueStackIsZero()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(0);
+            _script.AddCommand(ScriptToken.Jtrue);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _script.JumpPosition.Should().Be(0);
+        }
+
+        #endregion
+
         #region 8 Jall
 
         [Test]

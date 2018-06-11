@@ -5,6 +5,8 @@
         PushIntValue = 1,
         PushVariable = 4,
         PopVariable = 5,
+        Jfalse = 6,
+        Jtrue = 7,
         Jall = 8,
         Add = 9,
         VariableEquals = 19,
