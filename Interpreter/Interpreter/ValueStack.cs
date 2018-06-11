@@ -29,7 +29,12 @@ namespace Interpreter
 
         public List<object> PopValues(int parameterCount)
         {
-            throw new NotImplementedException();
+            List<object> values = new List<object>();
+
+            for (var pop = 1 ; pop <= parameterCount ; pop += 1)
+                values.Insert(0, _stack.Pop());
+
+            return values;
         }
 
         public void Add()

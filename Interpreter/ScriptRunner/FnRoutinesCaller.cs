@@ -7,7 +7,9 @@ namespace Interpreter
     {
         public int CallFnRoutine(string fnRoutineName, List<object> parameters)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"fn routine {fnRoutineName} with {parameters.ToString()}");
+
+            return 1;
         }
     }
 }

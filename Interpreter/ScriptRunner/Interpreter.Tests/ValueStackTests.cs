@@ -54,6 +54,27 @@ namespace Interpreter.Tests
             _stack.PopValue().Should().Be(11);
         }
 
+        [Test]
+        public void PopValuesPopsMultipleValuesOffTheStack()
+        {
+            _stack.PushValue(11);
+            _stack.PushValue(22);
+            _stack.PushValue(33);
+
+            _stack.PopValues(3).Should().BeEquivalentTo(11,22,33);
+        }
+
+        [Test]
+        public void PopValuesLeavesOtherValuesOnTheStack()
+        {
+            _stack.PushValue(11);
+            _stack.PushValue(22);
+            _stack.PushValue(33);
+
+            _stack.PopValues(2).Should().BeEquivalentTo(22, 33);
+            _stack.PopValue().Should().Be(11);
+        }
+
         #region 9 Add
 
         [Test]
