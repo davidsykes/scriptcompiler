@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -7,13 +8,14 @@ namespace Interpreter
     public class SingleScript : ISingleScript
     {
         byte[] _scriptData;
+        MemoryStream _memoryStream;
         readonly BinaryReader _binaryReader;
 
         public SingleScript(byte[] scriptData)
         {
             _scriptData = scriptData;
-            var memoryStream = new MemoryStream(_scriptData);
-            _binaryReader = new BinaryReader(memoryStream);
+            _memoryStream = new MemoryStream(_scriptData);
+            _binaryReader = new BinaryReader(_memoryStream);
         }
 
         public int GetCommand()
@@ -48,6 +50,14 @@ namespace Interpreter
         public byte[] GetScriptBinary()
         {
             return _scriptData;
+        }
+
+        public void MoveScriptPointer(int distance)
+        {
+            if (_memoryStream.Position + distance > _memoryStream.Length)
+                throw new Exception("An attempt was made to move script pointer beyond the end of the script");
+
+            _memoryStream.Seek(distance, SeekOrigin.Current);
         }
 
         public bool Eof => _binaryReader.BaseStream.Position >= _binaryReader.BaseStream.Length;

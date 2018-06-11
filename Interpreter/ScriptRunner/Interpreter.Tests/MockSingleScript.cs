@@ -47,6 +47,13 @@ namespace Interpreter.Tests
             return _scriptCode[_pc++];
         }
 
+        public int JumpPosition { get; private set; }
+
+        public void MoveScriptPointer(int distance)
+        {
+            JumpPosition = distance;
+        }
+
         public bool Eof => _pc >= _scriptCode.Count;
     }
 }

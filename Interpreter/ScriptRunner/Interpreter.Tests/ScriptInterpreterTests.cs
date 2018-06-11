@@ -147,6 +147,21 @@ namespace Interpreter.Tests
 
         #endregion
 
+        #region 8 Jall
+
+        [Test]
+        public void TheJallCommandMovesTheScriptPointerByTheSpecifiedDistance()
+        {
+            _script.AddCommand(ScriptToken.Jall);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _script.JumpPosition.Should().Be(42);
+        }
+
+        #endregion
+
         #region 9 Add
 
         [Test]
@@ -275,8 +290,6 @@ namespace Interpreter.Tests
         [Test]
         public void TheEndScriptCommandTerminatesTheScriptCleanly()
         {
-            //SetUpTestData();
-
             _script.AddCommand(ScriptToken.EndScript);
 
             _interpreter.Run();

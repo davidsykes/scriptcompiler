@@ -53,6 +53,10 @@ namespace Interpreter
                     SetVariableToBottomValueOfStack();
                     break;
 
+                case ScriptToken.Jall:                  //  8
+                    _scriptData.MoveScriptPointer(_scriptData.GetInteger());
+                    break;
+
                 case ScriptToken.Add:                   //  9
                     _stack.Add();
                     break;
@@ -60,7 +64,6 @@ namespace Interpreter
                 case ScriptToken.VariableEquals:        //  19
                     _stack.VariableEquals();
                     break;
-                    ;
 
                 case ScriptToken.LogicalOr:             //  21
                     _stack.LogicalOr();

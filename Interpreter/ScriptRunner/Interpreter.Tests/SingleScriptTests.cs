@@ -88,6 +88,69 @@ namespace Interpreter.Tests
             _script.Eof.Should().BeTrue();
         }
 
+        [Test]
+        public void TheMoveScriptPointerCommandMovesTheScriptPointerByTheSpecifiedDistance()
+        {
+            SetUpScriptData(bw =>
+            {
+                bw.Write(1);
+                bw.Write(2);
+                bw.Write(3);
+            });
+
+            _script.GetInteger().Should().Be(1);
+            _script.MoveScriptPointer(4);
+            _script.GetInteger().Should().Be(3);
+        }
+
+        [Test]
+        public void TheMoveScriptPointerCommandMovesTheScriptPointerBackWhenTheDistanceIsNegative()
+        {
+            SetUpScriptData(bw =>
+            {
+                bw.Write(1);
+                bw.Write(2);
+                bw.Write(3);
+            });
+
+            _script.GetInteger().Should().Be(1);
+            _script.GetInteger().Should().Be(2);
+            _script.GetInteger().Should().Be(3);
+            _script.MoveScriptPointer(-8);
+            _script.GetInteger().Should().Be(2);
+        }
+
+        [Test]
+        public void TheMoveScriptPointerCommandThrowsAnExceptionWhenTheDistanceIsBeyondEndOfTheScript()
+        {
+            SetUpScriptData(bw =>
+            {
+                bw.Write(1);
+                bw.Write(2);
+                bw.Write(3);
+            });
+
+            Action act = () => _script.MoveScriptPointer(13);
+
+            act.Should().Throw<Exception>().WithMessage("An attempt was made to move script pointer beyond the end of the script");
+        }
+
+        [Test]
+        public void TheMoveScriptPointerCommandThrowsAnExceptionWhenTheDistanceIsBeforeTheBeginningOfTheScript()
+        {
+            SetUpScriptData(bw =>
+            {
+                bw.Write(1);
+                bw.Write(2);
+                bw.Write(3);
+            });
+
+            Action act = () => _script.MoveScriptPointer(-1);
+
+            act.Should().Throw<Exception>()
+                .WithMessage("An attempt was made to move the position before the beginning of the stream.");
+        }
+
         #region Supporting Code
 
         void SetUpScriptData(Action<BinaryWriter> action)
