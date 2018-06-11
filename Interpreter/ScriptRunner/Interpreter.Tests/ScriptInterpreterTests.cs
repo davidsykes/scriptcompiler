@@ -20,8 +20,6 @@ namespace Interpreter.Tests
         [Test]
         public void CreatingAScriptInterpreterWithNullScriptDataThrowsArgumentNullExceptionException()
         {
-            ////SetUpTestData();
-
             // ReSharper disable once NotAccessedVariable
             IScriptInterpreter interpreter;
 
@@ -66,7 +64,6 @@ namespace Interpreter.Tests
         [Test]
         public void RunningAScriptWithAnInvalidInstructionThrowsAnException()
         {
-            ////SetUpTestData();
             _script.AddIntValue(int.MaxValue);
 
             Action action = () => _interpreter.Run();
@@ -79,8 +76,6 @@ namespace Interpreter.Tests
         [Test]
         public void ThePushValueCommandPushesTheValueOnToTheStack()
         {
-            //SetUpTestData();
-
             _script.AddCommand(ScriptToken.PushIntValue);
             _script.AddIntValue(42);
 
@@ -265,8 +260,6 @@ namespace Interpreter.Tests
         [Test]
         public void TheCallFnRoutineCommandCallsTheFnRoutine()
         {
-            //SetUpTestData();
-
             _script.AddCommand(ScriptToken.CallFnRoutine);
             _script.AddIntValue(0);
             _script.AddString("fn routine");
@@ -280,8 +273,6 @@ namespace Interpreter.Tests
         [Test]
         public void TheCallFnRoutineCommandRequestsRequiredParametersFromTheStack()
         {
-            //SetUpTestData();
-
             _script.AddCommand(ScriptToken.CallFnRoutine);
             _script.AddIntValue(3);
             _script.AddString("fn routine");
@@ -294,8 +285,6 @@ namespace Interpreter.Tests
         [Test]
         public void TheCallFnRoutineCommandRequestsNoParametersFromTheStackWhenNoneRequired()
         {
-            //SetUpTestData();
-
             _script.AddCommand(ScriptToken.CallFnRoutine);
             _script.AddCommand(0);
             _script.AddString("fn routine");
@@ -308,8 +297,6 @@ namespace Interpreter.Tests
         [Test]
         public void TheCallFnRoutineCommandPassesTheParametersPoppedOffTheStack()
         {
-            //SetUpTestData();
-
             var parameters = new List<object> {1, 2, 3};
             _mockValueStack.Setup(m => m.PopValues(3)).Returns(parameters);
 
@@ -325,8 +312,6 @@ namespace Interpreter.Tests
         [Test]
         public void AfterCallingTheFnRoutineCommandTheReturnValueIsPlacedOnTheStack()
         {
-            //SetUpTestData();
-
             _mockFnRoutinesCaller.Setup(m =>
                 m.CallFnRoutine("fn routine", It.IsAny<List<object>>())).Returns(42);
 
@@ -337,6 +322,20 @@ namespace Interpreter.Tests
             RunInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue(42));
+        }
+
+        #endregion
+
+        #region 23 DropStackValue
+
+        [Test]
+        public void TheDropStackValuePopsTheBottomValueOfTheStack()
+        {
+            _script.AddCommand(ScriptToken.DropStackValue);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.PopValue());
         }
 
         #endregion
@@ -354,8 +353,6 @@ namespace Interpreter.Tests
         [Test]
         public void IfAScriptRunsToTheEndWithNoEndScriptAnExceptionIsThrown()
         {
-            //SetUpTestData();
-
             Action act = () => _interpreter.Run();
 
             act.Should().Throw<Exception>().WithMessage("Unexpected end of script found in 'Script'");

@@ -12,6 +12,7 @@
         VariableEquals = 19,
         LogicalOr = 21,
         CallFnRoutine = 22,
+        DropStackValue = 23,
         EndScript = 24
     }
 }

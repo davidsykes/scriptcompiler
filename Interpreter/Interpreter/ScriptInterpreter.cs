@@ -81,6 +81,10 @@ namespace Interpreter
                     ProcessFnRoutine();
                     break;
 
+                case ScriptToken.DropStackValue:        //  23
+                    _stack.PopValue();
+                    break;
+
                 case ScriptToken.EndScript:
                     return false;
 
