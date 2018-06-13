@@ -35,39 +35,41 @@ Script myScript
 150: 2		2
 154: 'function'
 163: 23		dropstackvalue
-167: 22		callfnroutine
+167: 1		pushintvalue
 171: 1		1
-175: 'function'
-184: 6		jne
-188: 36		36
-192: 1		pushintvalue
-196: 2		2
-200: 22		callfnroutine
-204: 1		1
-208: 'function'
-217: 5		popvariable
-221: 'gimmer'
-228: 4		pushvariable
-232: 'gimmer'
-239: 1		pushintvalue
-243: 1		1
-247: 9		add
-251: 5		popvariable
-255: 'gimmer'
-262: 4		pushvariable
-266: 'gimmer'
-273: 1		pushintvalue
-277: 42		42
-281: 15		lt
-285: 7		jtrue
-289: -61		-61
-293: 1		pushintvalue
-297: 1		1
-301: 22		callfnroutine
+175: 22		callfnroutine
+179: 1		1
+183: 'function'
+192: 6		jne
+196: 36		36
+200: 1		pushintvalue
+204: 2		2
+208: 22		callfnroutine
+212: 1		1
+216: 'function'
+225: 5		popvariable
+229: 'gimmer'
+236: 4		pushvariable
+240: 'gimmer'
+247: 1		pushintvalue
+251: 1		1
+255: 9		add
+259: 5		popvariable
+263: 'gimmer'
+270: 4		pushvariable
+274: 'gimmer'
+281: 1		pushintvalue
+285: 42		42
+289: 15		lt
+293: 7		jtrue
+297: -61		-61
+301: 1		pushintvalue
 305: 1		1
-309: 'function'
-318: 22		callfnroutine
-322: 1		1
-326: 'function'
-335: 23		dropstackvalue
-339: 24		endscript
+309: 22		callfnroutine
+313: 1		1
+317: 'function'
+326: 22		callfnroutine
+330: 1		1
+334: 'function'
+343: 23		dropstackvalue
+347: 24		endscript

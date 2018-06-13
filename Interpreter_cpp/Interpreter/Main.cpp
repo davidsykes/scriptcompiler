@@ -1,11 +1,10 @@
-
 // (c) David Sykes 2013
 // One more time, for the kids!
-
 
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <memory>
 #include "MockInterpreter.h"
 
 //void	RunTests();
@@ -38,7 +37,7 @@ int main(int argc, char* argv[])
 		for (int script = 0 ; script < numberOfScripts ; ++script)
 		{
 			int nameLength = ReadInt(scriptFile);
-			std::auto_ptr<char> apName(new char[nameLength]);
+			std::unique_ptr<char> apName(new char[nameLength]);
 			scriptFile.read(apName.get(), nameLength);
 			std::string scriptName(apName.get(), nameLength);
 

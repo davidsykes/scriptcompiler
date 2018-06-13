@@ -1,0 +1,5 @@
+
+
+Fix the problem calling fn routines with no parameters
+
+Close the script file once it has been loaded

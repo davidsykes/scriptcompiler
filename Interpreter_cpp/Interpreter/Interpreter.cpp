@@ -29,7 +29,7 @@ class IC:
 	pushstring = 3
 	pushvariable = 4
 	popvariable = 5
-	jne = 6
+	jfalse = 6
 	jtrue = 7
 	jall = 8
 	add = 9
@@ -78,7 +78,7 @@ bool Interpreter::Interpret()
 					SetVariable(GetString(), m_stack.Pop());
 				break;
 
-			case 6:	//	jne
+			case 6:	//	jfalse
 				{
 					int amountToJump = GetInteger();
 					if (m_stack.Pop().Int() == 0)
