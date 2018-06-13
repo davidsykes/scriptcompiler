@@ -9,6 +9,8 @@ namespace Interpreter.Tests
     {
         IValueStack _stack;
 
+        #region Push and Pop
+
         [Test]
         public void AnIntegerCanBePushedAndPoppedOffTheStack()
         {
@@ -75,6 +77,8 @@ namespace Interpreter.Tests
             _stack.PopValue().Should().Be(11);
         }
 
+        #endregion
+
         #region 9 Add
 
         [Test]
@@ -110,6 +114,68 @@ namespace Interpreter.Tests
             _stack.PushValue(11);
 
             Action act = () => _stack.Add();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
+        #region 15 Lt
+
+        [Test]
+        public void TheLtCommandLeavesResult1WhenValue1IsLessThanValue2()
+        {
+            _stack.PushValue(1);
+            _stack.PushValue(2);
+
+            _stack.Lt();
+
+            _stack.PopValue().Should().Be(1);
+        }
+
+        [Test]
+        public void TheLtCommandLeavesResult0WhenValue1IsEqualToValue2()
+        {
+            _stack.PushValue(2);
+            _stack.PushValue(2);
+
+            _stack.Lt();
+
+            _stack.PopValue().Should().Be(0);
+        }
+
+        [Test]
+        public void TheLtCommandLeavesResult0WhenValue1IsGreaterThanValue2()
+        {
+            _stack.PushValue(3);
+            _stack.PushValue(2);
+
+            _stack.Lt();
+
+            _stack.PopValue().Should().Be(0);
+        }
+
+        [Test]
+        public void TheLtCommandCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+            _stack.PushValue(56);
+
+            _stack.Lt();
+
+            _stack.PopValue().Should().Be(0);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheLtCommandCommandThrowsAnExceptionWhenThereAreInsufficientValuesToVariableEquals()
+        {
+            _stack.PushValue(11);
+
+            Action act = () => _stack.Lt();
 
             act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
         }

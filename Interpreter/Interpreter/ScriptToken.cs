@@ -9,6 +9,7 @@
         Jtrue = 7,
         Jall = 8,
         Add = 9,
+        Lt = 15,
         VariableEquals = 19,
         LogicalOr = 21,
         CallFnRoutine = 22,

@@ -11,5 +11,6 @@ namespace Interpreter
         void Add();
         void VariableEquals();
         void LogicalOr();
+        void Lt();
     }
 }

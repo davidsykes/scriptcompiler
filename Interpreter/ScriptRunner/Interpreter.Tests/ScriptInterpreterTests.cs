@@ -17,6 +17,8 @@ namespace Interpreter.Tests
         ScriptInterpreter _interpreter;
         List<object> _fnParamaters;
 
+        #region Initialisation
+
         [Test]
         public void CreatingAScriptInterpreterWithNullScriptDataThrowsArgumentNullExceptionException()
         {
@@ -70,6 +72,8 @@ namespace Interpreter.Tests
 
             action.Should().Throw<InvalidOperationException>().WithMessage("Invalid Script Command 2147483647");
         }
+
+        #endregion
 
         #region 1 Push Int Value
 
@@ -223,6 +227,20 @@ namespace Interpreter.Tests
             RunInterpreter();
 
             _mockValueStack.Verify(m => m.Add());
+        }
+
+        #endregion
+
+        #region 15 lt
+
+        [Test]
+        public void TheLtCommandCallsTheStackLtCommand()
+        {
+            _script.AddCommand(ScriptToken.Lt);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.Lt());
         }
 
         #endregion

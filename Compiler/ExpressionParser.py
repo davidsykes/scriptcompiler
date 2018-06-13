@@ -109,9 +109,9 @@ class ExpressionParser:
 			parameterCount = parameterCount + 1
 		if expressionend != ')':
 			raise CompileError('07: Engine function parameter list should end in ")"', tokenparser.GetLineNumber())
-		script.AddTokenInt(IC.callfnroutine);
+		script.AddTokenInt(IC.callfnroutine)
 		script.AddTokenInt(parameterCount)
-		script.AddTokenString(fname);
+		script.AddTokenString(fname)
 
 	def IsExpressionTerminator(self, token):
 		return token == None or token in [';',')',',']

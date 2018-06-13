@@ -63,5 +63,15 @@ namespace Interpreter
             var b = PopValue() != 0;
             PushValue(a || b ? 1 : 0);
         }
+
+        public void Lt()
+        {
+            if (_stack.Count < 2)
+                throw new StackOverflowException("Stack Underflow");
+
+            var value2 = PopValue();
+            var value1 = PopValue();
+            PushValue(value1 < value2 ? 1 : 0);
+        }
     }
 }

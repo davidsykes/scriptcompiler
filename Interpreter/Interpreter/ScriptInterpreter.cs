@@ -69,6 +69,10 @@ namespace Interpreter
                     _stack.Add();
                     break;
 
+                case ScriptToken.Lt:                    //  15
+                    _stack.Lt();
+                    break;
+
                 case ScriptToken.VariableEquals:        //  19
                     _stack.VariableEquals();
                     break;
