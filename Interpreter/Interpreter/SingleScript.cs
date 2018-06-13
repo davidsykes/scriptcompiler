@@ -52,6 +52,8 @@ namespace Interpreter
             return _scriptData;
         }
 
+        public long PC => _memoryStream.Position;
+
         public void MoveScriptPointer(int distance)
         {
             if (_memoryStream.Position + distance > _memoryStream.Length)

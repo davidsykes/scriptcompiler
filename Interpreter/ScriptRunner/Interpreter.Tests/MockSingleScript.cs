@@ -49,6 +49,8 @@ namespace Interpreter.Tests
 
         public int JumpPosition { get; private set; }
 
+        public long PC => 0;
+
         public void MoveScriptPointer(int distance)
         {
             JumpPosition = distance;

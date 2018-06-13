@@ -128,7 +128,7 @@ namespace Interpreter
         {
             var distance = _scriptData.GetInteger();
             if (_stack.PopValue() != 0)
-                _scriptData.MoveScriptPointer(distance);
+                _scriptData.MoveScriptPointer(distance - 4);
         }
 
         void MoveScriptPointerIfStackValueIsZero()

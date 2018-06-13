@@ -8,6 +8,7 @@ namespace Interpreter
         string GetLengthPrefixedString();
         string GetNullTerminatedString();
         bool Eof { get; }
+        long PC { get; }
         void MoveScriptPointer(int distance);
     }
 }
