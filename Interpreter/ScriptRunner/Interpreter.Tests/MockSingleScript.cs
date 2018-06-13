@@ -47,13 +47,13 @@ namespace Interpreter.Tests
             return _scriptCode[_pc++];
         }
 
-        public int JumpPosition { get; private set; }
+        public int JumpDistance { get; private set; }
 
         public long PC => 0;
 
         public void MoveScriptPointer(int distance)
         {
-            JumpPosition = distance;
+            JumpDistance = distance;
         }
 
         public bool Eof => _pc >= _scriptCode.Count;

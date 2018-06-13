@@ -157,7 +157,7 @@ namespace Interpreter.Tests
 
             RunInterpreter();
 
-            _script.JumpPosition.Should().Be(42);
+            _script.JumpDistance.Should().Be(42);
         }
 
         [Test]
@@ -169,7 +169,7 @@ namespace Interpreter.Tests
 
             RunInterpreter();
 
-            _script.JumpPosition.Should().Be(0);
+            _script.JumpDistance.Should().Be(0);
         }
 
         #endregion
@@ -177,7 +177,7 @@ namespace Interpreter.Tests
         #region 7 Jtrue
 
         [Test]
-        public void TheJtrueCommandMovesTheScriptPointerWhenTheBottomOfTheValueStackIsNotZero()
+        public void TheJtrueCommandMovesTheScriptPointerByTheDistanceMinus4WhenTheBottomOfTheValueStackIsNotZero()
         {
             _mockValueStack.Setup(m => m.PopValue()).Returns(1);
             _script.AddCommand(ScriptToken.Jtrue);
@@ -185,7 +185,7 @@ namespace Interpreter.Tests
 
             RunInterpreter();
 
-            _script.JumpPosition.Should().Be(42);
+            _script.JumpDistance.Should().Be(42 - 4);
         }
 
         [Test]
@@ -197,7 +197,7 @@ namespace Interpreter.Tests
 
             RunInterpreter();
 
-            _script.JumpPosition.Should().Be(0);
+            _script.JumpDistance.Should().Be(0);
         }
 
         #endregion
@@ -212,7 +212,7 @@ namespace Interpreter.Tests
 
             RunInterpreter();
 
-            _script.JumpPosition.Should().Be(42);
+            _script.JumpDistance.Should().Be(42);
         }
 
         #endregion
