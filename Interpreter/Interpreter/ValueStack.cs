@@ -45,6 +45,51 @@ namespace Interpreter
             PushValue(PopValue() + PopValue());
         }
 
+        public void Subtract()
+        {
+            if (_stack.Count < 2)
+                throw new StackOverflowException("Stack Underflow");
+
+            var value2 = PopValue();
+            var value1 = PopValue();
+            PushValue(value1 - value2);
+        }
+
+        public void Multiply()
+        {
+            if (_stack.Count < 2)
+                throw new StackOverflowException("Stack Underflow");
+
+            PushValue(PopValue() * PopValue());
+        }
+
+        public void Divide()
+        {
+            if (_stack.Count < 2)
+                throw new StackOverflowException("Stack Underflow");
+
+            var value2 = PopValue();
+            var value1 = PopValue();
+
+            PushValue(value1 / value2);
+        }
+
+        public void Negate()
+        {
+            if (_stack.Count < 1)
+                throw new StackOverflowException("Stack Underflow");
+
+            PushValue(-PopValue());
+        }
+
+        public void LogicalNot()
+        {
+            if (_stack.Count < 1)
+                throw new StackOverflowException("Stack Underflow");
+
+            PushValue(~PopValue());
+        }
+
         public void VariableEquals()
         {
             if (_stack.Count < 2)

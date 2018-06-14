@@ -57,7 +57,7 @@ namespace Interpreter
                     MoveScriptPointerIfStackValueIsZero();
                     break;
 
-                case ScriptToken.Jtrue:                //  6
+                case ScriptToken.Jtrue:                //  7
                     MoveScriptPointerIfStackValueIsNotZero();
                     break;
 
@@ -67,6 +67,26 @@ namespace Interpreter
 
                 case ScriptToken.Add:                   //  9
                     _stack.Add();
+                    break;
+
+                case ScriptToken.Subtract:              //  10
+                    _stack.Subtract();
+                    break;
+
+                case ScriptToken.Multiply:              //  11
+                    _stack.Multiply();
+                    break;
+
+                case ScriptToken.Divide:                //  12
+                    _stack.Divide();
+                    break;
+
+                case ScriptToken.Negate:                //  13
+                    _stack.Negate();
+                    break;
+
+                case ScriptToken.LogicalNot:            //  14
+                    _stack.LogicalNot();
                     break;
 
                 case ScriptToken.Lt:                    //  15

@@ -231,6 +231,76 @@ namespace Interpreter.Tests
 
         #endregion
 
+        #region 10 Subtract
+
+        [Test]
+        public void TheSubtractCommandCallsTheStackSubtractCommand()
+        {
+            _script.AddCommand(ScriptToken.Subtract);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.Subtract());
+        }
+
+        #endregion
+
+        #region 11 Multiply
+
+        [Test]
+        public void TheMultiplyCommandCallsTheStackMultiplyCommand()
+        {
+            _script.AddCommand(ScriptToken.Multiply);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.Multiply());
+        }
+
+        #endregion
+
+        #region 12 Divide
+
+        [Test]
+        public void TheDivideCommandCallsTheStackDevideCommand()
+        {
+            _script.AddCommand(ScriptToken.Divide);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.Divide());
+        }
+
+        #endregion
+
+        #region 13 Negate
+
+        [Test]
+        public void TheNegateCommandCallsTheStackNegateCommand()
+        {
+            _script.AddCommand(ScriptToken.Negate);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.Negate());
+        }
+
+        #endregion
+
+        #region 14 LogicalNot
+
+        [Test]
+        public void TheLogicalNotCommandCallsTheStackLogicalNotCommand()
+        {
+            _script.AddCommand(ScriptToken.LogicalNot);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.LogicalNot());
+        }
+
+        #endregion
+
         #region 15 lt
 
         [Test]
