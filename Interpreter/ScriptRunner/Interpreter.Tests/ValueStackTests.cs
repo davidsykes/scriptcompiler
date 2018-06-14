@@ -120,6 +120,203 @@ namespace Interpreter.Tests
 
         #endregion
 
+        #region 10 Subtract
+
+        [Test]
+        public void TheSubtractCommandPopsTheTwoValuesAtTheBottomOfTheStackSubtractsThemAndPushesTheResult()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+
+            _stack.Subtract();
+
+            _stack.PopValue().Should().Be(-22);
+            _stack.IsEmpty.Should().BeTrue();
+        }
+
+        [Test]
+        public void TheSubtractCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+            _stack.PushValue(78);
+
+            _stack.Subtract();
+
+            _stack.PopValue().Should().Be(-22);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheSubtractCommandThrowsAnExceptionWhenThereAreInsufficientValuesToSubtract()
+        {
+            _stack.PushValue(11);
+
+            Action act = () => _stack.Subtract();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
+        #region 11 Multiply
+
+        [Test]
+        public void TheMultiplyCommandPopsTheTwoValuesAtTheBottomOfTheStackMultipliesThemAndPushesTheResult()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+
+            _stack.Multiply();
+
+            _stack.PopValue().Should().Be(408);
+            _stack.IsEmpty.Should().BeTrue();
+        }
+
+        [Test]
+        public void TheMultiplyCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+            _stack.PushValue(78);
+
+            _stack.Multiply();
+
+            _stack.PopValue().Should().Be(4368);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheMultiplyCommandThrowsAnExceptionWhenThereAreInsufficientValuesToMultiply()
+        {
+            _stack.PushValue(11);
+
+            Action act = () => _stack.Multiply();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
+        #region 12 Divide
+
+        [Test]
+        public void TheDivideCommandPopsTheTwoValuesAtTheBottomOfTheStackDividesThemAndPushesTheResult()
+        {
+            _stack.PushValue(36);
+            _stack.PushValue(12);
+
+            _stack.Divide();
+
+            _stack.PopValue().Should().Be(3);
+            _stack.IsEmpty.Should().BeTrue();
+        }
+
+        [Test]
+        public void TheDivideCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+            _stack.PushValue(8);
+
+            _stack.Divide();
+
+            _stack.PopValue().Should().Be(7);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheDivideCommandThrowsAnExceptionWhenThereAreInsufficientValuesToDivide()
+        {
+            _stack.PushValue(11);
+
+            Action act = () => _stack.Divide();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
+        #region 13 Negate
+
+        [Test]
+        public void TheNegateCommandPopsTheValueAtTheBottomOfTheStackNegatesItAndPushesTheResult()
+        {
+            _stack.PushValue(12);
+
+            _stack.Negate();
+
+            _stack.PopValue().Should().Be(-12);
+            _stack.IsEmpty.Should().BeTrue();
+        }
+
+        [Test]
+        public void TheNegateCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+
+            _stack.Negate();
+
+            _stack.PopValue().Should().Be(-56);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheNegateCommandThrowsAnExceptionWhenThereAreInsufficientValuesToNegate()
+        {
+            Action act = () => _stack.Negate();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
+        #region 14 LogicalNot
+
+        [Test]
+        public void TheLogicalNotCommandPopsTheValueAtTheBottomOfTheStackLogicallyNotsItAndPushesTheResult()
+        {
+            _stack.PushValue(12);
+
+            _stack.LogicalNot();
+
+            _stack.PopValue().Should().Be(-13);
+            _stack.IsEmpty.Should().BeTrue();
+        }
+
+        [Test]
+        public void TheLogicalNotCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+
+            _stack.LogicalNot();
+
+            _stack.PopValue().Should().Be(-57);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheLogicalNotCommandThrowsAnExceptionWhenThereAreInsufficientValuesToLogicallyNot()
+        {
+            Action act = () => _stack.LogicalNot();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
         #region 15 Lt
 
         [Test]
