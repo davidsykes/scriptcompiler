@@ -17,5 +17,8 @@ namespace Interpreter
         void VariableEquals();
         void LogicalOr();
         void Lt();
+        void Lte();
+        void Gt();
+        void Gte();
     }
 }

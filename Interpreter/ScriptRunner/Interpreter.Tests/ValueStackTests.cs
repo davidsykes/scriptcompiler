@@ -368,7 +368,7 @@ namespace Interpreter.Tests
         }
 
         [Test]
-        public void TheLtCommandCommandThrowsAnExceptionWhenThereAreInsufficientValuesToVariableEquals()
+        public void TheLtCommandCommandThrowsAnExceptionWhenThereAreInsufficientValues()
         {
             _stack.PushValue(11);
 
@@ -378,6 +378,193 @@ namespace Interpreter.Tests
         }
 
         #endregion
+
+        #region 16 Gt
+
+        [Test]
+        public void TheGtCommandLeavesResult0WhenValue1IsLessThanValue2()
+        {
+            _stack.PushValue(1);
+            _stack.PushValue(2);
+
+            _stack.Gt();
+
+            _stack.PopValue().Should().Be(0);
+        }
+
+        [Test]
+        public void TheGtCommandLeavesResult0WhenValue1IsEqualToValue2()
+        {
+            _stack.PushValue(2);
+            _stack.PushValue(2);
+
+            _stack.Gt();
+
+            _stack.PopValue().Should().Be(0);
+        }
+
+        [Test]
+        public void TheGtCommandLeavesResult1WhenValue1IsGreaterThanValue2()
+        {
+            _stack.PushValue(3);
+            _stack.PushValue(2);
+
+            _stack.Gt();
+
+            _stack.PopValue().Should().Be(1);
+        }
+
+        [Test]
+        public void TheGtCommandCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+            _stack.PushValue(56);
+
+            _stack.Gt();
+
+            _stack.PopValue().Should().Be(0);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheGtCommandCommandThrowsAnExceptionWhenThereAreInsufficientValues()
+        {
+            _stack.PushValue(11);
+
+            Action act = () => _stack.Gt();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
+        #region 17 Lte
+
+        [Test]
+        public void TheLteCommandLeavesResult1WhenValue1IsLessThanValue2()
+        {
+            _stack.PushValue(1);
+            _stack.PushValue(2);
+
+            _stack.Lte();
+
+            _stack.PopValue().Should().Be(1);
+        }
+
+        [Test]
+        public void TheLteCommandLeavesResult1WhenValue1IsEqualToValue2()
+        {
+            _stack.PushValue(2);
+            _stack.PushValue(2);
+
+            _stack.Lte();
+
+            _stack.PopValue().Should().Be(1);
+        }
+
+        [Test]
+        public void TheLteCommandLeavesResult0WhenValue1IsGreaterThanValue2()
+        {
+            _stack.PushValue(3);
+            _stack.PushValue(2);
+
+            _stack.Lte();
+
+            _stack.PopValue().Should().Be(0);
+        }
+
+        [Test]
+        public void TheLteCommandCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+            _stack.PushValue(56);
+
+            _stack.Lte();
+
+            _stack.PopValue().Should().Be(1);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheLteCommandCommandThrowsAnExceptionWhenThereAreInsufficientValues()
+        {
+            _stack.PushValue(11);
+
+            Action act = () => _stack.Lte();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
+        #region 18 gte
+
+        [Test]
+        public void TheGteCommandLeavesResult0WhenValue1IsLessThanValue2()
+        {
+            _stack.PushValue(1);
+            _stack.PushValue(2);
+
+            _stack.Gte();
+
+            _stack.PopValue().Should().Be(0);
+        }
+
+        [Test]
+        public void TheGteCommandLeavesResult1WhenValue1IsEqualToValue2()
+        {
+            _stack.PushValue(2);
+            _stack.PushValue(2);
+
+            _stack.Gte();
+
+            _stack.PopValue().Should().Be(1);
+        }
+
+        [Test]
+        public void TheGteCommandLeavesResult1WhenValue1IsGreaterThanValue2()
+        {
+            _stack.PushValue(3);
+            _stack.PushValue(2);
+
+            _stack.Gte();
+
+            _stack.PopValue().Should().Be(1);
+        }
+
+        [Test]
+        public void TheGteCommandCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+            _stack.PushValue(56);
+
+            _stack.Gte();
+
+            _stack.PopValue().Should().Be(1);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheGteCommandCommandThrowsAnExceptionWhenThereAreInsufficientValues()
+        {
+            _stack.PushValue(11);
+
+            Action act = () => _stack.Gte();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
 
         #region 19 VariableEquals
 
@@ -413,7 +600,7 @@ namespace Interpreter.Tests
         }
 
         [Test]
-        public void TheVariableEqualsCommandThrowsAnExceptionWhenThereAreInsufficientValuesToVariableEquals()
+        public void TheVariableEqualsCommandThrowsAnExceptionWhenThereAreInsufficientValues()
         {
             _stack.PushValue(11);
 

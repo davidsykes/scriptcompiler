@@ -93,6 +93,18 @@ namespace Interpreter
                     _stack.Lt();
                     break;
 
+                case ScriptToken.Gt:                    //  16
+                    _stack.Gt();
+                    break;
+
+                case ScriptToken.Lte:                   //  17
+                    _stack.Lte();
+                    break;
+
+                case ScriptToken.Gte:                   //  18
+                    _stack.Gte();
+                    break;
+
                 case ScriptToken.VariableEquals:        //  19
                     _stack.VariableEquals();
                     break;

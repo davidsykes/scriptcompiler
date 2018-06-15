@@ -22,7 +22,7 @@ namespace Interpreter
         {
             if (_stack.Count <= 0) throw new StackOverflowException();
 
-            return (int)_stack.Pop();
+            return (int) _stack.Pop();
         }
 
         public bool IsEmpty => _stack.Count == 0;
@@ -31,7 +31,7 @@ namespace Interpreter
         {
             List<object> values = new List<object>();
 
-            for (var pop = 1 ; pop <= parameterCount ; pop += 1)
+            for (var pop = 1; pop <= parameterCount; pop += 1)
                 values.Insert(0, _stack.Pop());
 
             return values;
@@ -117,6 +117,36 @@ namespace Interpreter
             var value2 = PopValue();
             var value1 = PopValue();
             PushValue(value1 < value2 ? 1 : 0);
+        }
+
+        public void Lte()
+        {
+            if (_stack.Count < 2)
+                throw new StackOverflowException("Stack Underflow");
+
+            var value2 = PopValue();
+            var value1 = PopValue();
+            PushValue(value1 <= value2 ? 1 : 0);
+        }
+
+        public void Gt()
+        {
+            if (_stack.Count < 2)
+                throw new StackOverflowException("Stack Underflow");
+
+            var value2 = PopValue();
+            var value1 = PopValue();
+            PushValue(value1 > value2 ? 1 : 0);
+        }
+
+        public void Gte()
+        {
+            if (_stack.Count < 2)
+                throw new StackOverflowException("Stack Underflow");
+
+            var value2 = PopValue();
+            var value1 = PopValue();
+            PushValue(value1 >= value2 ? 1 : 0);
         }
     }
 }

@@ -315,6 +315,48 @@ namespace Interpreter.Tests
 
         #endregion
 
+        #region 16 gt
+
+        [Test]
+        public void TheGtCommandCallsTheStackGtCommand()
+        {
+            _script.AddCommand(ScriptToken.Gt);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.Gt());
+        }
+
+        #endregion
+
+        #region 17 Lte
+
+        [Test]
+        public void TheLteCommandCallsTheStackLteCommand()
+        {
+            _script.AddCommand(ScriptToken.Lte);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.Lte());
+        }
+
+        #endregion
+
+        #region 18 Gte
+
+        [Test]
+        public void TheGteCommandCallsTheStackGteCommand()
+        {
+            _script.AddCommand(ScriptToken.Gte);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.Gte());
+        }
+
+        #endregion
+
         #region 19 VariableEquals
 
         [Test]
