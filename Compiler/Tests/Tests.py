@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import sys
+sys.path.append("../")
+
 import traceback
 import sys
 from CompileError import CompileError
@@ -29,3 +32,5 @@ def RunTests():
       print e.value
       print '----- Stack trace ----'
       traceback.print_exc(file=sys.stdout)
+
+RunTests()
