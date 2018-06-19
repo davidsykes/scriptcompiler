@@ -1,8 +1,0 @@
-<xml>
-
-   <functions>
-      <function name="engineFunction" parameters="2" />
-      <function name="do_animation" parameters="2" />
-   </functions>
-</xml>
-

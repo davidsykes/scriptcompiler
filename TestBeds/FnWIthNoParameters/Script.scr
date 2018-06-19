@@ -18,7 +18,7 @@ myScript()
 
 	function(1,2);
 
-	if(function(1))
+	if(function(0))
 	{
 		gimmer = function(2);
 	}

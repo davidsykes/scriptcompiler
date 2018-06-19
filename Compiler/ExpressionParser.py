@@ -102,13 +102,18 @@ class ExpressionParser:
 			raise CompileError('09: Engine function parameter list expected', tokenparser.GetLineNumber())
 
 		# Zero or more parameters
-		expressionend= ","
 		parameterCount = 0
-		while expressionend == ",":
-			expressionend = self.ParseExpression(tokenparser, script)
-			parameterCount = parameterCount + 1
-		if expressionend != ')':
-			raise CompileError('07: Engine function parameter list should end in ")"', tokenparser.GetLineNumber())
+
+		firstParameterToken = tokenparser.GetToken()
+		if firstParameterToken != ')':
+			tokenparser.ReplaceToken(firstParameterToken)
+
+			expressionend= ","
+			while expressionend == ",":
+				expressionend = self.ParseExpression(tokenparser, script)
+				parameterCount = parameterCount + 1
+			if expressionend != ')':
+				raise CompileError('07: Engine function parameter list should end in ")"', tokenparser.GetLineNumber())
 		script.AddTokenInt(IC.callfnroutine)
 		script.AddTokenInt(parameterCount)
 		script.AddTokenString(fname)
