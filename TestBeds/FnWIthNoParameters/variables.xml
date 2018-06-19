@@ -4,9 +4,5 @@
       <flag name="gimmer" value="42" />
    </globals>
 
-
-   <functions>
-      <function name="function" parameters="1" />
-   </functions>
 </xml>
 
