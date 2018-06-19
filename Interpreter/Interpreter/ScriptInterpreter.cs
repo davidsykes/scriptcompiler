@@ -19,14 +19,13 @@ namespace Interpreter
             IValueStack stack)
         {
             _scriptName = scriptName;
-            _scriptData = scriptData;// ?? throw new ArgumentNullException();
-            _fnRoutinesCaller = fnRoutinesCaller;// ?? throw new ArgumentNullException();
-            _stack = stack;// ?? throw new ArgumentNullException();
-            _variableManager = variableManager;// ?? throw new ArgumentNullException();
-
-			if(_scriptData==null)	throw new ArgumentNullException();
-			if(_fnRoutinesCaller==null)	throw new ArgumentNullException();
-			if(_stack==null)	throw new ArgumentNullException();
+            _scriptData = scriptData;
+            if (_scriptData == null) throw new ArgumentNullException();
+            _fnRoutinesCaller = fnRoutinesCaller;
+            if (_fnRoutinesCaller == null) throw new ArgumentNullException();
+            _stack = stack;
+            if (_stack == null) throw new ArgumentNullException();
+            _variableManager = variableManager;
 			if(_variableManager==null)	throw new ArgumentNullException();
 
         }
