@@ -31,7 +31,6 @@ def TestExpressionParserNumeric():
 											  IC.add])
 
 def TestExpressionParserVariables():
-	variables = MockVariables()
 	ep = ExpressionParser(MockVariables(['var1','var2']))
 	script = MockScript('name')
 	ep.ParseExpression(MockTokenParser('var1 / var2'), script)
@@ -56,6 +55,14 @@ def TestExpressionParserComplex():
 												IC.equals,
 												IC.multiply])
 
+def TestFnRoutineNoParameters():
+	variables = MockVariables(['var1'], [['engineFunction',0]])
+	ep = ExpressionParser(variables)
+	script = MockScript('name')
+	ep.ParseExpression(MockTokenParser('engineFunction ( )'), script)
+	script.CompareScript('fnnop', [IC.callfnroutine,
+									0,
+									'engineFunction'])
 
 def TestExpressionParser():
 	TestExpressionTerminators()
@@ -63,3 +70,4 @@ def TestExpressionParser():
 	TestExpressionParserNumeric()
 	TestExpressionParserVariables()
 	TestExpressionParserComplex()
+	TestFnRoutineNoParameters()
