@@ -7,27 +7,27 @@ myScript()
 	//hello, world
 
 
-	gimmer = 42;
-	gimmer=gimmer+1;
+	global_var = 42;
+	global_var=global_var+1;
 
 
-	if(gimmer==1 or gimmer==5)
+	if(global_var==1 or global_var==5)
 	{
-		gimmer = 69;
+		global_var = 69;
 	}
 
 	function(1,2);
 
 	if(function(0))
 	{
-		gimmer = function(2);
+		global_var = function(2);
 	}
 
 	do
 	{
-		gimmer = gimmer - 1;
+		global_var = global_var - 1;
 	}
-	while(gimmer<42);
+	while(global_var<42);
 
 	function(function(1));
 

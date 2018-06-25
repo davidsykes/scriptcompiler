@@ -75,10 +75,7 @@ for script in p.GetParameters():
 		e.Process()
 		try:
 			output_script_path = make_output_script_path(script, output_folder)
-			#print 'target_script_path:', target_script_path
-			#(a,b) = os.path.splitext(script)
-			target = output_script_path + '.obj'
-			print 'target', target
+			target = output_script_path + '.bytes'
 			objf = open(target, 'w')
 			lstf = open(output_script_path + '.lst', 'w')
 			scriptengine.Write(objf, lstf)
