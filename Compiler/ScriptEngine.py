@@ -67,12 +67,12 @@ class Script(object):
 				ip = ip + len(t) + 1
 			else:
 				print type(t)
-			lstfile.write("\n");
+			lstfile.write("\n")
 		# Go back and put the script length in
 		curpos = objfile.tell()
-		objfile.seek(scriptsizeposition);
+		objfile.seek(scriptsizeposition)
 		WriteInt(objfile, ip)
-		objfile.seek(curpos);
+		objfile.seek(curpos)
 
 class ScriptEngine:
 	def __init__(self):
