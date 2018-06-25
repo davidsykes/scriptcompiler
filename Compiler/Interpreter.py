@@ -33,13 +33,13 @@ class IC:
 class Dissassembler(object):
 	def __init__(self):
 		self.codes = {}
-		self.codes[IC.pushintvalue]	= ['pushintvalue', True]
+		self.codes[IC.pushintvalue]		= ['pushintvalue', True]
 		self.codes[IC.pushparam]		= ['pushparam', True]
 		self.codes[IC.pushstring]		= ['pushstring', True]
-		self.codes[IC.pushvariable]	= ['pushvariable', True]
+		self.codes[IC.pushvariable]		= ['pushvariable', True]
 		self.codes[IC.popvariable]		= ['popvariable', True]
 		self.codes[IC.jne]				= ['jne', True]
-		self.codes[IC.jtrue]				= ['jtrue', True]
+		self.codes[IC.jtrue]			= ['jtrue', True]
 		self.codes[IC.jall]				= ['jall', True]
 		self.codes[IC.add]				= ['add', False]
 		self.codes[IC.subtract]			= ['subtract', False]
@@ -47,8 +47,8 @@ class Dissassembler(object):
 		self.codes[IC.devide]			= ['devide', False]
 		self.codes[IC.negate]			= ['negate', False]
 		self.codes[IC.logicalnot]		= ['logicalnot', False]
-		self.codes[IC.lt]					= ['lt', False]
-		self.codes[IC.gt]					= ['gt', False]
+		self.codes[IC.lt]				= ['lt', False]
+		self.codes[IC.gt]				= ['gt', False]
 		self.codes[IC.lte]				= ['lte', False]
 		self.codes[IC.gte]				= ['gte', False]
 		self.codes[IC.equals]			= ['equals', False]
@@ -56,4 +56,4 @@ class Dissassembler(object):
 		self.codes[IC.logicalor]		= ['logicalor', False]
 		self.codes[IC.callfnroutine]	= ['callfnroutine', True]
 		self.codes[IC.dropstackvalue]	= ['dropstackvalue', False]
-		self.codes[IC.endscript]	   = ['endscript', False]
+		self.codes[IC.endscript]		= ['endscript', False]

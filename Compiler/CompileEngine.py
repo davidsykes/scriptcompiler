@@ -167,4 +167,4 @@ class CompileEngine:
 	def ParseEngineFunction(self, fnName, script):
 		self.expressionparser.ParseEngineFunction(fnName, self.tokenparser, script)
 		self.RequireNextToken(';', 'engine function')
-		script.AddTokenInt(IC.dropstackvalue);
+		script.AddTokenInt(IC.dropstackvalue)

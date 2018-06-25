@@ -118,8 +118,7 @@ namespace Interpreter
                     break;
 
                 case ScriptToken.DropStackValue:        //  23
-                    _stack.PopValue();
-                    break;
+                    return _stack.PopValue() == 0;
 
                 case ScriptToken.EndScript:
                     return false;

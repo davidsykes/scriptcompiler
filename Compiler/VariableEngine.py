@@ -72,7 +72,7 @@ class VariableEngine:
 		return name in self.variables
 
 	def AddFunction(self, name, parameterCount):
-		self.engineFunctions[name] = parameterCount;
+		self.engineFunctions[name] = parameterCount
 
 	def IsFunction(self, name):
 		return name in self.engineFunctions

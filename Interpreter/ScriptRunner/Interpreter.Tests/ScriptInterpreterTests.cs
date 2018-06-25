@@ -468,6 +468,32 @@ namespace Interpreter.Tests
             _mockValueStack.Verify(m => m.PopValue());
         }
 
+        [Test]
+        public void DropStackValuePausesScriptProcessingIfTheValueOnTheStackIsNotZero()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(1);
+            _script.AddCommand(ScriptToken.DropStackValue);
+            _script.AddCommand(ScriptToken.PushIntValue);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.PushValue(It.IsAny<int>()), Times.Never);
+        }
+
+        [Test]
+        public void DropStackValueDoesNotPauseScriptProcessingIfTheValueOnTheStackIsZero()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(1);
+            _script.AddCommand(ScriptToken.DropStackValue);
+            _script.AddCommand(ScriptToken.PushIntValue);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.PushValue(42));
+        }
+
         #endregion
 
         #region 24 End Script
