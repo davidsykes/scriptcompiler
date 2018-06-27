@@ -484,7 +484,7 @@ namespace Interpreter.Tests
         [Test]
         public void DropStackValueDoesNotPauseScriptProcessingIfTheValueOnTheStackIsZero()
         {
-            _mockValueStack.Setup(m => m.PopValue()).Returns(1);
+            _mockValueStack.Setup(m => m.PopValue()).Returns(0);
             _script.AddCommand(ScriptToken.DropStackValue);
             _script.AddCommand(ScriptToken.PushIntValue);
             _script.AddIntValue(42);

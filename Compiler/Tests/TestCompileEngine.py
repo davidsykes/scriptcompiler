@@ -104,7 +104,7 @@ def TestMissingScriptTerminator():
 	ce = CompileEngine(tp, VariableEngine(), MockScriptEngine())
 	try:
 		ce.Process()
-		AssertFalse('sef', True);
+		AssertFalse('sef', True)
 	except CompileError, e:
 		AssertEqual('tmst', e.value, "10: Unexpected end of script")
 
@@ -221,6 +221,21 @@ def TestEngineFunctionInvalid():
 	except CompileError, e:
 		pass
 
+def TestFnRoutineDropSkipJump():
+	tp = MockTokenParser( 'engineFunction ( ) ;')
+	ce = CompileEngine(tp, MockVariables([],[['engineFunction',0]]), None)
+	script = MockScript('name')
+	try:
+		ce.CompileSingleExecutionBlock(script)
+	except CompileError, e:
+		print 'TestFnRoutineDropSkipJump got a compile error:', e.value
+	script.CompareScript('fnnop', [IC.callfnroutine,
+									0,
+									'engineFunction',
+									IC.dropskipjumpnonzero,
+									-27])
+
+
 def TestCompileEngine():
 	TestEmptyTokenParser()
 	TestInvalidScript()
@@ -237,3 +252,4 @@ def TestCompileEngine():
 	TestIfElseStatement()
 	TestIfElseifStatement()
 	TestEngineFunctionInvalid()
+	TestFnRoutineDropSkipJump()
