@@ -1,0 +1,12 @@
+
+
+
+
+myScript()
+{
+	variable = 42;
+
+	fnAnimation(variable);
+
+	variable = 1;
+}

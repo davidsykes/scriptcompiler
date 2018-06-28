@@ -18,6 +18,11 @@ namespace Interpreter
             _stack.Push(value);
         }
 
+        public void PushValue(string value)
+        {
+            _stack.Push(value);
+        }
+
         public int PopValue()
         {
             if (_stack.Count <= 0) throw new StackOverflowException();

@@ -78,7 +78,7 @@ namespace Interpreter.Tests
         #region 1 Push Int Value
 
         [Test]
-        public void ThePushValueCommandPushesTheValueOnToTheStack()
+        public void ThePushIntValueCommandPushesTheValueOnToTheStack()
         {
             _script.AddCommand(ScriptToken.PushIntValue);
             _script.AddIntValue(42);
@@ -86,6 +86,21 @@ namespace Interpreter.Tests
             RunInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue(42));
+        }
+
+        #endregion
+
+        #region 3 Push String Value
+
+        [Test]
+        public void ThePushStringValueCommandPushesTheValueOnToTheStack()
+        {
+            _script.AddCommand(ScriptToken.PushStringValue);
+            _script.AddString("gimmer");
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.PushValue("gimmer"));
         }
 
         #endregion
@@ -512,6 +527,72 @@ namespace Interpreter.Tests
             Action act = () => _interpreter.Run();
 
             act.Should().Throw<Exception>().WithMessage("Unexpected end of script found in 'Script'");
+        }
+
+        #endregion
+
+        #region 25 Drop Skip Pause Not Zero
+
+        [Test]
+        public void TestDropSkipPauseNotZeroPopsTheBottomValueFromTheStack()
+        {
+            _script.AddCommand(ScriptToken.DropSkipPauseNotZero);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.PopValue());
+
+        }
+
+        [Test]
+        public void TestDropSkipPauseNotZeroUpdatesProgramPositionWhenStackValueIsNotZero()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(1);
+            _script.AddCommand(ScriptToken.DropSkipPauseNotZero);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _script.JumpDistance.Should().Be(42 - 4);
+        }
+
+        [Test]
+        public void TestDropSkipPauseNotZeroDoesNotUpdateProgramPositionWhenStackValueIsZero()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(0);
+            _script.AddCommand(ScriptToken.DropSkipPauseNotZero);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _script.JumpDistance.Should().Be(0);
+        }
+
+        [Test]
+        public void TestDropSkipPauseNotZeroPausesTheScriptWhenStackValueIsNotZero()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(1);
+            _script.AddCommand(ScriptToken.DropSkipPauseNotZero);
+            _script.AddIntValue(42);
+            _script.AddCommand(ScriptToken.Divide);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.Divide(), Times.Never);
+        }
+
+        [Test]
+        public void TestDropSkipPauseNotZeroDoesNotPauseTheScriptWhenStackValueIsNotZero()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(0);
+            _script.AddCommand(ScriptToken.DropSkipPauseNotZero);
+            _script.AddIntValue(42);
+            _script.AddCommand(ScriptToken.Divide);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.Divide());
         }
 
         #endregion

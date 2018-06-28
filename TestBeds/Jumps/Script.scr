@@ -1,0 +1,29 @@
+
+
+
+myScript()
+{
+	variable = 1;
+
+	Print("jne");
+	if (variable == 2)
+	{
+		Print("pass");
+	}
+
+	Print("jtrue");
+	do
+	{
+		variable = variable + 1;
+	}
+	while (variable <2);
+
+	if (variable == 2)
+	{
+		Print("jall");
+	}
+	else
+	{
+		Print("pass");
+	}
+}

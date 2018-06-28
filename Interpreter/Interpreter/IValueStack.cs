@@ -5,6 +5,7 @@ namespace Interpreter
     public interface IValueStack
     {
         void PushValue(int value);
+        void PushValue(string value);
         int PopValue();
         bool IsEmpty { get; }
         List<object> PopValues(int parameterCount);

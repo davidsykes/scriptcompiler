@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace Interpreter.Tests
 {
@@ -17,6 +18,14 @@ namespace Interpreter.Tests
             _stack.PushValue(42);
 
             _stack.PopValue().Should().Be(42);
+        }
+
+        [Test]
+        public void AStringCanBePushedOnToTheStack()
+        {
+            _stack.PushValue("gimmer");
+
+            _stack.PopValues(1).Should().AllBeEquivalentTo("gimmer");
         }
 
         [Test]
@@ -564,7 +573,6 @@ namespace Interpreter.Tests
         }
 
         #endregion
-
 
         #region 19 VariableEquals
 

@@ -26,7 +26,7 @@ namespace Interpreter
             _stack = stack;
             if (_stack == null) throw new ArgumentNullException();
             _variableManager = variableManager;
-			if(_variableManager==null)	throw new ArgumentNullException();
+            if (_variableManager == null) throw new ArgumentNullException();
 
         }
 
@@ -50,83 +50,90 @@ namespace Interpreter
                     _stack.PushValue(_scriptData.GetInteger());
                     break;
 
-                case ScriptToken.PushVariable:          //  4
+                case ScriptToken.PushStringValue:
+                    _stack.PushValue(_scriptData.GetNullTerminatedString());
+                    break;
+
+                case ScriptToken.PushVariable: //  4
                     PushVariableOnToTheStack();
                     break;
 
-                case ScriptToken.PopVariable:           //  5
+                case ScriptToken.PopVariable: //  5
                     SetVariableToBottomValueOfStack();
                     break;
 
-                case ScriptToken.Jfalse:                //  6
+                case ScriptToken.Jfalse: //  6
                     MoveScriptPointerIfStackValueIsZero();
                     break;
 
-                case ScriptToken.Jtrue:                //  7
+                case ScriptToken.Jtrue: //  7
                     MoveScriptPointerIfStackValueIsNotZero();
                     break;
 
-                case ScriptToken.Jall:                  //  8
+                case ScriptToken.Jall: //  8
                     MoveScriptPointerAlways();
                     break;
 
-                case ScriptToken.Add:                   //  9
+                case ScriptToken.Add: //  9
                     _stack.Add();
                     break;
 
-                case ScriptToken.Subtract:              //  10
+                case ScriptToken.Subtract: //  10
                     _stack.Subtract();
                     break;
 
-                case ScriptToken.Multiply:              //  11
+                case ScriptToken.Multiply: //  11
                     _stack.Multiply();
                     break;
 
-                case ScriptToken.Divide:                //  12
+                case ScriptToken.Divide: //  12
                     _stack.Divide();
                     break;
 
-                case ScriptToken.Negate:                //  13
+                case ScriptToken.Negate: //  13
                     _stack.Negate();
                     break;
 
-                case ScriptToken.LogicalNot:            //  14
+                case ScriptToken.LogicalNot: //  14
                     _stack.LogicalNot();
                     break;
 
-                case ScriptToken.Lt:                    //  15
+                case ScriptToken.Lt: //  15
                     _stack.Lt();
                     break;
 
-                case ScriptToken.Gt:                    //  16
+                case ScriptToken.Gt: //  16
                     _stack.Gt();
                     break;
 
-                case ScriptToken.Lte:                   //  17
+                case ScriptToken.Lte: //  17
                     _stack.Lte();
                     break;
 
-                case ScriptToken.Gte:                   //  18
+                case ScriptToken.Gte: //  18
                     _stack.Gte();
                     break;
 
-                case ScriptToken.VariableEquals:        //  19
+                case ScriptToken.VariableEquals: //  19
                     _stack.VariableEquals();
                     break;
 
-                case ScriptToken.LogicalOr:             //  21
+                case ScriptToken.LogicalOr: //  21
                     _stack.LogicalOr();
                     break;
 
-                case ScriptToken.CallFnRoutine:         //  22
+                case ScriptToken.CallFnRoutine: //  22
                     ProcessFnRoutine();
                     break;
 
-                case ScriptToken.DropStackValue:        //  23
+                case ScriptToken.DropStackValue: //  23
                     return _stack.PopValue() == 0;
 
-                case ScriptToken.EndScript:
+                case ScriptToken.EndScript: //  24
                     return false;
+
+                case ScriptToken.DropSkipPauseNotZero: //  25
+                    return ProcessDropSkipPauseNotZero();
 
                 default:
                     throw new InvalidOperationException($"Invalid Script Command {command}");
@@ -183,6 +190,18 @@ namespace Interpreter
         List<object> GetStackParametersIfRequired(int parameterCount)
         {
             return parameterCount > 0 ? _stack.PopValues(parameterCount) : new List<object>();
+        }
+
+        bool ProcessDropSkipPauseNotZero()
+        {
+            var distance = _scriptData.GetInteger();
+            var value = _stack.PopValue();
+            if (value != 0)
+            {
+                _scriptData.MoveScriptPointer(distance - 4);
+                return false;
+            }
+            return true;
         }
     }
 }

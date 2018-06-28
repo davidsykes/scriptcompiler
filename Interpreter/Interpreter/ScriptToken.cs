@@ -3,6 +3,7 @@
     public enum ScriptToken
     {
         PushIntValue = 1,
+        PushStringValue = 3,
         PushVariable = 4,
         PopVariable = 5,
         Jfalse = 6,
