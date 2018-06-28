@@ -29,7 +29,7 @@ class IC:
 	callfnroutine = 22
 	dropstackvalue = 23
 	endscript = 24
-	dropskipjumpnonzero = 25
+	dropskippausenonzero = 25
 
 class Dissassembler(object):
 	def __init__(self):
@@ -58,4 +58,4 @@ class Dissassembler(object):
 		self.codes[IC.callfnroutine]		= ['callfnroutine', True]
 		self.codes[IC.dropstackvalue]		= ['dropstackvalue', False]
 		self.codes[IC.endscript]			= ['endscript', False]
-		self.codes[IC.dropskipjumpnonzero]	= ['dropskipjumpnonzero', False]
+		self.codes[IC.dropskippausenonzero]	= ['dropskippausenonzero', True]

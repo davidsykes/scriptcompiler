@@ -165,9 +165,8 @@ class CompileEngine:
 		script.AddTokenInt(dopositionpc - script.GetEndPC())
 
 	def ParseEngineFunction(self, fnName, script):
-		#print 'ssssssssssss'
 		fnpositionpc = script.GetEndPC()
 		self.expressionparser.ParseEngineFunction(fnName, self.tokenparser, script)
 		self.RequireNextToken(';', 'engine function')
-		script.AddTokenInt(IC.dropskipjumpnonzero)
+		script.AddTokenInt(IC.dropskippausenonzero)
 		script.AddTokenInt(fnpositionpc - script.GetEndPC())

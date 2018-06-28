@@ -22,6 +22,7 @@
         LogicalOr = 21,
         CallFnRoutine = 22,
         DropStackValue = 23,
-        EndScript = 24
+        EndScript = 24,
+        DropSkipPauseNotZero
     }
 }

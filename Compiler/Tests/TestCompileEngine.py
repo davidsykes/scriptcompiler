@@ -108,8 +108,6 @@ def TestMissingScriptTerminator():
 	except CompileError, e:
 		AssertEqual('tmst', e.value, "10: Unexpected end of script")
 
-#------------------------------------------------------------------------------------------------------
-
 def TestAssignment():
 	tp = MockTokenParser( 'var = 42 ;')
 	ce = CompileEngine(tp, MockVariables(['var']), None)
@@ -232,7 +230,7 @@ def TestFnRoutineDropSkipJump():
 	script.CompareScript('fnnop', [IC.callfnroutine,
 									0,
 									'engineFunction',
-									IC.dropskipjumpnonzero,
+									IC.dropskippausenonzero,
 									-27])
 
 
