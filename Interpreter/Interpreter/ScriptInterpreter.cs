@@ -30,14 +30,15 @@ namespace Interpreter
 
         }
 
-        public void Run()
+        public bool Run()
         {
             while (RunScriptCommand())
             {
             }
+			return	_scriptData.Eof;
         }
 
-        bool RunScriptCommand()
+       	bool RunScriptCommand()
         {
             if (_scriptData.Eof)
                 throw new Exception($"Unexpected end of script found in '{_scriptName}'");
