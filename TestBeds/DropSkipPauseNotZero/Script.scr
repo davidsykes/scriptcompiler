@@ -4,9 +4,9 @@
 
 myScript()
 {
-	variable = 42;
+	repeat = 4;
 
-	fnAnimation(variable);
+	DropSkipJump();
 
-	variable = 1;
+	Print("Done");
 }

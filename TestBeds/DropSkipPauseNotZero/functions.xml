@@ -1,7 +1,8 @@
 <xml>
 
    <functions>
-      <function name="fnAnimation" parameters="1" />
+      <function name="DropSkipJump" parameters="0" />
+      <function name="Print" parameters="1" />
    </functions>
 </xml>
 

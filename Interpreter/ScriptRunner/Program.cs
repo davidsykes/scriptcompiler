@@ -21,11 +21,14 @@ namespace ScriptRunner
 
                 CheckScriptNameIsValid(scriptCollection, scriptToRun);
 
-                var fnRoutinesCaller = new FnRoutinesCaller();
                 var variablesManager = new VariablesManager();
+                var fnRoutinesCaller = new FnRoutinesCaller(variablesManager);
                 var stack = new ValueStack();
                 var scriptInterpreter = new ScriptInterpreter(scriptToRun, scriptCollection[scriptToRun], fnRoutinesCaller, variablesManager, stack);
-                scriptInterpreter.Run();
+
+                while (!scriptInterpreter.Run())
+                {
+                }
             }
             catch (Exception exception)
             {

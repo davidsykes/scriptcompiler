@@ -1,6 +1,6 @@
 <xml>
    <globals>
-      <flag name="variable" value="0" />
+      <flag name="repeat" value="0" />
    </globals>
 </xml>
 
