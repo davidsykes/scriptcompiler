@@ -6,14 +6,14 @@ namespace Interpreter
     public class ScriptInterpreter : IScriptInterpreter
     {
         readonly string _scriptName;
-        readonly ISingleScript _scriptData;
+        readonly IProgramCounter _scriptData;
         readonly IFnRoutinesCaller _fnRoutinesCaller;
         readonly IValueStack _stack;
         readonly IVariableManager _variableManager;
 
         public ScriptInterpreter(
             string scriptName,
-            ISingleScript scriptData,
+            IProgramCounter scriptData,
             IFnRoutinesCaller fnRoutinesCaller,
             IVariableManager variableManager,
             IValueStack stack)

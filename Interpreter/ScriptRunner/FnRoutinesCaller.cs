@@ -36,7 +36,7 @@ namespace ScriptRunner
 
         int DropSkipJumpNotZero(List<object> parameters)
         {
-            var repeatValue = (int) _variablesManager.GetVariable("repeat");
+            var repeatValue = _variablesManager.GetVariable("repeat");
             _variablesManager.SetVariable("repeat", repeatValue - 1);
             Console.WriteLine($"Repeat count = {repeatValue}");
             return repeatValue > 0 ? 1 : 0;

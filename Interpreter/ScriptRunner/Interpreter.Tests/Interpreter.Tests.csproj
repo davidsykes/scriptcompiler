@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MockSingleScript.cs" />
+    <Compile Include="SingleScriptTests.cs" />
     <Compile Include="ScriptInterpreterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,7 +79,7 @@
     <None Include="packages.config" />
     <Compile Include="VariableManagerTests.cs" />
     <Compile Include="ValueStackTests.cs" />
-    <Compile Include="SingleScriptTests.cs" />
+    <Compile Include="ProgramCounterTests.cs" />
     <Compile Include="ScriptLoader.Tests.cs" />
   </ItemGroup>
   <ItemGroup>

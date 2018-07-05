@@ -1,7 +1,7 @@
 ﻿
 namespace Interpreter
 {
-    public interface ISingleScript
+    public interface IProgramCounter
     {
         int GetCommand();
         int GetInteger();

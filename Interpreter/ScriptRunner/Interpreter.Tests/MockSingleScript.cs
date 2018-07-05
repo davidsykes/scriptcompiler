@@ -2,7 +2,7 @@
 
 namespace Interpreter.Tests
 {
-    class MockSingleScript : ISingleScript
+    class MockSingleScript : IProgramCounter
     {
         readonly List<object> _scriptCode = new List<object>();
         int _pc;

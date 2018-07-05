@@ -21,10 +21,15 @@ namespace ScriptRunner
 
                 CheckScriptNameIsValid(scriptCollection, scriptToRun);
 
+                // Global values
                 var variablesManager = new VariablesManager();
                 var fnRoutinesCaller = new FnRoutinesCaller(variablesManager);
-                var stack = new ValueStack();
-                var scriptInterpreter = new ScriptInterpreter(scriptToRun, scriptCollection[scriptToRun], fnRoutinesCaller, variablesManager, stack);
+
+                // Values created for each script processor
+                var valueStack = new ValueStack();
+                var programCounter = new ProgramCounter(scriptCollection[scriptToRun]);
+
+                var scriptInterpreter = new ScriptInterpreter(scriptToRun, programCounter, fnRoutinesCaller, variablesManager, valueStack);
 
                 while (!scriptInterpreter.Run())
                 {
