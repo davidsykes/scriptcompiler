@@ -227,12 +227,18 @@ def TestFnRoutineDropSkipJump():
 		ce.CompileSingleExecutionBlock(script)
 	except CompileError, e:
 		print 'TestFnRoutineDropSkipJump got a compile error:', e.value
-	script.CompareScript('fnnop', [IC.callfnroutine,
+	script.CompareScript('fndsk', [IC.callfnroutine,
 									0,
 									'engineFunction',
 									IC.dropskippausenonzero,
 									-27])
 
+def TestPauseStatement():
+	tp = MockTokenParser( 'pause ( ) ;')
+	script = MockScript('name')
+	ce = CompileEngine(tp, VariableEngine(), None)
+	ce.CompileSingleExecutionBlock(script)
+	script.CompareScript('pause', [IC.pause])
 
 def TestCompileEngine():
 	TestEmptyTokenParser()
@@ -251,3 +257,4 @@ def TestCompileEngine():
 	TestIfElseifStatement()
 	TestEngineFunctionInvalid()
 	TestFnRoutineDropSkipJump()
+	TestPauseStatement()

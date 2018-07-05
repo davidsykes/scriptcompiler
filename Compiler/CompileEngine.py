@@ -96,6 +96,9 @@ class CompileEngine:
 		#---- Do ----------
 		elif token == 'do':
 			self.ParseDoStatement(script)
+		#---- Pause -------
+		elif token == 'pause':
+			self.ParsePauseStatement(script)
 		elif self.variables.IsGlobalVariable(token):
 			#----- Variable assignment
 			self.RequireNextToken('=', ''.join(['Assignment to variable ', token]))
@@ -145,7 +148,7 @@ class CompileEngine:
 			script.SetToken(elsejumpindex, script.GetEndPC() - elsejumpoffset)
 		else:
 			self.tokenparser.ReplaceToken(token)
-			# The jne jump jumps here
+			# The jall jump jumps here
 			script.SetToken(jneindex, script.GetEndPC() - jneoffset)
 
 	def ParseDoStatement(self, script):
@@ -163,6 +166,10 @@ class CompileEngine:
 		# if expression is true jump back to start of do
 		script.AddTokenInt(IC.jtrue)
 		script.AddTokenInt(dopositionpc - script.GetEndPC())
+
+	def ParsePauseStatement(self, script):
+		# pause
+		script.AddTokenInt(IC.pause)
 
 	def ParseEngineFunction(self, fnName, script):
 		fnpositionpc = script.GetEndPC()

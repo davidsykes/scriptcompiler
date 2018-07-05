@@ -30,6 +30,7 @@ class IC:
 	dropstackvalue = 23
 	endscript = 24
 	dropskippausenonzero = 25
+	pause = 26
 
 class Dissassembler(object):
 	def __init__(self):
