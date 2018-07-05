@@ -136,6 +136,9 @@ namespace Interpreter
                 case ScriptToken.DropSkipPauseNotZero: //  25
                     return ProcessDropSkipPauseNotZero();
 
+                case ScriptToken.PauseScript: // 26
+                    return false;
+
                 default:
                     throw new InvalidOperationException($"Invalid Script Command {command}");
             }

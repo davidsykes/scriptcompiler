@@ -24,6 +24,7 @@
         CallFnRoutine = 22,
         DropStackValue = 23,
         EndScript = 24,
-        DropSkipPauseNotZero
+        DropSkipPauseNotZero = 25,
+        PauseScript = 26
     }
 }

@@ -1,0 +1,12 @@
+
+
+
+
+myScript()
+{
+	repeat = 4;
+
+	pause
+
+	Print("Done");
+}

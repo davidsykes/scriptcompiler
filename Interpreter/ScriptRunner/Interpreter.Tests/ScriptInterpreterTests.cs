@@ -10,12 +10,16 @@ namespace Interpreter.Tests
     [TestFixture]
     public class ScriptInterpreterTests
     {
+        #region Fields
+
         Mock<IValueStack> _mockValueStack;
         Mock<IFnRoutinesCaller> _mockFnRoutinesCaller;
         MockSingleScript _script;
         Mock<IVariableManager> _mockVariableManager;
         ScriptInterpreter _interpreter;
         List<object> _fnParamaters;
+
+        #endregion
 
         #region Initialisation
 
@@ -593,6 +597,35 @@ namespace Interpreter.Tests
             RunInterpreter();
 
             _mockValueStack.Verify(m => m.Divide());
+        }
+
+        #endregion
+
+        #region 26 End Script
+
+        [Test]
+        public void ThePauseCommandPausesTheScript()
+        {
+            _script.AddCommand(ScriptToken.PauseScript);
+            _script.AddCommand(ScriptToken.PushIntValue);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.PushValue(42), Times.Never);
+        }
+
+        [Test]
+        public void AfterThePauseCommandTheScriptResumesWhereItLeftOff()
+        {
+            _script.AddCommand(ScriptToken.PauseScript);
+            _script.AddCommand(ScriptToken.PushIntValue);
+            _script.AddIntValue(42);
+
+            RunInterpreter();
+            _interpreter.Run();
+
+            _mockValueStack.Verify(m => m.PushValue(42));
         }
 
         #endregion
