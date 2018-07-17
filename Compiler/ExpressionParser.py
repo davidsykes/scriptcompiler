@@ -67,7 +67,10 @@ class ExpressionParser:
 					script.AddTokenInt(IC.pushstring)
 					script.AddTokenString(token)
 				elif self.variables.IsGlobalVariable(token):
-					script.AddTokenInt(IC.pushvariable)
+					script.AddTokenInt(IC.pushglobalvariable)
+					script.AddTokenString(token)
+				elif self.variables.IsLocalVariable(token):
+					script.AddTokenInt(IC.pushlocalvariable)
 					script.AddTokenString(token)
 				elif self.variables.IsFunction(token):
 					self.ParseEngineFunction(token, tokenparser, script, operatorstack)

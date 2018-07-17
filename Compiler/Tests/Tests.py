@@ -25,6 +25,7 @@ def RunTests():
    except AssertFailure, e:
       print '**** Assert failure ****'
       print e.value
+      print
       print '----- Stack trace ----'
       traceback.print_exc(file=sys.stdout)
    except CompileError, e:

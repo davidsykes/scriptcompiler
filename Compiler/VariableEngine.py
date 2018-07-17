@@ -14,15 +14,20 @@ class XMLHandler(xml.sax.handler.ContentHandler):
 		self.variables = variables
 
 	def startElement(self, name, attributes):
-		if name not in ['xml', 'globals', 'flag', 'functions', 'function']:
+		if name not in ['xml', 'globals', 'global', 'local', 'functions', 'function']:
 			raise CompileError(''.join(["Element name '", name, "' is not recognised"]))
-		if name == 'flag':
+		if name == 'global':
 			try:
 				name = attributes['name']
-				value = attributes['value']
 				self.variables.AddGlobalVariable(name)
 			except KeyError:
-				raise CompileError("Missing name or value in variable definition" + self.GetLocatorInfo())
+				raise CompileError("Missing name in variable definition" + self.GetLocatorInfo())
+		elif name == 'local':
+			try:
+				name = attributes['name']
+				self.variables.AddLocalVariable(name)
+			except KeyError:
+				raise CompileError("Missing name in variable definition" + self.GetLocatorInfo())
 		elif name == 'function':
 			try:
 				name = attributes['name']
@@ -51,7 +56,8 @@ class XMLHandler(xml.sax.handler.ContentHandler):
 
 class VariableEngine:
 	def __init__(self):
-		self.variables = {}
+		self.globalvariables = {}
+		self.localvariables = {}
 		self.scriptparameters = {}
 		self.engineFunctions = {}
 
@@ -64,12 +70,20 @@ class VariableEngine:
 		parser.parse(path)
 
 	def AddGlobalVariable(self, name):
-		if name in self.variables:
-			raise CompileError(''.join(['Variable with name ', name, ' defined twice'])  + self.GetLocatorInfo())
-		self.variables[name] = True
+		if name in self.globalvariables or name in self.localvariables:
+			raise CompileError(''.join(['Variable with name ', name, ' defined twice']))
+		self.globalvariables[name] = True
 
 	def IsGlobalVariable(self, name):
-		return name in self.variables
+		return name in self.globalvariables
+
+	def IsLocalVariable(self, name):
+		return name in self.localvariables
+
+	def AddLocalVariable(self, name):
+		if name in self.globalvariables or name in self.localvariables:
+			raise CompileError(''.join(['Variable with name ', name, ' defined twice']))
+		self.localvariables[name] = True
 
 	def AddFunction(self, name, parameterCount):
 		self.engineFunctions[name] = parameterCount

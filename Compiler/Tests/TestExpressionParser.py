@@ -34,9 +34,9 @@ def TestExpressionParserVariables():
 	ep = ExpressionParser(MockVariables(['var1','var2']))
 	script = MockScript('name')
 	ep.ParseExpression(MockTokenParser('var1 / var2'), script)
-	script.CompareScript('texprv', [IC.pushvariable,
+	script.CompareScript('texprv', [IC.pushglobalvariable,
 											  'var1',
-											  IC.pushvariable,
+											  IC.pushglobalvariable,
 											  'var2',
 											  IC.devide])
 
@@ -48,7 +48,7 @@ def TestExpressionParserComplex():
 	script.CompareScript('texprcx', [IC.pushintvalue,
 												2,
 												IC.negate,
-												IC.pushvariable,
+												IC.pushglobalvariable,
 												'var1',
 												IC.pushintvalue,
 												4,
@@ -56,7 +56,7 @@ def TestExpressionParserComplex():
 												IC.multiply])
 
 def TestFnRoutineNoParameters():
-	variables = MockVariables(['var1'], [['engineFunction',0]])
+	variables = MockVariables(['var1'], [], [['engineFunction',0]])
 	ep = ExpressionParser(variables)
 	script = MockScript('name')
 	ep.ParseExpression(MockTokenParser('engineFunction ( )'), script)

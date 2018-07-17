@@ -108,15 +108,25 @@ def TestMissingScriptTerminator():
 	except CompileError, e:
 		AssertEqual('tmst', e.value, "10: Unexpected end of script")
 
-def TestAssignment():
-	tp = MockTokenParser( 'var = 42 ;')
-	ce = CompileEngine(tp, MockVariables(['var']), None)
+def TestGlobalVariables():
+	tp = MockTokenParser( 'global = global ;')
+	ce = CompileEngine(tp, MockVariables(['global'], ['local']), None)
 	script = MockScript('name')
 	ce.CompileSingleExecutionBlock(script)
-	script.CompareScript('cmptas', [IC.pushintvalue,
-												42,
-												IC.popvariable,
-												'var'])
+	script.CompareScript('testass', [IC.pushglobalvariable,
+									'global',
+									IC.popglobalvariable,
+									'global'])
+
+def TestLocalVariables():
+	tp = MockTokenParser( 'local = local ;')
+	ce = CompileEngine(tp, MockVariables(['global'], ['local']), None)
+	script = MockScript('name')
+	ce.CompileSingleExecutionBlock(script)
+	script.CompareScript('testass', [IC.pushlocalvariable,
+									'local',
+									IC.poplocalvariable,
+									'local'])
 
 def TestScriptParameters():
 	tp = MockTokenParser('scriptname ( param ) { var = param ; }')
@@ -125,9 +135,9 @@ def TestScriptParameters():
 	ve.AddGlobalVariable('var')
 	ce = CompileEngine(tp, ve, scriptengine)
 	ce.Process()
-	scriptengine.GetScriptCode('scriptname').CompareScript('cmptas', [IC.pushparam,
+	scriptengine.GetScriptCode('scriptname').CompareScript('scrpar', [IC.pushparam,
 																						0,
-																						IC.popvariable,
+																						IC.popglobalvariable,
 																						'var',
 																						IC.endscript])
 
@@ -146,11 +156,11 @@ def TestIfStatement():
 												17,                #\
 												IC.pushintvalue,  # |
 												11,               # |
-												IC.popvariable,   # |
+												IC.popglobalvariable,   # |
 												'var1',           # |
 												IC.pushintvalue,  #/
 												12,
-												IC.popvariable,
+												IC.popglobalvariable,
 												'var2'])
 
 def TestIfElseStatement():
@@ -167,13 +177,13 @@ def TestIfElseStatement():
 												 24,               #\
 												 IC.pushintvalue,  # |
 												 11,               # |
-												 IC.popvariable,   # |
+												 IC.popglobalvariable,   # |
 												 'var',            # |
 												 IC.jall,          # |
 												 16,                # |  #\
 												 IC.pushintvalue,  #/   # |
 												 12,                    # |
-												 IC.popvariable,        # |
+												 IC.popglobalvariable,        # |
 												 'var'])                # |
 												                        #/
 def TestIfElseifStatement():
@@ -190,7 +200,7 @@ def TestIfElseifStatement():
 												 24,                #\
 												 IC.pushintvalue,   # |
 												 11,                # |
-												 IC.popvariable,    # |
+												 IC.popglobalvariable,    # |
 												 'var',             # |
 												 IC.jall,           # | \
 												 56,                # | |
@@ -200,20 +210,20 @@ def TestIfElseifStatement():
 												 24,                #   | \
 												 IC.pushintvalue,   #   | |
 												 12,                #   | |
-												 IC.popvariable,    #   | |
+												 IC.popglobalvariable,    #   | |
 												 'var',             #   | |
 												 IC.jall,           #   | | \
 												 16,                #   | | |
 												 IC.pushintvalue,   #   | / |
 												 13,                #   |   |
-												 IC.popvariable,    #   |   |
+												 IC.popglobalvariable,    #   |   |
 												 'var'])            #   |   |
 												                    #  /    /
 def TestEngineFunctionInvalid():
 	tp = MockTokenParser( 'engineFunction ;')
 	try:
 		script = MockScript('name')
-		ce = CompileEngine(tp, MockVariables([],[['engineFunction',0]]), None)
+		ce = CompileEngine(tp, MockVariables([],[],[['engineFunction',0]]), None)
 		ce.CompileSingleExecutionBlock(script)
 		AssertTrue(False)
 	except CompileError, e:
@@ -221,7 +231,7 @@ def TestEngineFunctionInvalid():
 
 def TestFnRoutineDropSkipJump():
 	tp = MockTokenParser( 'engineFunction ( ) ;')
-	ce = CompileEngine(tp, MockVariables([],[['engineFunction',0]]), None)
+	ce = CompileEngine(tp, MockVariables([],[],[['engineFunction',0]]), None)
 	script = MockScript('name')
 	try:
 		ce.CompileSingleExecutionBlock(script)
@@ -250,7 +260,8 @@ def TestCompileEngine():
 	#TestConstDefinitionValid()
 	TestEmptyScriptFunction()
 	TestMissingScriptTerminator()
-	TestAssignment()
+	TestGlobalVariables()
+	TestLocalVariables()
 	TestScriptParameters()
 	TestIfStatement()
 	TestIfElseStatement()

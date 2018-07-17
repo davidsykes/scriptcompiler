@@ -4,7 +4,8 @@
 
 myScript()
 {
-	repeat = 4;
+	glob = 4;
+	loc = 4;
 
 	pause
 

@@ -82,6 +82,6 @@ for script in p.GetParameters():
 		except IOError, e:
 			Useage(e)
 	except CompileError, e:
-		Quit(''.join([script, '(', str(e.line), '): ', e.value]))
+		Quit(''.join(['Error:', script, '(', str(e.line), '): ', e.value]))
 
 

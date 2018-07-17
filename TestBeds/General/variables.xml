@@ -1,6 +1,7 @@
 <xml>
    <globals>
-      <flag name="repeat" value="0" />
+      <global name="glob" value="0" />
+      <local name="loc" value="0" />
    </globals>
 </xml>
 

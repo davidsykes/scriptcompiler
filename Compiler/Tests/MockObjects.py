@@ -49,21 +49,31 @@ class MockTokenParser:
 
 #--------------------------------------------------------------------------------------------------------
 class MockVariables:
-	def __init__(self, vars=None, enginefuncs=None):
-		self.variables = {}
+	def __init__(self, globalvars=None, localvars=None, enginefuncs=None):
+		self.globalvariables = {}
+		self.localvariables = {}
 		self.functions = {}
-		if vars:
-			for var in vars:
-				self.AddVariable(var)
+		if globalvars:
+			for var in globalvars:
+				self.AddGlobalVariable(var)
+		if localvars:
+			for var in localvars:
+				self.AddLocalVariable(var)
 		if enginefuncs:
 			for f in enginefuncs:
 				self.AddEngineFunction(f[0],f[1])
 
-	def AddVariable(self, name):
-		self.variables[name] = True
+	def AddGlobalVariable(self, name):
+		self.globalvariables[name] = True
+
+	def AddLocalVariable(self, name):
+		self.localvariables[name] = True
 
 	def IsGlobalVariable(self, name):
-		return name in self.variables
+		return name in self.globalvariables
+
+	def IsLocalVariable(self, name):
+		return name in self.localvariables
 
 	def AddEngineFunction(self, name, parameterCount):
 		self.functions[name] = parameterCount

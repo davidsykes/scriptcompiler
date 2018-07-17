@@ -8,8 +8,8 @@ class IC:
 	pushintvalue = 1
 	pushparam = 2
 	pushstring = 3
-	pushvariable = 4
-	popvariable = 5
+	pushglobalvariable = 4
+	popglobalvariable = 5
 	jne = 6
 	jtrue = 7
 	jall = 8
@@ -31,6 +31,8 @@ class IC:
 	endscript = 24
 	dropskippausenonzero = 25
 	pause = 26
+	pushlocalvariable = 27
+	poplocalvariable = 28
 
 class Dissassembler(object):
 	def __init__(self):
@@ -38,8 +40,8 @@ class Dissassembler(object):
 		self.codes[IC.pushintvalue]			= ['pushintvalue', True]
 		self.codes[IC.pushparam]			= ['pushparam', True]
 		self.codes[IC.pushstring]			= ['pushstring', True]
-		self.codes[IC.pushvariable]			= ['pushvariable', True]
-		self.codes[IC.popvariable]			= ['popvariable', True]
+		self.codes[IC.pushglobalvariable]	= ['pushglobalvariable', True]
+		self.codes[IC.popglobalvariable]	= ['popglobalvariable', True]
 		self.codes[IC.jne]					= ['jne', True]
 		self.codes[IC.jtrue]				= ['jtrue', True]
 		self.codes[IC.jall]					= ['jall', True]
@@ -61,3 +63,5 @@ class Dissassembler(object):
 		self.codes[IC.endscript]			= ['endscript', False]
 		self.codes[IC.dropskippausenonzero]	= ['dropskippausenonzero', True]
 		self.codes[IC.pause]				= ['dropskippausenonzero', False]
+		self.codes[IC.pushlocalvariable]	= ['pushlocalvariable', True]
+		self.codes[IC.poplocalvariable]		= ['poplocalvariable', True]

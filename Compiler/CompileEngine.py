@@ -104,7 +104,14 @@ class CompileEngine:
 			self.RequireNextToken('=', ''.join(['Assignment to variable ', token]))
 			if self.expressionparser.ParseExpression(self.tokenparser, script) != ';':
 				raise CompileError(''.join(["Expression should be terminated by ';', found '", token, "'"]), self.tokenparser.GetLineNumber())
-			script.AddTokenInt(IC.popvariable)
+			script.AddTokenInt(IC.popglobalvariable)
+			script.AddTokenString(token)
+		elif self.variables.IsLocalVariable(token):
+			#----- Variable assignment
+			self.RequireNextToken('=', ''.join(['Assignment to variable ', token]))
+			if self.expressionparser.ParseExpression(self.tokenparser, script) != ';':
+				raise CompileError(''.join(["Expression should be terminated by ';', found '", token, "'"]), self.tokenparser.GetLineNumber())
+			script.AddTokenInt(IC.poplocalvariable)
 			script.AddTokenString(token)
 		elif self.variables.IsFunction(token):
 			self.ParseEngineFunction(token, script)
