@@ -17,23 +17,22 @@ namespace ScriptRunner
 
                 CheckScriptPathIsValid(scriptPath);
 
-                var scriptCollection = ScriptLoader.LoadScripts(CreateBinaryReaderForScriptFile(scriptPath));
+                var scriptCollection = LoadScriptCollectionFromScriptFile(scriptPath);
 
-                CheckScriptNameIsValid(scriptCollection, scriptToRun);
+                CheckNameOfScriptToRunIsValid(scriptCollection, scriptToRun);
 
-                // Global values
-                var variablesManager = new VariablesManager();
-                var fnRoutinesCaller = new FnRoutinesCaller(variablesManager);
+                var scriptSystem = new ScriptSystem();
 
-                // Values created for each script processor
-                var valueStack = new ValueStack();
-                var programCounter = new ProgramCounter(scriptCollection[scriptToRun]);
-                var localVariables = new VariablesManager();
+                var player1 = new ScriptRunningInstance();
+                player1.SetScriptToRun("Player1Script");
 
-                var scriptInterpreter = new ScriptInterpreter(scriptToRun, programCounter, fnRoutinesCaller, variablesManager, valueStack);
+                var player2 = new ScriptRunningInstance();
+                player2.SetScriptToRun("Player2Script");
 
-                while (!scriptInterpreter.Run(localVariables))
+
+                while (!scriptSystem.Run(player1))
                 {
+                    scriptSystem.Run(player2);
                 }
             }
             catch (Exception exception)
@@ -41,6 +40,11 @@ namespace ScriptRunner
                 Console.WriteLine(exception.Message);
             }
             Console.WriteLine("Done");
+        }
+
+        static Dictionary<string, SingleScript> LoadScriptCollectionFromScriptFile(string scriptPath)
+        {
+            return ScriptLoader.LoadScripts(CreateBinaryReaderForScriptFile(scriptPath));
         }
 
         static void CheckArgumentsHaveBeenSupplied(string[] args)
@@ -61,13 +65,14 @@ namespace ScriptRunner
             return new BinaryReader(File.Open(scriptPath, FileMode.Open));
         }
 
-        static void CheckScriptNameIsValid(Dictionary<string, SingleScript> scriptCollection, string scriptToRun)
+        static void CheckNameOfScriptToRunIsValid(Dictionary<string, SingleScript> scriptCollection, string scriptToRun)
         {
             if (scriptCollection == null) throw new ArgumentNullException(nameof(scriptCollection));
             if (!scriptCollection.ContainsKey(scriptToRun))
                 throw new ArgumentException($"Script '{scriptToRun}' not found");
         }
     }
+    
 }
 
 

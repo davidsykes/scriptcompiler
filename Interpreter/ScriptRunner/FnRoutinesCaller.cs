@@ -8,7 +8,7 @@ namespace ScriptRunner
     public class FnRoutinesCaller : IFnRoutinesCaller
     {
         Dictionary<string, Func<List<object>, int>> _functions;
-        VariablesManager _variablesManager;
+        readonly VariablesManager _variablesManager;
 
         public FnRoutinesCaller(VariablesManager variablesManager)
         {
