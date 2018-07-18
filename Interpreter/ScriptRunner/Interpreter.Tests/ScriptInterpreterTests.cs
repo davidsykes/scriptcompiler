@@ -15,8 +15,9 @@ namespace Interpreter.Tests
         Mock<IValueStack> _mockValueStack;
         Mock<IFnRoutinesCaller> _mockFnRoutinesCaller;
         MockSingleScript _script;
-        Mock<IVariableManager> _mockVariableManager;
-        ScriptInterpreter _interpreter;
+        Mock<IVariableManager> _mockGlobalVariableManager;
+        Mock<IVariableManager> _mockLocalVariableManager;
+        IScriptInterpreter _interpreter;
         List<object> _fnParamaters;
 
         #endregion
@@ -29,7 +30,7 @@ namespace Interpreter.Tests
             // ReSharper disable once NotAccessedVariable
             IScriptInterpreter interpreter;
 
-            Action act = () => interpreter = new ScriptInterpreter("Script", null, _mockFnRoutinesCaller.Object, _mockVariableManager.Object, _mockValueStack.Object);
+            Action act = () => interpreter = new ScriptInterpreter("Script", null, _mockFnRoutinesCaller.Object, _mockGlobalVariableManager.Object, _mockValueStack.Object);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -40,7 +41,7 @@ namespace Interpreter.Tests
             // ReSharper disable once NotAccessedVariable
             IScriptInterpreter interpreter;
 
-            Action act = () => interpreter = new ScriptInterpreter("Script", new MockSingleScript(), null, _mockVariableManager.Object, _mockValueStack.Object);
+            Action act = () => interpreter = new ScriptInterpreter("Script", new MockSingleScript(), null, _mockGlobalVariableManager.Object, _mockValueStack.Object);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -62,7 +63,8 @@ namespace Interpreter.Tests
             // ReSharper disable once NotAccessedVariable
             IScriptInterpreter interpreter;
 
-            Action act = () => interpreter = new ScriptInterpreter("Script", new MockSingleScript(), _mockFnRoutinesCaller.Object, _mockVariableManager.Object, null);
+            Action act = () => interpreter = new ScriptInterpreter(
+                "Script", new MockSingleScript(), _mockFnRoutinesCaller.Object, _mockGlobalVariableManager.Object, null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -72,7 +74,7 @@ namespace Interpreter.Tests
         {
             _script.AddIntValue(int.MaxValue);
 
-            Action action = () => _interpreter.Run();
+            Action action = () => _interpreter.Run(_mockLocalVariableManager.Object);
 
             action.Should().Throw<InvalidOperationException>().WithMessage("Invalid Script Command 2147483647");
         }
@@ -109,25 +111,25 @@ namespace Interpreter.Tests
 
         #endregion
 
-        #region 4 Push Variable
+        #region 4 Push Global Variable
 
         [Test]
-        public void ThePushVariableFetchesTheVariableValueFromTheVariableManager()
+        public void ThePushGlobalVariableFetchesTheVariableValueFromTheGlobalVariableManager()
         {
-            _script.AddCommand(ScriptToken.PushVariable);
+            _script.AddCommand(ScriptToken.PushGlobalVariable);
             _script.AddString("variable");
 
             RunInterpreter();
 
-            _mockVariableManager.Verify(m => m.GetVariable("variable"));
+            _mockGlobalVariableManager.Verify(m => m.GetVariable("variable"));
         }
 
         [Test]
-        public void ThePushVariablePushesTheVariableValueOnToTheStack()
+        public void ThePushlobalVariablePushesTheGlobalVariableValueOnToTheStack()
         {
-            _mockVariableManager.Setup(m => m.GetVariable("variable")).Returns(42);
+            _mockGlobalVariableManager.Setup(m => m.GetVariable("variable")).Returns(42);
 
-            _script.AddCommand(ScriptToken.PushVariable);
+            _script.AddCommand(ScriptToken.PushGlobalVariable);
             _script.AddString("variable");
 
             RunInterpreter();
@@ -137,12 +139,12 @@ namespace Interpreter.Tests
 
         #endregion
 
-        #region 5 Pop Variable
+        #region 5 Pop Global Variable
 
         [Test]
-        public void ThePopVariableCommandPopsTheBottomValueOfTheStack()
+        public void ThePopGlobalVariableCommandPopsTheBottomValueOfTheStack()
         {
-            _script.AddCommand(ScriptToken.PopVariable);
+            _script.AddCommand(ScriptToken.PopGlobalVariable);
             _script.AddString("variable");
 
             RunInterpreter();
@@ -151,16 +153,16 @@ namespace Interpreter.Tests
         }
 
         [Test]
-        public void ThePopVariableCommandSetsAVariableWithTheBottomValueOfTheStack()
+        public void ThePopGlobalVariableCommandSetsAGlobalVariableWithTheBottomValueOfTheStack()
         {
             _mockValueStack.Setup(m => m.PopValue()).Returns(42);
 
-            _script.AddCommand(ScriptToken.PopVariable);
+            _script.AddCommand(ScriptToken.PopGlobalVariable);
             _script.AddString("variable");
 
             RunInterpreter();
 
-            _mockVariableManager.Verify(m => m.SetVariable("variable", 42));
+            _mockGlobalVariableManager.Verify(m => m.SetVariable("variable", 42));
         }
 
         #endregion
@@ -522,13 +524,13 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.EndScript);
 
-            _interpreter.Run();
+            _interpreter.Run(_mockLocalVariableManager.Object);
         }
 
         [Test]
         public void IfAScriptRunsToTheEndWithNoEndScriptAnExceptionIsThrown()
         {
-            Action act = () => _interpreter.Run();
+            Action act = () => _interpreter.Run(_mockLocalVariableManager.Object);
 
             act.Should().Throw<Exception>().WithMessage("Unexpected end of script found in 'Script'");
         }
@@ -623,12 +625,69 @@ namespace Interpreter.Tests
             _script.AddIntValue(42);
 
             RunInterpreter();
-            _interpreter.Run();
+            _interpreter.Run(_mockLocalVariableManager.Object);
 
             _mockValueStack.Verify(m => m.PushValue(42));
         }
 
         #endregion
+
+        #region 27 Push Local Variable
+
+        [Test]
+        public void ThePushLocalVariableFetchesTheVariableValueFromTheLocalVariableManager()
+        {
+            _script.AddCommand(ScriptToken.PushLocalVariable);
+            _script.AddString("variable");
+
+            RunInterpreter();
+
+            _mockLocalVariableManager.Verify(m => m.GetVariable("variable"));
+        }
+
+        [Test]
+        public void ThePushLocalVariablePushesTheLocalVariableValueOnToTheStack()
+        {
+            _mockLocalVariableManager.Setup(m => m.GetVariable("variable")).Returns(42);
+
+            _script.AddCommand(ScriptToken.PushLocalVariable);
+            _script.AddString("variable");
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.PushValue(42));
+        }
+
+        #endregion
+
+        #region 28 Pop Local Variable
+
+        [Test]
+        public void ThePopLocalVariableCommandPopsTheBottomValueOfTheStack()
+        {
+            _script.AddCommand(ScriptToken.PopLocalVariable);
+            _script.AddString("variable");
+
+            RunInterpreter();
+
+            _mockValueStack.Verify(m => m.PopValue());
+        }
+
+        [Test]
+        public void ThePopLocalVariableCommandSetsALocalVariableWithTheBottomValueOfTheStack()
+        {
+            _mockValueStack.Setup(m => m.PopValue()).Returns(42);
+
+            _script.AddCommand(ScriptToken.PopLocalVariable);
+            _script.AddString("variable");
+
+            RunInterpreter();
+
+            _mockLocalVariableManager.Verify(m => m.SetVariable("variable", 42));
+        }
+
+        #endregion
+
 
         #region Supporting Code
 
@@ -655,7 +714,8 @@ namespace Interpreter.Tests
         {
             _mockValueStack = new Mock<IValueStack>();
             _mockFnRoutinesCaller = new Mock<IFnRoutinesCaller>();
-            _mockVariableManager = new Mock<IVariableManager>();
+            _mockGlobalVariableManager = new Mock<IVariableManager>();
+            _mockLocalVariableManager = new Mock<IVariableManager>();
         }
 
         void SetUpExpectations()
@@ -666,13 +726,13 @@ namespace Interpreter.Tests
         void SetUpScriptAndInterpreter()
         {
             _script = new MockSingleScript();
-            _interpreter = new ScriptInterpreter("Script", _script, _mockFnRoutinesCaller.Object, _mockVariableManager.Object, _mockValueStack.Object);
+            _interpreter = new ScriptInterpreter("Script", _script, _mockFnRoutinesCaller.Object, _mockGlobalVariableManager.Object, _mockValueStack.Object);
         }
 
         void RunInterpreter()
         {
             _script.AddCommand(ScriptToken.EndScript);
-            _interpreter.Run();
+            _interpreter.Run(_mockLocalVariableManager.Object);
         }
 
         #endregion

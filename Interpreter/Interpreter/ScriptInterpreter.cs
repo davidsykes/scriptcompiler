@@ -30,15 +30,15 @@ namespace Interpreter
 
         }
 
-        public bool Run()
+        public bool Run(IVariableManager localVariables)
         {
-            while (RunScriptCommand())
+            while (RunScriptCommand(localVariables))
             {
             }
 			return	_scriptData.Eof;
         }
 
-       	bool RunScriptCommand()
+       	bool RunScriptCommand(IVariableManager localVariables)
         {
             if (_scriptData.Eof)
                 throw new Exception($"Unexpected end of script found in '{_scriptName}'");
@@ -55,12 +55,12 @@ namespace Interpreter
                     _stack.PushValue(_scriptData.GetNullTerminatedString());
                     break;
 
-                case ScriptToken.PushVariable: //  4
-                    PushVariableOnToTheStack();
+                case ScriptToken.PushGlobalVariable: //  4
+                    PushGlobalVariableOnToTheStack();
                     break;
 
-                case ScriptToken.PopVariable: //  5
-                    SetVariableToBottomValueOfStack();
+                case ScriptToken.PopGlobalVariable: //  5
+                    SetGlobalVariableToBottomValueOfStack();
                     break;
 
                 case ScriptToken.Jfalse: //  6
@@ -139,6 +139,14 @@ namespace Interpreter
                 case ScriptToken.PauseScript: // 26
                     return false;
 
+                case ScriptToken.PushLocalVariable: //  27
+                    PushLocalVariableOnToTheStack(localVariables);
+                    break;
+
+                case ScriptToken.PopLocalVariable: //  28
+                    SetLocalVariableToBottomValueOfStack(localVariables);
+                    break;
+
                 default:
                     throw new InvalidOperationException($"Invalid Script Command {command}");
             }
@@ -146,19 +154,34 @@ namespace Interpreter
             return true;
         }
 
-        void PushVariableOnToTheStack()
+        void PushGlobalVariableOnToTheStack()
         {
             var variableName = _scriptData.GetNullTerminatedString();
             var value = _variableManager.GetVariable(variableName);
             _stack.PushValue(value);
         }
 
-        void SetVariableToBottomValueOfStack()
+        void SetGlobalVariableToBottomValueOfStack()
         {
             var value = _stack.PopValue();
             var variableName = _scriptData.GetNullTerminatedString();
             _variableManager.SetVariable(variableName, value);
         }
+
+        void SetLocalVariableToBottomValueOfStack(IVariableManager localVariables)
+        {
+            var value = _stack.PopValue();
+            var variableName = _scriptData.GetNullTerminatedString();
+            localVariables.SetVariable(variableName, value);
+        }
+
+        void PushLocalVariableOnToTheStack(IVariableManager localVariables)
+        {
+            var variableName = _scriptData.GetNullTerminatedString();
+            var value = localVariables.GetVariable(variableName);
+            _stack.PushValue(value);
+        }
+
 
         void ProcessFnRoutine()
         {

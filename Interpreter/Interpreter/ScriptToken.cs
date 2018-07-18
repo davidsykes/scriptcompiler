@@ -4,8 +4,8 @@
     {
         PushIntValue = 1,
         PushStringValue = 3,
-        PushVariable = 4,
-        PopVariable = 5,
+        PushGlobalVariable = 4,
+        PopGlobalVariable = 5,
         Jfalse = 6,
         Jtrue = 7,
         Jall = 8,
@@ -25,6 +25,8 @@
         DropStackValue = 23,
         EndScript = 24,
         DropSkipPauseNotZero = 25,
-        PauseScript = 26
+        PauseScript = 26,
+        PushLocalVariable = 27,
+        PopLocalVariable = 28
     }
 }

@@ -1,0 +1,12 @@
+
+
+
+
+myScript()
+{
+	globalvariable = localvariable + 1;
+	localvariable = globalvariable + 2;
+
+	PrintLocalVariables();
+	PrintGlobalVariables();
+}

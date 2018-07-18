@@ -28,10 +28,11 @@ namespace ScriptRunner
                 // Values created for each script processor
                 var valueStack = new ValueStack();
                 var programCounter = new ProgramCounter(scriptCollection[scriptToRun]);
+                var localVariables = new VariablesManager();
 
                 var scriptInterpreter = new ScriptInterpreter(scriptToRun, programCounter, fnRoutinesCaller, variablesManager, valueStack);
 
-                while (!scriptInterpreter.Run())
+                while (!scriptInterpreter.Run(localVariables))
                 {
                 }
             }
