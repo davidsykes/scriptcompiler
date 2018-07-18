@@ -7,7 +7,7 @@ namespace Interpreter.Tests
         readonly List<object> _scriptCode = new List<object>();
         int _pc;
 
-        public void SetScript()
+        public void SetScript(SingleScript script)
         {
             
         }

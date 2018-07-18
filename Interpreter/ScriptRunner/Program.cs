@@ -24,10 +24,10 @@ namespace ScriptRunner
                 var scriptSystem = new ScriptSystem();
 
                 var player1 = new ScriptRunningInstance();
-                player1.SetScriptToRun("Player1Script");
+                player1.SetScriptToRun(scriptCollection["Player1Script"]);
 
                 var player2 = new ScriptRunningInstance();
-                player2.SetScriptToRun("Player2Script");
+                player2.SetScriptToRun(scriptCollection["Player2Script"]);
 
 
                 while (!scriptSystem.Run(player1))
