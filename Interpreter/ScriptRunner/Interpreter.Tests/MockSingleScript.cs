@@ -7,6 +7,11 @@ namespace Interpreter.Tests
         readonly List<object> _scriptCode = new List<object>();
         int _pc;
 
+        public void SetScript()
+        {
+            
+        }
+
         public void AddCommand(ScriptToken command)
         {
             _scriptCode.Add((int)command);
