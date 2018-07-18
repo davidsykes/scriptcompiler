@@ -12,6 +12,39 @@ namespace Interpreter.Tests
         IProgramCounter _script;
 
         [Test]
+        public void CallingGetCommandWhenNoScriptHasBeenSetUpThrowsAnException()
+        {
+            var programCounter = new ProgramCounter();
+
+            Action act = () => programCounter.GetCommand();
+
+            act.Should().Throw<Exception>()
+                .WithMessage("Program Counter does not have a script.");
+        }
+
+        [Test]
+        public void CallingGetIntegerWhenNoScriptHasBeenSetUpThrowsAnException()
+        {
+            var programCounter = new ProgramCounter();
+
+            Action act = () => programCounter.GetInteger();
+
+            act.Should().Throw<Exception>()
+                .WithMessage("Program Counter does not have a script.");
+        }
+
+        [Test]
+        public void CallingMoveScriptWhenNoScriptHasBeenSetUpThrowsAnException()
+        {
+            var programCounter = new ProgramCounter();
+
+            Action act = () => programCounter.MoveScriptPointer(2);
+
+            act.Should().Throw<Exception>()
+                .WithMessage("Program Counter does not have a script.");
+        }
+
+        [Test]
         public void GetCommandReturnsTheNextCommandInTheScriptData()
         {
             SetUpScriptData(bw =>
@@ -152,7 +185,8 @@ namespace Interpreter.Tests
 
             action(bw);
 
-            _script = new ProgramCounter(new SingleScript(memoryStream.ToArray()));
+            _script = new ProgramCounter();
+            _script.SetScript(new SingleScript(memoryStream.ToArray()));
         }
         
         #endregion

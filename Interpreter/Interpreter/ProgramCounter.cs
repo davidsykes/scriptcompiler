@@ -8,9 +8,9 @@ namespace Interpreter
     public class ProgramCounter : IProgramCounter
     {
         MemoryStream _memoryStream;
-        readonly BinaryReader _binaryReader;
+        BinaryReader _binaryReader;
 
-        public ProgramCounter(SingleScript script)
+        public void SetScript(SingleScript script)
         {
             _memoryStream = new MemoryStream(script.GetScriptBinary());
             _binaryReader = new BinaryReader(_memoryStream);
@@ -18,11 +18,13 @@ namespace Interpreter
 
         public int GetCommand()
         {
+            if (_memoryStream == null) throw new Exception("Program Counter does not have a script.");
             return _binaryReader.ReadInt32();
         }
 
         public int GetInteger()
         {
+            if (_memoryStream == null) throw new Exception("Program Counter does not have a script.");
             return _binaryReader.ReadInt32();
         }
 
@@ -49,6 +51,7 @@ namespace Interpreter
 
         public void MoveScriptPointer(int distance)
         {
+            if (_memoryStream == null) throw new Exception("Program Counter does not have a script.");
             if (_memoryStream.Position + distance > _memoryStream.Length)
                 throw new Exception("An attempt was made to move script pointer beyond the end of the script");
 
