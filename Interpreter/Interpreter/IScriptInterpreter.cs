@@ -3,6 +3,6 @@ namespace Interpreter
 {
     public interface IScriptInterpreter
     {
-        bool Run(IVariableManager localVariables);
+        bool Run(IProgramCounter programCounter, IVariableManager localVariables);
     }
 }

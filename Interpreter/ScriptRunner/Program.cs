@@ -13,7 +13,7 @@ namespace ScriptRunner
             {
                 CheckArgumentsHaveBeenSupplied(args);
                 var scriptPath = args[0];
-                var scriptToRun = args[1];
+                var nameOfScriptToRun = args[1];
 
                 CheckScriptPathIsValid(scriptPath);
 

@@ -12,6 +12,11 @@ namespace Interpreter.Tests
             
         }
 
+        public string GetScriptName()
+        {
+            return "Script Name";
+        }
+
         public void AddCommand(ScriptToken command)
         {
             _scriptCode.Add((int)command);

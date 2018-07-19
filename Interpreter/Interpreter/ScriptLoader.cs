@@ -26,7 +26,7 @@ namespace Interpreter
             var scriptLength = scriptsData.ReadInt32();
             var scriptData = scriptsData.ReadBytes(scriptLength);
 
-            scripts[scriptName] = new SingleScript(scriptData);
+            scripts[scriptName] = new SingleScript("scriptName", scriptData);
         }
     }
 }

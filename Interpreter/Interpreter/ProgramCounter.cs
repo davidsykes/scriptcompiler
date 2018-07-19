@@ -7,13 +7,22 @@ namespace Interpreter
 {
     public class ProgramCounter : IProgramCounter
     {
+        SingleScript _script;
         MemoryStream _memoryStream;
         BinaryReader _binaryReader;
 
         public void SetScript(SingleScript script)
         {
+            _script = script;
             _memoryStream = new MemoryStream(script.GetScriptBinary());
             _binaryReader = new BinaryReader(_memoryStream);
+        }
+
+        public string GetScriptName()
+        {
+            if (_memoryStream == null)
+                return "No Script";
+            return _script.Name;
         }
 
         public int GetCommand()

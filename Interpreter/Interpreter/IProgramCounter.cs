@@ -4,6 +4,7 @@ namespace Interpreter
     public interface IProgramCounter
     {
         void SetScript(SingleScript script);
+        string GetScriptName();
         int GetCommand();
         int GetInteger();
         string GetLengthPrefixedString();

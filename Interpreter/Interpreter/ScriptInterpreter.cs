@@ -5,74 +5,67 @@ namespace Interpreter
 {
     public class ScriptInterpreter : IScriptInterpreter
     {
-        readonly string _scriptName;
-        readonly IProgramCounter _scriptData;
         readonly IFnRoutinesCaller _fnRoutinesCaller;
         readonly IValueStack _stack;
         readonly IVariableManager _variableManager;
 
         public ScriptInterpreter(
-            string scriptName,
-            IProgramCounter scriptData,
             IFnRoutinesCaller fnRoutinesCaller,
             IVariableManager variableManager,
-            IValueStack stack)
+            IValueStack stack
+            )
         {
-            _scriptName = scriptName;
-            _scriptData = scriptData;
-            if (_scriptData == null) throw new ArgumentNullException();
+            if (fnRoutinesCaller == null) throw new ArgumentNullException();
             _fnRoutinesCaller = fnRoutinesCaller;
-            if (_fnRoutinesCaller == null) throw new ArgumentNullException();
+            if (stack == null) throw new ArgumentNullException();
             _stack = stack;
-            if (_stack == null) throw new ArgumentNullException();
+            if (variableManager == null) throw new ArgumentNullException();
             _variableManager = variableManager;
-            if (_variableManager == null) throw new ArgumentNullException();
-
         }
 
-        public bool Run(IVariableManager localVariables)
+        public bool Run(IProgramCounter programCounter, IVariableManager localVariables)
         {
-            while (RunScriptCommand(localVariables))
+            while (RunScriptCommand(programCounter, localVariables))
             {
             }
-			return	_scriptData.Eof;
+			return	programCounter.Eof;
         }
 
-       	bool RunScriptCommand(IVariableManager localVariables)
+       	bool RunScriptCommand(IProgramCounter programCounter, IVariableManager localVariables)
         {
-            if (_scriptData.Eof)
-                throw new Exception($"Unexpected end of script found in '{_scriptName}'");
+            if (programCounter.Eof)
+                throw new Exception($"Unexpected end of script found in '{programCounter.GetScriptName()}'");
 
-            var command = _scriptData.GetCommand();
+            var command = programCounter.GetCommand();
 
             switch ((ScriptToken) command)
             {
                 case ScriptToken.PushIntValue:
-                    _stack.PushValue(_scriptData.GetInteger());
+                    _stack.PushValue(programCounter.GetInteger());
                     break;
 
                 case ScriptToken.PushStringValue:
-                    _stack.PushValue(_scriptData.GetNullTerminatedString());
+                    _stack.PushValue(programCounter.GetNullTerminatedString());
                     break;
 
                 case ScriptToken.PushGlobalVariable: //  4
-                    PushGlobalVariableOnToTheStack();
+                    PushGlobalVariableOnToTheStack(programCounter);
                     break;
 
                 case ScriptToken.PopGlobalVariable: //  5
-                    SetGlobalVariableToBottomValueOfStack();
+                    SetGlobalVariableToBottomValueOfStack(programCounter);
                     break;
 
                 case ScriptToken.Jfalse: //  6
-                    MoveScriptPointerIfStackValueIsZero();
+                    MoveScriptPointerIfStackValueIsZero(programCounter);
                     break;
 
                 case ScriptToken.Jtrue: //  7
-                    MoveScriptPointerIfStackValueIsNotZero();
+                    MoveScriptPointerIfStackValueIsNotZero(programCounter);
                     break;
 
                 case ScriptToken.Jall: //  8
-                    MoveScriptPointerAlways();
+                    MoveScriptPointerAlways(programCounter);
                     break;
 
                 case ScriptToken.Add: //  9
@@ -124,7 +117,7 @@ namespace Interpreter
                     break;
 
                 case ScriptToken.CallFnRoutine: //  22
-                    ProcessFnRoutine();
+                    ProcessFnRoutine(programCounter);
                     break;
 
                 case ScriptToken.DropStackValue: //  23
@@ -134,17 +127,17 @@ namespace Interpreter
                     return false;
 
                 case ScriptToken.DropSkipPauseNotZero: //  25
-                    return ProcessDropSkipPauseNotZero();
+                    return ProcessDropSkipPauseNotZero(programCounter);
 
                 case ScriptToken.PauseScript: // 26
                     return false;
 
                 case ScriptToken.PushLocalVariable: //  27
-                    PushLocalVariableOnToTheStack(localVariables);
+                    PushLocalVariableOnToTheStack(programCounter, localVariables);
                     break;
 
                 case ScriptToken.PopLocalVariable: //  28
-                    SetLocalVariableToBottomValueOfStack(localVariables);
+                    SetLocalVariableToBottomValueOfStack(programCounter, localVariables);
                     break;
 
                 default:
@@ -154,39 +147,39 @@ namespace Interpreter
             return true;
         }
 
-        void PushGlobalVariableOnToTheStack()
+        void PushGlobalVariableOnToTheStack(IProgramCounter programCounter)
         {
-            var variableName = _scriptData.GetNullTerminatedString();
+            var variableName = programCounter.GetNullTerminatedString();
             var value = _variableManager.GetVariable(variableName);
             _stack.PushValue(value);
         }
 
-        void SetGlobalVariableToBottomValueOfStack()
+        void SetGlobalVariableToBottomValueOfStack(IProgramCounter programCounter)
         {
             var value = _stack.PopValue();
-            var variableName = _scriptData.GetNullTerminatedString();
+            var variableName = programCounter.GetNullTerminatedString();
             _variableManager.SetVariable(variableName, value);
         }
 
-        void SetLocalVariableToBottomValueOfStack(IVariableManager localVariables)
+        void SetLocalVariableToBottomValueOfStack(IProgramCounter programCounter, IVariableManager localVariables)
         {
             var value = _stack.PopValue();
-            var variableName = _scriptData.GetNullTerminatedString();
+            var variableName = programCounter.GetNullTerminatedString();
             localVariables.SetVariable(variableName, value);
         }
 
-        void PushLocalVariableOnToTheStack(IVariableManager localVariables)
+        void PushLocalVariableOnToTheStack(IProgramCounter programCounter, IVariableManager localVariables)
         {
-            var variableName = _scriptData.GetNullTerminatedString();
+            var variableName = programCounter.GetNullTerminatedString();
             var value = localVariables.GetVariable(variableName);
             _stack.PushValue(value);
         }
 
 
-        void ProcessFnRoutine()
+        void ProcessFnRoutine(IProgramCounter programCounter)
         {
-            var parameterCount = _scriptData.GetInteger();
-            var fnRoutineName = _scriptData.GetNullTerminatedString();
+            var parameterCount = programCounter.GetInteger();
+            var fnRoutineName = programCounter.GetNullTerminatedString();
 
             var parameters = GetStackParametersIfRequired(parameterCount);
 
@@ -194,24 +187,24 @@ namespace Interpreter
             _stack.PushValue(result);
         }
 
-        void MoveScriptPointerIfStackValueIsNotZero()
+        void MoveScriptPointerIfStackValueIsNotZero(IProgramCounter programCounter)
         {
-            var distance = _scriptData.GetInteger();
+            var distance = programCounter.GetInteger();
             if (_stack.PopValue() != 0)
-                _scriptData.MoveScriptPointer(distance - 4);
+                programCounter.MoveScriptPointer(distance - 4);
         }
 
-        void MoveScriptPointerIfStackValueIsZero()
+        void MoveScriptPointerIfStackValueIsZero(IProgramCounter programCounter)
         {
-            var distance = _scriptData.GetInteger();
+            var distance = programCounter.GetInteger();
             if (_stack.PopValue() == 0)
-                _scriptData.MoveScriptPointer(distance);
+                programCounter.MoveScriptPointer(distance);
         }
 
-        void MoveScriptPointerAlways()
+        void MoveScriptPointerAlways(IProgramCounter programCounter)
         {
-            var distance = _scriptData.GetInteger();
-            _scriptData.MoveScriptPointer(distance);
+            var distance = programCounter.GetInteger();
+            programCounter.MoveScriptPointer(distance);
         }
 
         List<object> GetStackParametersIfRequired(int parameterCount)
@@ -219,13 +212,13 @@ namespace Interpreter
             return parameterCount > 0 ? _stack.PopValues(parameterCount) : new List<object>();
         }
 
-        bool ProcessDropSkipPauseNotZero()
+        bool ProcessDropSkipPauseNotZero(IProgramCounter programCounter)
         {
-            var distance = _scriptData.GetInteger();
+            var distance = programCounter.GetInteger();
             var value = _stack.PopValue();
             if (value != 0)
             {
-                _scriptData.MoveScriptPointer(distance - 4);
+                programCounter.MoveScriptPointer(distance - 4);
                 return false;
             }
             return true;
