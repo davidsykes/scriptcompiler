@@ -9,7 +9,7 @@ namespace Interpreter.Tests
     [TestFixture]
     public class ProgramCounterTests
     {
-        IProgramCounter _script;
+        IProgramCounter _programCounter;
 
         [Test]
         public void CallingGetCommandWhenNoScriptHasBeenSetUpThrowsAnException()
@@ -45,6 +45,24 @@ namespace Interpreter.Tests
         }
 
         [Test]
+        public void GetScriptNameReturnsNoScriptWhenNoScriptIsSet()
+        {
+            var programCounter = new ProgramCounter();
+
+            programCounter.GetScriptName().Should().Be("No Script");
+        }
+
+        [Test]
+        public void GetScriptNameReturnsScriptWhenScriptIsSet()
+        {
+            SetUpScriptData(bw =>
+            {
+                bw.Write(0);
+            });
+            _programCounter.GetScriptName().Should().Be("Script Name");
+        }
+
+        [Test]
         public void GetCommandReturnsTheNextCommandInTheScriptData()
         {
             SetUpScriptData(bw =>
@@ -54,9 +72,9 @@ namespace Interpreter.Tests
                 bw.Write(14);
             });
 
-            _script.GetCommand().Should().Be(65);
-            _script.GetCommand().Should().Be(3);
-            _script.GetCommand().Should().Be(14);
+            _programCounter.GetCommand().Should().Be(65);
+            _programCounter.GetCommand().Should().Be(3);
+            _programCounter.GetCommand().Should().Be(14);
         }
 
         [Test]
@@ -69,9 +87,9 @@ namespace Interpreter.Tests
                 bw.Write(14);
             });
 
-            _script.GetInteger().Should().Be(65);
-            _script.GetInteger().Should().Be(3);
-            _script.GetInteger().Should().Be(14);
+            _programCounter.GetInteger().Should().Be(65);
+            _programCounter.GetInteger().Should().Be(3);
+            _programCounter.GetInteger().Should().Be(14);
         }
 
         [Test]
@@ -83,7 +101,7 @@ namespace Interpreter.Tests
                 bw.Write(Encoding.ASCII.GetBytes("Hello World"));
             });
 
-            _script.GetLengthPrefixedString().Should().Be("Hello World");
+            _programCounter.GetLengthPrefixedString().Should().Be("Hello World");
         }
 
         [Test]
@@ -95,7 +113,7 @@ namespace Interpreter.Tests
                 bw.Write((byte)0);
             });
 
-            _script.GetNullTerminatedString().Should().Be("Hello World");
+            _programCounter.GetNullTerminatedString().Should().Be("Hello World");
         }
 
         [Test]
@@ -106,11 +124,11 @@ namespace Interpreter.Tests
                 bw.Write(65);
             });
 
-            _script.Eof.Should().BeFalse();
+            _programCounter.Eof.Should().BeFalse();
 
-            _script.GetCommand();
+            _programCounter.GetCommand();
 
-            _script.Eof.Should().BeTrue();
+            _programCounter.Eof.Should().BeTrue();
         }
 
         [Test]
@@ -123,9 +141,9 @@ namespace Interpreter.Tests
                 bw.Write(3);
             });
 
-            _script.GetInteger().Should().Be(1);
-            _script.MoveScriptPointer(4);
-            _script.GetInteger().Should().Be(3);
+            _programCounter.GetInteger().Should().Be(1);
+            _programCounter.MoveScriptPointer(4);
+            _programCounter.GetInteger().Should().Be(3);
         }
 
         [Test]
@@ -138,11 +156,11 @@ namespace Interpreter.Tests
                 bw.Write(3);
             });
 
-            _script.GetInteger().Should().Be(1);
-            _script.GetInteger().Should().Be(2);
-            _script.GetInteger().Should().Be(3);
-            _script.MoveScriptPointer(-8);
-            _script.GetInteger().Should().Be(2);
+            _programCounter.GetInteger().Should().Be(1);
+            _programCounter.GetInteger().Should().Be(2);
+            _programCounter.GetInteger().Should().Be(3);
+            _programCounter.MoveScriptPointer(-8);
+            _programCounter.GetInteger().Should().Be(2);
         }
 
         [Test]
@@ -155,7 +173,7 @@ namespace Interpreter.Tests
                 bw.Write(3);
             });
 
-            Action act = () => _script.MoveScriptPointer(13);
+            Action act = () => _programCounter.MoveScriptPointer(13);
 
             act.Should().Throw<Exception>().WithMessage("An attempt was made to move script pointer beyond the end of the script");
         }
@@ -170,7 +188,7 @@ namespace Interpreter.Tests
                 bw.Write(3);
             });
 
-            Action act = () => _script.MoveScriptPointer(-1);
+            Action act = () => _programCounter.MoveScriptPointer(-1);
 
             act.Should().Throw<Exception>()
                 .WithMessage("An attempt was made to move the position before the beginning of the stream.");
@@ -185,8 +203,8 @@ namespace Interpreter.Tests
 
             action(bw);
 
-            _script = new ProgramCounter();
-            _script.SetScript(new SingleScript(memoryStream.ToArray()));
+            _programCounter = new ProgramCounter();
+            _programCounter.SetScript(new SingleScript("Script Name", memoryStream.ToArray()));
         }
         
         #endregion

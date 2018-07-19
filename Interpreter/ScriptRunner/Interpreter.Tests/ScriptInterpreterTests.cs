@@ -25,23 +25,13 @@ namespace Interpreter.Tests
         #region Initialisation
 
         [Test]
-        public void CreatingAScriptInterpreterWithNullScriptDataThrowsArgumentNullExceptionException()
-        {
-            // ReSharper disable once NotAccessedVariable
-            IScriptInterpreter interpreter;
-
-            Action act = () => interpreter = new ScriptInterpreter("Script", null, _mockFnRoutinesCaller.Object, _mockGlobalVariableManager.Object, _mockValueStack.Object);
-
-            act.Should().Throw<ArgumentNullException>();
-        }
-
-        [Test]
         public void CreatingAScriptInterpreterWithNullFnRoutineCallerThrowsArgumentNullExceptionException()
         {
             // ReSharper disable once NotAccessedVariable
             IScriptInterpreter interpreter;
 
-            Action act = () => interpreter = new ScriptInterpreter("Script", new MockSingleScript(), null, _mockGlobalVariableManager.Object, _mockValueStack.Object);
+            Action act = () => interpreter = new ScriptInterpreter(
+                null, _mockGlobalVariableManager.Object, _mockValueStack.Object);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -52,7 +42,7 @@ namespace Interpreter.Tests
             // ReSharper disable once NotAccessedVariable
             IScriptInterpreter interpreter;
 
-            Action act = () => interpreter = new ScriptInterpreter("Script", new MockSingleScript(), _mockFnRoutinesCaller.Object, null, _mockValueStack.Object);
+            Action act = () => interpreter = new ScriptInterpreter(_mockFnRoutinesCaller.Object, null, _mockValueStack.Object);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -64,7 +54,7 @@ namespace Interpreter.Tests
             IScriptInterpreter interpreter;
 
             Action act = () => interpreter = new ScriptInterpreter(
-                "Script", new MockSingleScript(), _mockFnRoutinesCaller.Object, _mockGlobalVariableManager.Object, null);
+                _mockFnRoutinesCaller.Object, _mockGlobalVariableManager.Object, null);
 
             act.Should().Throw<ArgumentNullException>();
         }
@@ -74,7 +64,7 @@ namespace Interpreter.Tests
         {
             _script.AddIntValue(int.MaxValue);
 
-            Action action = () => _interpreter.Run(_mockLocalVariableManager.Object);
+            Action action = () => RunScriptInterpreter();
 
             action.Should().Throw<InvalidOperationException>().WithMessage("Invalid Script Command 2147483647");
         }
@@ -89,7 +79,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PushIntValue);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue(42));
         }
@@ -104,7 +94,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PushStringValue);
             _script.AddString("gimmer");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue("gimmer"));
         }
@@ -119,7 +109,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PushGlobalVariable);
             _script.AddString("variable");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockGlobalVariableManager.Verify(m => m.GetVariable("variable"));
         }
@@ -132,7 +122,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PushGlobalVariable);
             _script.AddString("variable");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue(42));
         }
@@ -147,7 +137,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PopGlobalVariable);
             _script.AddString("variable");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PopValue());
         }
@@ -160,7 +150,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PopGlobalVariable);
             _script.AddString("variable");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockGlobalVariableManager.Verify(m => m.SetVariable("variable", 42));
         }
@@ -176,7 +166,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.Jfalse);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _script.JumpDistance.Should().Be(42);
         }
@@ -188,7 +178,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.Jfalse);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _script.JumpDistance.Should().Be(0);
         }
@@ -204,7 +194,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.Jtrue);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _script.JumpDistance.Should().Be(42 - 4);
         }
@@ -216,7 +206,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.Jtrue);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _script.JumpDistance.Should().Be(0);
         }
@@ -231,7 +221,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.Jall);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _script.JumpDistance.Should().Be(42);
         }
@@ -245,7 +235,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.Add);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Add());
         }
@@ -259,7 +249,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.Subtract);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Subtract());
         }
@@ -273,7 +263,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.Multiply);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Multiply());
         }
@@ -287,7 +277,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.Divide);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Divide());
         }
@@ -301,7 +291,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.Negate);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Negate());
         }
@@ -315,7 +305,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.LogicalNot);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.LogicalNot());
         }
@@ -329,7 +319,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.Lt);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Lt());
         }
@@ -343,7 +333,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.Gt);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Gt());
         }
@@ -357,7 +347,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.Lte);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Lte());
         }
@@ -371,7 +361,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.Gte);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Gte());
         }
@@ -385,7 +375,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.VariableEquals);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.VariableEquals());
         }
@@ -399,7 +389,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.LogicalOr);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.LogicalOr());
         }
@@ -415,7 +405,7 @@ namespace Interpreter.Tests
             _script.AddIntValue(0);
             _script.AddString("fn routine");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockFnRoutinesCaller.Verify(m => m.CallFnRoutine("fn routine",
                 It.Is<List<object>>(l => l.Count == 0)));
@@ -428,7 +418,7 @@ namespace Interpreter.Tests
             _script.AddIntValue(3);
             _script.AddString("fn routine");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PopValues(3));
         }
@@ -440,7 +430,7 @@ namespace Interpreter.Tests
             _script.AddCommand(0);
             _script.AddString("fn routine");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PopValues(It.IsAny<int>()), Times.Never);
         }
@@ -455,7 +445,7 @@ namespace Interpreter.Tests
             _script.AddIntValue(3);
             _script.AddString("fn routine");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockFnRoutinesCaller.Verify(m => m.CallFnRoutine("fn routine", parameters));
         }
@@ -470,7 +460,7 @@ namespace Interpreter.Tests
             _script.AddIntValue(0);
             _script.AddString("fn routine");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue(42));
         }
@@ -484,7 +474,7 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.DropStackValue);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PopValue());
         }
@@ -497,7 +487,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PushIntValue);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue(It.IsAny<int>()), Times.Never);
         }
@@ -510,7 +500,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PushIntValue);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue(42));
         }
@@ -524,15 +514,15 @@ namespace Interpreter.Tests
         {
             _script.AddCommand(ScriptToken.EndScript);
 
-            _interpreter.Run(_mockLocalVariableManager.Object);
+            RunScriptInterpreter();
         }
 
         [Test]
         public void IfAScriptRunsToTheEndWithNoEndScriptAnExceptionIsThrown()
         {
-            Action act = () => _interpreter.Run(_mockLocalVariableManager.Object);
+            Action act = () => RunScriptInterpreter();
 
-            act.Should().Throw<Exception>().WithMessage("Unexpected end of script found in 'Script'");
+            act.Should().Throw<Exception>().WithMessage("Unexpected end of script found in 'Script Name'");
         }
 
         #endregion
@@ -545,7 +535,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.DropSkipPauseNotZero);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PopValue());
 
@@ -558,7 +548,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.DropSkipPauseNotZero);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _script.JumpDistance.Should().Be(42 - 4);
         }
@@ -570,7 +560,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.DropSkipPauseNotZero);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _script.JumpDistance.Should().Be(0);
         }
@@ -583,7 +573,7 @@ namespace Interpreter.Tests
             _script.AddIntValue(42);
             _script.AddCommand(ScriptToken.Divide);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Divide(), Times.Never);
         }
@@ -596,7 +586,7 @@ namespace Interpreter.Tests
             _script.AddIntValue(42);
             _script.AddCommand(ScriptToken.Divide);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.Divide());
         }
@@ -612,7 +602,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PushIntValue);
             _script.AddIntValue(42);
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue(42), Times.Never);
         }
@@ -624,8 +614,8 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PushIntValue);
             _script.AddIntValue(42);
 
-            RunInterpreter();
-            _interpreter.Run(_mockLocalVariableManager.Object);
+            TerminateScriptAndRunScriptInterpreter();
+            RunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue(42));
         }
@@ -640,7 +630,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PushLocalVariable);
             _script.AddString("variable");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockLocalVariableManager.Verify(m => m.GetVariable("variable"));
         }
@@ -653,7 +643,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PushLocalVariable);
             _script.AddString("variable");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PushValue(42));
         }
@@ -668,7 +658,7 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PopLocalVariable);
             _script.AddString("variable");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockValueStack.Verify(m => m.PopValue());
         }
@@ -681,13 +671,12 @@ namespace Interpreter.Tests
             _script.AddCommand(ScriptToken.PopLocalVariable);
             _script.AddString("variable");
 
-            RunInterpreter();
+            TerminateScriptAndRunScriptInterpreter();
 
             _mockLocalVariableManager.Verify(m => m.SetVariable("variable", 42));
         }
 
         #endregion
-
 
         #region Supporting Code
 
@@ -726,14 +715,21 @@ namespace Interpreter.Tests
         void SetUpScriptAndInterpreter()
         {
             _script = new MockSingleScript();
-            _interpreter = new ScriptInterpreter("Script", _script, _mockFnRoutinesCaller.Object, _mockGlobalVariableManager.Object, _mockValueStack.Object);
+            _interpreter = new ScriptInterpreter(
+                _mockFnRoutinesCaller.Object, _mockGlobalVariableManager.Object, _mockValueStack.Object);
         }
 
-        void RunInterpreter()
+        bool TerminateScriptAndRunScriptInterpreter()
         {
             _script.AddCommand(ScriptToken.EndScript);
-            _interpreter.Run(_mockLocalVariableManager.Object);
+            return RunScriptInterpreter();
         }
+
+        bool RunScriptInterpreter()
+        {
+            return _interpreter.Run(_script, _mockLocalVariableManager.Object);
+        }
+
 
         #endregion
     }

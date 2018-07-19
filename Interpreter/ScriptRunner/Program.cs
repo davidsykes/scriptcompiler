@@ -13,13 +13,13 @@ namespace ScriptRunner
             {
                 CheckArgumentsHaveBeenSupplied(args);
                 var scriptPath = args[0];
-                var scriptToRun = args[1];
+                var nameOfScriptToRun = args[1];
 
                 CheckScriptPathIsValid(scriptPath);
 
                 var scriptCollection = ScriptLoader.LoadScripts(CreateBinaryReaderForScriptFile(scriptPath));
 
-                CheckScriptNameIsValid(scriptCollection, scriptToRun);
+                CheckScriptNameIsValid(scriptCollection, nameOfScriptToRun);
 
                 // Global values
                 var variablesManager = new VariablesManager();
@@ -28,12 +28,12 @@ namespace ScriptRunner
                 // Values created for each script processor
                 var valueStack = new ValueStack();
                 var programCounter = new ProgramCounter();
-                programCounter.SetScript(scriptCollection[scriptToRun]);
+                programCounter.SetScript(scriptCollection[nameOfScriptToRun]);
                 var localVariables = new VariablesManager();
 
-                var scriptInterpreter = new ScriptInterpreter(scriptToRun, programCounter, fnRoutinesCaller, variablesManager, valueStack);
+                var scriptInterpreter = new ScriptInterpreter(fnRoutinesCaller, variablesManager, valueStack);
 
-                while (!scriptInterpreter.Run(localVariables))
+                while (!scriptInterpreter.Run(programCounter, localVariables))
                 {
                 }
             }
