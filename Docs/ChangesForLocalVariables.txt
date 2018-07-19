@@ -1,0 +1,14 @@
+
+
+
+The system is organised into a ScriptSystem which processes the scripts,
+and one or more ScriptRunningInstances which manage the state for an ScriptRunningInstances
+
+The ScriptSystem consists of
+    VariablesManager - handling global variables
+    FnRoutinesCaller - handling the fn routines
+    ValueStack       - used during the script processing, but should always be empty between script calls
+
+The ScriptRunningInstances consists of
+    ProgramCounter   - handling the location in the current script
+    VariablesManager - handling variables local to the instance

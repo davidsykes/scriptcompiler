@@ -719,15 +719,15 @@ namespace Interpreter.Tests
                 _mockFnRoutinesCaller.Object, _mockGlobalVariableManager.Object, _mockValueStack.Object);
         }
 
-        bool TerminateScriptAndRunScriptInterpreter()
+        void TerminateScriptAndRunScriptInterpreter()
         {
             _script.AddCommand(ScriptToken.EndScript);
-            return RunScriptInterpreter();
+            RunScriptInterpreter();
         }
 
-        bool RunScriptInterpreter()
+        void RunScriptInterpreter()
         {
-            return _interpreter.Run(_script, _mockLocalVariableManager.Object);
+            _interpreter.Run(_script, _mockLocalVariableManager.Object);
         }
 
 
