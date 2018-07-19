@@ -1,12 +1,21 @@
 
 
 
+Player1Script()
+{
+	playernumber = 1;
+	globalvariable = 1;
+}
+
+Player2Script()
+{
+	playernumber = 2;
+	globalvariable = 2;
+}
+
 
 myScript()
 {
-	globalvariable = localvariable + 1;
-	localvariable = globalvariable + 2;
-
-	PrintLocalVariables();
-	PrintGlobalVariables();
+	Print("Player number", playernumber);
+	Print("Global variable", globalvariable);
 }

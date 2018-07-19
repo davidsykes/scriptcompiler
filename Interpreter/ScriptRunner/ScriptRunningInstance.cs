@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Interpreter;
+﻿using Interpreter;
 
 namespace ScriptRunner
 {
     class ScriptRunningInstance
     {
-        ValueStack valueStack;
-        ProgramCounter programCounter;
-        VariablesManager localVariables;
-
+        
         public ScriptRunningInstance()
         {
-            var valueStack = new ValueStack();
-            var programCounter = new ProgramCounter();
-            var localVariables = new VariablesManager();
+            ProgramCounter = new ProgramCounter();
+            VariablesManager = new VariablesManager();
         }
 
         public void SetScriptToRun(SingleScript scriptToRun)
         {
-            programCounter.SetScript(scriptToRun);
+            ProgramCounter.SetScript(scriptToRun);
         }
-}
+
+        public ProgramCounter ProgramCounter { get; }
+        public VariablesManager VariablesManager { get; }
+    }
 }

@@ -1,8 +1,7 @@
 <xml>
 
    <functions>
-      <function name="PrintLocalVariables" parameters="0" />
-      <function name="PrintGlobalVariables" parameters="0" />
+      <function name="Print" parameters="2" />
    </functions>
 </xml>
 
