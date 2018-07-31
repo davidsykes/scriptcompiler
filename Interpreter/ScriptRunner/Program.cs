@@ -22,19 +22,12 @@ namespace ScriptRunner
                 CheckNameOfScriptToRunIsValid(scriptCollection, nameOfScriptToRun);
 
                 var scriptSystem = new ScriptSystem();
+                scriptSystem.GlobalVariables.SetVariable("globalvariable", 42);
 
-                var player1 = new ScriptRunningInstance(scriptCollection["Player1Script"]);
-                while (!scriptSystem.Run(player1))
-                {
-                }
-
-                var player2 = new ScriptRunningInstance(scriptCollection["Player2Script"]);
-                while (!scriptSystem.Run(player2))
-                {
-                }
-
-                player1 = new ScriptRunningInstance(scriptCollection[nameOfScriptToRun]);
-                player2 = new ScriptRunningInstance(scriptCollection[nameOfScriptToRun]);
+                var player1 = new ScriptRunningInstance(scriptCollection[nameOfScriptToRun]);
+                player1.VariablesManager.SetVariable("playernumber", 1);
+                var player2 = new ScriptRunningInstance(scriptCollection[nameOfScriptToRun]);
+                player2.VariablesManager.SetVariable("playernumber", 2);
                 scriptSystem.Run(player1);
                 scriptSystem.Run(player2);
             }

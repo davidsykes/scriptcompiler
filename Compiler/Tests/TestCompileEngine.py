@@ -113,20 +113,41 @@ def TestGlobalVariables():
 	ce = CompileEngine(tp, MockVariables(['global'], ['local']), None)
 	script = MockScript('name')
 	ce.CompileSingleExecutionBlock(script)
-	script.CompareScript('testass', [IC.pushglobalvariable,
+	script.CompareScript('testglva', [IC.pushglobalvariable,
 									'global',
 									IC.popglobalvariable,
 									'global'])
 
 def TestLocalVariables():
-	tp = MockTokenParser( 'local = local ;')
+	tp = MockTokenParser( 'localvar = localvar ;')
+	ce = CompileEngine(tp, MockVariables(['global'], ['localvar']), None)
+	script = MockScript('name')
+	ce.CompileSingleExecutionBlock(script)
+	script.CompareScript('testlocvar', [IC.pushlocalvariable,
+									'localvar',
+									IC.poplocalvariable,
+									'localvar'])
+
+def TestScriptLocalVariables():
+	tp = MockTokenParser( 'local newlocal ; newlocal = 4 ;')
 	ce = CompileEngine(tp, MockVariables(['global'], ['local']), None)
 	script = MockScript('name')
 	ce.CompileSingleExecutionBlock(script)
-	script.CompareScript('testass', [IC.pushlocalvariable,
-									'local',
+	ce.CompileSingleExecutionBlock(script)
+	script.CompareScript('testscrlocvar', [IC.pushintvalue,
+									4,
 									IC.poplocalvariable,
-									'local'])
+									'newlocal'])
+
+def TestScriptLocalVariablesDiscardedAfterScript():
+	tp = MockTokenParser('script1 ( ) { local localvar ; } script2 ( ) { localvar = 5 ; }')
+	ce = CompileEngine(tp, VariableEngine(), MockScriptEngine())
+
+	try:
+		ce.Process()
+		AssertTrue('tstscrlocdis3', False)
+	except CompileError, e:
+		AssertEqual('tstscrlocdis', e.value, "02: Unrecognised token 'localvar'")
 
 def TestScriptParameters():
 	tp = MockTokenParser('scriptname ( param ) { var = param ; }')
@@ -136,11 +157,10 @@ def TestScriptParameters():
 	ce = CompileEngine(tp, ve, scriptengine)
 	ce.Process()
 	scriptengine.GetScriptCode('scriptname').CompareScript('scrpar', [IC.pushparam,
-																						0,
-																						IC.popglobalvariable,
-																						'var',
-																						IC.endscript])
-
+																		0,
+																		IC.popglobalvariable,
+																		'var',
+																		IC.endscript])
 
 def TestIfStatement():
 	tp = MockTokenParser( '{ if ( 1 ) var1 = 11 ; var2 = 12 ; }')
@@ -262,6 +282,8 @@ def TestCompileEngine():
 	TestMissingScriptTerminator()
 	TestGlobalVariables()
 	TestLocalVariables()
+	TestScriptLocalVariables()
+	TestScriptLocalVariablesDiscardedAfterScript()
 	TestScriptParameters()
 	TestIfStatement()
 	TestIfElseStatement()

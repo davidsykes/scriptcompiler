@@ -52,6 +52,7 @@ class MockVariables:
 	def __init__(self, globalvars=None, localvars=None, enginefuncs=None):
 		self.globalvariables = {}
 		self.localvariables = {}
+		self.scriptlocalvariables = {}
 		self.functions = {}
 		if globalvars:
 			for var in globalvars:
@@ -69,11 +70,14 @@ class MockVariables:
 	def AddLocalVariable(self, name):
 		self.localvariables[name] = True
 
+	def AddScriptLocalVariable(self, name):
+		self.scriptlocalvariables[name] = True
+
 	def IsGlobalVariable(self, name):
 		return name in self.globalvariables
 
 	def IsLocalVariable(self, name):
-		return name in self.localvariables
+		return name in self.localvariables or name in self.scriptlocalvariables
 
 	def AddEngineFunction(self, name, parameterCount):
 		self.functions[name] = parameterCount

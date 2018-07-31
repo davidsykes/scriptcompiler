@@ -58,6 +58,7 @@ class VariableEngine:
 	def __init__(self):
 		self.globalvariables = {}
 		self.localvariables = {}
+		self.scriptlocalvariables = {}
 		self.scriptparameters = {}
 		self.engineFunctions = {}
 
@@ -78,12 +79,20 @@ class VariableEngine:
 		return name in self.globalvariables
 
 	def IsLocalVariable(self, name):
-		return name in self.localvariables
+		return name in self.localvariables or name in self.scriptlocalvariables
 
 	def AddLocalVariable(self, name):
 		if name in self.globalvariables or name in self.localvariables:
 			raise CompileError(''.join(['Variable with name ', name, ' defined twice']))
 		self.localvariables[name] = True
+
+	def AddScriptLocalVariable(self, name):
+		if name in self.globalvariables or name in self.localvariables or name in self.scriptlocalvariables:
+			raise CompileError(''.join(['Variable with name ', name, ' defined twice']))
+		self.scriptlocalvariables[name] = True
+
+	def ClearScriptLocalVariables(self):
+		self.scriptlocalvariables = {}
 
 	def AddFunction(self, name, parameterCount):
 		self.engineFunctions[name] = parameterCount

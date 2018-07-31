@@ -43,6 +43,7 @@ class CompileEngine:
 			elif self.tokenparser.ValidVariableChar(token):
 				#----- Script definition ---------
 				self.ProcessScriptDefinition(token)
+				self.variables.ClearScriptLocalVariables()
 			else:
 				raise CompileError(''.join(["01: Unrecognised token '", token, "'"]), self.tokenparser.GetLineNumber())
 
@@ -99,6 +100,9 @@ class CompileEngine:
 		#---- Pause -------
 		elif token == 'pause':
 			self.ParsePauseStatement(script)
+		#---- local -------
+		elif token == 'local':
+			self.ParseLocalStatement(script)
 		elif self.variables.IsGlobalVariable(token):
 			#----- Variable assignment
 			self.RequireNextToken('=', ''.join(['Assignment to variable ', token]))
@@ -177,6 +181,11 @@ class CompileEngine:
 	def ParsePauseStatement(self, script):
 		# pause
 		script.AddTokenInt(IC.pause)
+
+	def ParseLocalStatement(self, script):
+		localvariablename = self.tokenparser.GetToken()
+		self.variables.AddScriptLocalVariable(localvariablename)
+		self.RequireNextToken(';', 'local')
 
 	def ParseEngineFunction(self, fnName, script):
 		fnpositionpc = script.GetEndPC()

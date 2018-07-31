@@ -4,15 +4,17 @@ namespace ScriptRunner
 {
     class ScriptSystem
     {
-        ScriptInterpreter _interpreter;
+        readonly ScriptInterpreter _interpreter;
 
         public ScriptSystem()
         {
-            var variablesManager = new VariablesManager();
-            var fnRoutinesCaller = new FnRoutinesCaller(variablesManager);
+            GlobalVariables = new VariablesManager();
+            var fnRoutinesCaller = new FnRoutinesCaller(GlobalVariables);
             var valueStack = new ValueStack();
-            _interpreter = new ScriptInterpreter(fnRoutinesCaller, variablesManager, valueStack);
+            _interpreter = new ScriptInterpreter(fnRoutinesCaller, GlobalVariables, valueStack);
         }
+
+        public VariablesManager GlobalVariables { get; }
 
         public bool Run(ScriptRunningInstance player)
         {

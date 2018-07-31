@@ -1,6 +1,5 @@
 <xml>
    <globals>
-      <local name="playernumber" value="0" />
       <global name="globalvariable" value="0" />
    </globals>
 </xml>
