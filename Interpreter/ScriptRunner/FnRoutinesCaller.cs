@@ -22,16 +22,26 @@ namespace ScriptRunner
             _functions.Add(name, fn);
         }
 
-        public int CallFnRoutine(string fnRoutineName, List<object> parameters)
+        public int CallFnRoutine(IVariableManager localVariables, string fnRoutineName, List<object> parameters)
         {
-            if (_functions.ContainsKey(fnRoutineName))
+            if (FunctionListContainsFunctionToCall(fnRoutineName))
             {
-                return _functions[fnRoutineName](parameters);
+                return CallFunctionWithParameters(fnRoutineName, parameters);
             }
 
-            var paramlist = String.Join(",", parameters.Select(p => p.ToString()));
+            var paramlist = string.Join(",", parameters.Select(p => p.ToString()));
             Console.WriteLine($"fn routine {fnRoutineName} with ({paramlist})");
             return 0;
+        }
+
+        bool FunctionListContainsFunctionToCall(string fnRoutineName)
+        {
+            return _functions.ContainsKey(fnRoutineName);
+        }
+
+        int CallFunctionWithParameters(string fnRoutineName, List<object> parameters)
+        {
+            return _functions[fnRoutineName](parameters);
         }
 
         int DropSkipJumpNotZero(List<object> parameters)

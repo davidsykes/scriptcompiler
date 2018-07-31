@@ -407,8 +407,7 @@ namespace Interpreter.Tests
 
             TerminateScriptAndRunScriptInterpreter();
 
-            _mockFnRoutinesCaller.Verify(m => m.CallFnRoutine("fn routine",
-                It.Is<List<object>>(l => l.Count == 0)));
+            _mockFnRoutinesCaller.Verify(m => m.CallFnRoutine(_mockLocalVariableManager.Object, "fn routine", It.Is<List<object>>(l => l.Count == 0)));
         }
 
         [Test]
@@ -447,14 +446,14 @@ namespace Interpreter.Tests
 
             TerminateScriptAndRunScriptInterpreter();
 
-            _mockFnRoutinesCaller.Verify(m => m.CallFnRoutine("fn routine", parameters));
+            _mockFnRoutinesCaller.Verify(m => m.CallFnRoutine(_mockLocalVariableManager.Object, "fn routine", parameters));
         }
 
         [Test]
         public void AfterCallingTheFnRoutineCommandTheReturnValueIsPlacedOnTheStack()
         {
             _mockFnRoutinesCaller.Setup(m =>
-                m.CallFnRoutine("fn routine", It.IsAny<List<object>>())).Returns(42);
+                m.CallFnRoutine(_mockLocalVariableManager.Object, "fn routine", It.IsAny<List<object>>())).Returns(42);
 
             _script.AddCommand(ScriptToken.CallFnRoutine);
             _script.AddIntValue(0);

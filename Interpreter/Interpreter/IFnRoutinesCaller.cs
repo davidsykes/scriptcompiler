@@ -4,6 +4,6 @@ namespace Interpreter
 {
     public interface IFnRoutinesCaller
     {
-        int CallFnRoutine(string fnRoutineName, List<object> parameters);
+        int CallFnRoutine(IVariableManager localVariables, string fnRoutineName, List<object> parameters);
     }
 }

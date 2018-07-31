@@ -117,7 +117,7 @@ namespace Interpreter
                     break;
 
                 case ScriptToken.CallFnRoutine: //  22
-                    ProcessFnRoutine(programCounter);
+                    ProcessFnRoutine(programCounter, localVariables);
                     break;
 
                 case ScriptToken.DropStackValue: //  23
@@ -176,14 +176,14 @@ namespace Interpreter
         }
 
 
-        void ProcessFnRoutine(IProgramCounter programCounter)
+        void ProcessFnRoutine(IProgramCounter programCounter, IVariableManager localVariables)
         {
             var parameterCount = programCounter.GetInteger();
             var fnRoutineName = programCounter.GetNullTerminatedString();
 
             var parameters = GetStackParametersIfRequired(parameterCount);
 
-            var result = _fnRoutinesCaller.CallFnRoutine(fnRoutineName, parameters);
+            var result = _fnRoutinesCaller.CallFnRoutine(localVariables, fnRoutineName, parameters);
             _stack.PushValue(result);
         }
 
