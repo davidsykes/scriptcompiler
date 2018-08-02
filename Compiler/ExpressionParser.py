@@ -22,7 +22,7 @@ class ExpressionParser:
 
 		#http://en.cppreference.com/w/cpp/language/operator_precedence
 		self.operators = {}
-		self.operators ['-']= Operator(IC.add, 4)
+		self.operators ['-']= Operator(IC.subtract, 4)
 		self.operators ['+']= Operator(IC.add, 4)
 		self.operators ['*']= Operator(IC.multiply, 5)
 		self.operators ['/']= Operator(IC.devide, 5)

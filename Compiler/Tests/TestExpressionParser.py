@@ -20,7 +20,7 @@ def TestUnaryOperators():
 def TestExpressionParserNumeric():
 	ep = ExpressionParser(MockVariables())
 	script = MockScript('name')
-	ep.ParseExpression(MockTokenParser('2 + 3 * 4'), script)
+	ep.ParseExpression(MockTokenParser('2 + 3 * 4 - 5'), script)
 	script.CompareScript('texprn', [IC.pushintvalue,
 											  2,
 											  IC.pushintvalue,
@@ -28,7 +28,11 @@ def TestExpressionParserNumeric():
 											  IC.pushintvalue,
 											  4,
 											  IC.multiply,
-											  IC.add])
+											  IC.add,
+											  IC.pushintvalue,
+											  5,
+											  IC.subtract
+											  ])
 
 def TestExpressionParserVariables():
 	ep = ExpressionParser(MockVariables(['var1','var2']))
