@@ -6,6 +6,7 @@
 myScript()
 {
 	local playernumber;
+	pause;
 	Print("Player number", playernumber);
 	Print("Global variable", globalvariable);
 }

@@ -181,6 +181,7 @@ class CompileEngine:
 	def ParsePauseStatement(self, script):
 		# pause
 		script.AddTokenInt(IC.pause)
+		self.RequireNextToken(';', 'pause')
 
 	def ParseLocalStatement(self, script):
 		localvariablename = self.tokenparser.GetToken()
