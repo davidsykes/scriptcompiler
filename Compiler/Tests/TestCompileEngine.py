@@ -264,7 +264,7 @@ def TestFnRoutineDropSkipJump():
 									-27])
 
 def TestPauseStatement():
-	tp = MockTokenParser( 'pause ( ) ;')
+	tp = MockTokenParser( 'pause ;')
 	script = MockScript('name')
 	ce = CompileEngine(tp, VariableEngine(), None)
 	ce.CompileSingleExecutionBlock(script)

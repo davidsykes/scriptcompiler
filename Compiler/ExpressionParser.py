@@ -65,7 +65,7 @@ class ExpressionParser:
 			else:
 				if token[0] == '"':
 					script.AddTokenInt(IC.pushstring)
-					script.AddTokenString(token)
+					script.AddTokenString(token[1:-1])
 				elif self.variables.IsGlobalVariable(token):
 					script.AddTokenInt(IC.pushglobalvariable)
 					script.AddTokenString(token)

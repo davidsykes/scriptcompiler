@@ -34,6 +34,17 @@ def TestExpressionParserNumeric():
 											  IC.subtract
 											  ])
 
+def TestExpressionParserString():
+	ep = ExpressionParser(MockVariables())
+	script = MockScript('name')
+	ep.ParseExpression(MockTokenParser('"Hello" + "World"'), script)
+	script.CompareScript('stringexp', [IC.pushstring,
+											  'Hello',
+											  IC.pushstring,
+											  'World',
+											  IC.add,
+											  ])
+
 def TestExpressionParserVariables():
 	ep = ExpressionParser(MockVariables(['var1','var2']))
 	script = MockScript('name')
@@ -72,6 +83,7 @@ def TestExpressionParser():
 	TestExpressionTerminators()
 	TestUnaryOperators()
 	TestExpressionParserNumeric()
+	TestExpressionParserString()
 	TestExpressionParserVariables()
 	TestExpressionParserComplex()
 	TestFnRoutineNoParameters()
