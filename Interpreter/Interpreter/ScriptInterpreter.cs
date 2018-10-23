@@ -216,11 +216,20 @@ namespace Interpreter
         {
             var distance = programCounter.GetInteger();
             var value = _stack.PopValue();
-            if (value != 0)
+
+            switch (value)
             {
-                programCounter.MoveScriptPointer(distance - 4);
-                return false;
+                case (int)ScriptReturn.Continue:
+                    return true;
+
+                case (int)ScriptReturn.PauseRepeat:
+                    programCounter.MoveScriptPointer(distance - 4);
+                    return false;
+
+                case (int)ScriptReturn.Pause:
+                    return false;
             }
+
             return true;
         }
     }
