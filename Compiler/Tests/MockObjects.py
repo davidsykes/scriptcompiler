@@ -67,14 +67,14 @@ class MockVariables:
 	def AddGlobalVariable(self, name):
 		self.globalvariables[name] = True
 
+	def IsGlobalVariable(self, name):
+		return name in self.globalvariables
+
 	def AddLocalVariable(self, name):
 		self.localvariables[name] = True
 
 	def AddScriptLocalVariable(self, name):
 		self.scriptlocalvariables[name] = True
-
-	def IsGlobalVariable(self, name):
-		return name in self.globalvariables
 
 	def IsLocalVariable(self, name):
 		return name in self.localvariables or name in self.scriptlocalvariables

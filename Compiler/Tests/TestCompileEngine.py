@@ -108,27 +108,28 @@ def TestMissingScriptTerminator():
 	except CompileError, e:
 		AssertEqual('tmst', e.value, "10: Unexpected end of script")
 
-def TestGlobalVariables():
-	tp = MockTokenParser( 'global = global ;')
-	ce = CompileEngine(tp, MockVariables(['global'], ['local']), None)
+def TestGlobalVariablesCanBeDeclared():
+	tp = MockTokenParser( 'global newglobal ; newglobal = 4 ;')
+	ce = CompileEngine(tp, MockVariables(['globalvar'], ['localvar']), None)
+	script = MockScript('name')
+	ce.CompileSingleExecutionBlock(script)
+	ce.CompileSingleExecutionBlock(script)
+	script.CompareScript('testdecglobvar', [IC.pushintvalue,
+									4,
+									IC.popglobalvariable,
+									'newglobal'])
+
+def TestGlobalVariablesCanBeAssigned():
+	tp = MockTokenParser( 'globalvar = globalvar ;')
+	ce = CompileEngine(tp, MockVariables(['globalvar'], ['localvar']), None)
 	script = MockScript('name')
 	ce.CompileSingleExecutionBlock(script)
 	script.CompareScript('testglva', [IC.pushglobalvariable,
-									'global',
+									'globalvar',
 									IC.popglobalvariable,
-									'global'])
+									'globalvar'])
 
-def TestLocalVariables():
-	tp = MockTokenParser( 'localvar = localvar ;')
-	ce = CompileEngine(tp, MockVariables(['global'], ['localvar']), None)
-	script = MockScript('name')
-	ce.CompileSingleExecutionBlock(script)
-	script.CompareScript('testlocvar', [IC.pushlocalvariable,
-									'localvar',
-									IC.poplocalvariable,
-									'localvar'])
-
-def TestScriptLocalVariables():
+def TestLocalVariablesCanBeDeclared():
 	tp = MockTokenParser( 'local newlocal ; newlocal = 4 ;')
 	ce = CompileEngine(tp, MockVariables(['global'], ['local']), None)
 	script = MockScript('name')
@@ -138,6 +139,16 @@ def TestScriptLocalVariables():
 									4,
 									IC.poplocalvariable,
 									'newlocal'])
+
+def TestLocalVariablesCanBeAssigned():
+	tp = MockTokenParser( 'localvar = localvar ;')
+	ce = CompileEngine(tp, MockVariables(['global'], ['localvar']), None)
+	script = MockScript('name')
+	ce.CompileSingleExecutionBlock(script)
+	script.CompareScript('testlocvar', [IC.pushlocalvariable,
+									'localvar',
+									IC.poplocalvariable,
+									'localvar'])
 
 def TestScriptLocalVariablesDiscardedAfterScript():
 	tp = MockTokenParser('script1 ( ) { local localvar ; } script2 ( ) { localvar = 5 ; }')
@@ -280,9 +291,10 @@ def TestCompileEngine():
 	#TestConstDefinitionValid()
 	TestEmptyScriptFunction()
 	TestMissingScriptTerminator()
-	TestGlobalVariables()
-	TestLocalVariables()
-	TestScriptLocalVariables()
+	TestGlobalVariablesCanBeDeclared()
+	TestGlobalVariablesCanBeAssigned()
+	TestLocalVariablesCanBeDeclared()
+	TestLocalVariablesCanBeAssigned()
 	TestScriptLocalVariablesDiscardedAfterScript()
 	TestScriptParameters()
 	TestIfStatement()

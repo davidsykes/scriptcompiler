@@ -71,7 +71,7 @@ class VariableEngine:
 		parser.parse(path)
 
 	def AddGlobalVariable(self, name):
-		if name in self.globalvariables or name in self.localvariables:
+		if name in self.globalvariables or name in self.localvariables or name in self.scriptlocalvariables:
 			raise CompileError(''.join(['Variable with name ', name, ' defined twice']))
 		self.globalvariables[name] = True
 

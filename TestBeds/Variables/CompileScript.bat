@@ -1,2 +1,2 @@
 cls
-python ../../Compiler/CompileScript.py script.scr -variables "variables.xml" -functions "functions.xml"
+python ../../Compiler/CompileScript.py script.scr -functions "functions.xml"

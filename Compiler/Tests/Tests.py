@@ -12,6 +12,7 @@ from TestCompileEngine import TestCompileEngine
 from TestScriptEngine import TestScriptEngine
 from TestExpressionParser import TestExpressionParser
 from TestOperatorStack import TestOperatorStack
+from TestVariableEngine import TestVariableEngine
 
 from Assert import AssertFailure
 
@@ -19,6 +20,7 @@ def RunTests():
    try:
       TestTokenParser()
       TestOperatorStack()
+      TestVariableEngine()
       TestScriptEngine()
       TestExpressionParser()
       TestCompileEngine()

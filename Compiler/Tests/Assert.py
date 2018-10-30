@@ -29,10 +29,6 @@ def AssertEqual(m,a,b=None):
 def AssertNEqual(m,a,b):
 	if a == b:
 		raise AssertFailure(''.join(['AssertNEqual fail ', m, ' Did not want to get "', str(a), '"']))
-#      print '------------------------------------------------------'
-#      print 'Assert Failure', m
-#      print 'Did not want to get "' + str(a) + '"'
-#      print '------------------------------------------------------'
 
 def AssertContains(m,a,b):
 	if a.find(b) < 0:
@@ -41,3 +37,6 @@ def AssertContains(m,a,b):
 		print 'Exp "' + str(b) + '"'
 		print 'Got "' + str(a) + '"'
 		print '------------------------------------------------------'
+
+def AssertAlways(m):
+	raise AssertFailure(m)

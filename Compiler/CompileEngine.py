@@ -100,6 +100,9 @@ class CompileEngine:
 		#---- Pause -------
 		elif token == 'pause':
 			self.ParsePauseStatement(script)
+		#---- global -------
+		elif token == 'global':
+			self.ParseGlobalStatement(script)
 		#---- local -------
 		elif token == 'local':
 			self.ParseLocalStatement(script)
@@ -182,6 +185,11 @@ class CompileEngine:
 		# pause
 		script.AddTokenInt(IC.pause)
 		self.RequireNextToken(';', 'pause')
+
+	def ParseGlobalStatement(self, script):
+		globalvariablename = self.tokenparser.GetToken()
+		self.variables.AddGlobalVariable(globalvariablename)
+		self.RequireNextToken(';', 'global')
 
 	def ParseLocalStatement(self, script):
 		localvariablename = self.tokenparser.GetToken()
