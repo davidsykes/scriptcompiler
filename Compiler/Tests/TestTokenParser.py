@@ -65,6 +65,12 @@ def TestStrings():
 	AssertEqual(tp.GetToken(), '"string"')
 	AssertEqual(tp.GetToken(), 'bla')
 
+def TestComments():
+	tp = TokenParser('one; // comment\ntwo')
+	AssertEqual('tc1', tp.GetToken(), 'one')
+	AssertEqual('tc2', tp.GetToken(), ';')
+	AssertEqual('tc3', tp.GetToken(), 'two')
+
 def TestTokenParser():
 	TestValidVariableChar()
 	TestBasicTokens()
@@ -73,3 +79,4 @@ def TestTokenParser():
 	TestOr()
 	TestScriptDefinitions()
 	TestStrings()
+	TestComments()
