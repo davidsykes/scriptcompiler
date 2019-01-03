@@ -1,0 +1,19 @@
+
+
+
+
+
+myScript()
+{
+	local playernumber;
+	global globalvariable;
+	Print("Player number", playernumber);
+	Print("Global variable", globalvariable);
+	pause;
+
+	playernumber = [sometext];
+
+	
+
+}
+

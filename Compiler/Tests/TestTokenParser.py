@@ -12,7 +12,7 @@ def TestValidVariableChar():
 
 
 def TestBasicTokens():
-	tp = TokenParser("var _var1_23\n\n345   // comment\n1234{ }{} +=+-==/\n \r\n\t")
+	tp = TokenParser("var _var1_23\n\n345   // comment\n1234{ }{} +=+-==/\n[hash];\n \r\n\t")
 	AssertEqual('ttp1', tp.GetToken(), 'var')
 	AssertEqual('ttp2', tp.GetToken(), '_var1_23')
 	AssertEqual('ttp3', tp.GetToken(), '345')
@@ -27,9 +27,13 @@ def TestBasicTokens():
 	AssertEqual('ttp11', tp.GetToken(), '-')
 	AssertEqual('ttp12', tp.GetToken(), '==')
 	AssertEqual('ttp13', tp.GetToken(), '/')
+	AssertEqual('ttp14', tp.GetToken(), '[')
+	AssertEqual('ttp15', tp.GetToken(), 'hash')
+	AssertEqual('ttp16', tp.GetToken(), ']')
+	AssertEqual('ttp16', tp.GetToken(), ';')
 	AssertEqual(tp.GetToken(), None)
 
-	AssertEqual('ttp14', tp.GetLineNumber(), 7)
+	AssertEqual('ttpend', tp.GetLineNumber(), 8)
 
 def TestMoreTokens():
 	tp = TokenParser("&&&")

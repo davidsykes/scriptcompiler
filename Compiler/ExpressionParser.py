@@ -3,6 +3,7 @@
 # (c) David Sykes 2013
 # One more time, for the kids!
 
+import zlib
 from Interpreter import IC
 from CompileError import CompileError
 from OperatorStack import OperatorStack
@@ -66,6 +67,11 @@ class ExpressionParser:
 				if token[0] == '"':
 					script.AddTokenInt(IC.pushstring)
 					script.AddTokenString(token[1:-1])
+				elif token == '[':
+					script.AddTokenInt(IC.pushintvalue)
+					script.AddTokenInt(self.CreateHashValue(tokenparser.GetToken()))
+					if tokenparser.GetToken() != ']':
+						raise CompileError('] expected', tokenparser.GetLineNumber())
 				elif self.variables.IsGlobalVariable(token):
 					script.AddTokenInt(IC.pushglobalvariable)
 					script.AddTokenString(token)
@@ -135,3 +141,6 @@ class ExpressionParser:
 			return self.operators[token]
 		except KeyError:
 			return None
+
+	def CreateHashValue(self, hashString):
+		return zlib.crc32(hashString) # % (1<<32)

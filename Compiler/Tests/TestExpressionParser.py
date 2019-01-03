@@ -79,6 +79,22 @@ def TestFnRoutineNoParameters():
 									0,
 									'engineFunction'])
 
+def TestHashCalculator():
+	ep = ExpressionParser(MockVariables())
+	script = MockScript('name')
+	ep.ParseExpression(MockTokenParser('[ hashtext ]'), script)
+	script.CompareScript('hash', [IC.pushintvalue,
+											  1976965134
+											  ])
+
+def TestHashCalculatorUsesSignedCRC32():
+	ep = ExpressionParser(MockVariables())
+	script = MockScript('name')
+	ep.ParseExpression(MockTokenParser('[ hello-world ]'), script)
+	script.CompareScript('hashs', [IC.pushintvalue,
+											  -1311505829 #2983461467
+											  ])
+
 def TestExpressionParser():
 	TestExpressionTerminators()
 	TestUnaryOperators()
@@ -87,3 +103,5 @@ def TestExpressionParser():
 	TestExpressionParserVariables()
 	TestExpressionParserComplex()
 	TestFnRoutineNoParameters()
+	TestHashCalculator()
+	TestHashCalculatorUsesSignedCRC32()
