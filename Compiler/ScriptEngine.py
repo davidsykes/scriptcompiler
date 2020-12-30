@@ -10,7 +10,7 @@ def WriteInt(file, i):
 	file.write(pack('i', i))
 
 def WriteString(file, s):
-	file.write(s)
+	file.write(s.encode())
 	file.write(pack('b', 0))
 
 class Script(object):
@@ -44,7 +44,7 @@ class Script(object):
 
 		# Name length, followed by name
 		WriteInt(objfile, len(self.name))
-		objfile.write(self.name)
+		objfile.write(self.name.encode())
 		scriptsizeposition = objfile.tell()
 		WriteInt(objfile, 0)
 		ip = 0
@@ -66,7 +66,7 @@ class Script(object):
 				WriteString(objfile, t)
 				ip = ip + len(t) + 1
 			else:
-				print type(t)
+				print(type(t))
 			lstfile.write("\n")
 		# Go back and put the script length in
 		curpos = objfile.tell()

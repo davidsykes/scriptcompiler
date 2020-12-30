@@ -32,7 +32,7 @@ def TestInvalidScript():
 	try:
 		ce.Process()
 		AssertTrue('tis', False)
-	except CompileError, e:
+	except CompileError as e:
 		AssertEqual(e.value, "01: Unrecognised token '1completerubbish'")
 
 def TestRequireNextToken():
@@ -43,7 +43,7 @@ def TestRequireNextToken():
 	try:
 		ce.RequireNextToken('third', 'previous')
 		AssertTrue('trtnp', False)
-	except CompileError, e:
+	except CompileError as e:
 		AssertEqual('trnt1', e.value, "Expected 'third' instead of 'second' after 'previous'")
 
 def Testob_menuStruct():
@@ -52,7 +52,7 @@ def Testob_menuStruct():
 	ce = CompileEngine(tp,variables, MockScriptEngine())
 	try:
 		ce.Process()
-	except CompileError, e:
+	except CompileError as e:
 		AssertEqual('tms0', e.value, 'no error')
 	AssertNEqual('tms1', variables.GetVariable('one'), None)
 	AssertEqual('tms2', variables.GetVariable('one').GetIndex(), 0)
@@ -105,7 +105,7 @@ def TestMissingScriptTerminator():
 	try:
 		ce.Process()
 		AssertFalse('sef', True)
-	except CompileError, e:
+	except CompileError as e:
 		AssertEqual('tmst', e.value, "10: Unexpected end of script")
 
 def TestGlobalVariablesCanBeDeclared():
@@ -157,7 +157,7 @@ def TestScriptLocalVariablesDiscardedAfterScript():
 	try:
 		ce.Process()
 		AssertTrue('tstscrlocdis3', False)
-	except CompileError, e:
+	except CompileError as e:
 		AssertEqual('tstscrlocdis', e.value, "02: Unrecognised token 'localvar'")
 
 def TestScriptParameters():
@@ -179,8 +179,8 @@ def TestIfStatement():
 	script = MockScript('name')
 	try:
 		ce.CompileSingleExecutionBlock(script)
-	except CompileError, e:
-		print 'TestIfStatement got a compile error:', e.value
+	except CompileError as e:
+		print('TestIfStatement got a compile error:', e.value)
 	script.CompareScript('cmpifst', [IC.pushintvalue,
 												1,
 												IC.jne,
@@ -200,8 +200,8 @@ def TestIfElseStatement():
 	script = MockScript('name')
 	try:
 		ce.CompileSingleExecutionBlock(script)
-	except CompileError, e:
-		print 'TestIfElseStatement got a compile error:', e.value
+	except CompileError as e:
+		print('TestIfElseStatement got a compile error:', e.value)
 	script.CompareScript('cmpifest', [IC.pushintvalue,
 												 1,
 												 IC.jne,
@@ -223,8 +223,8 @@ def TestIfElseifStatement():
 	script = MockScript('name')
 	try:
 		ce.CompileSingleExecutionBlock(script)
-	except CompileError, e:
-		print 'TestIfElseStatement got a compile error:', e.value
+	except CompileError as e:
+		print('TestIfElseStatement got a compile error:', e.value)
 	script.CompareScript('cmpifelif', [IC.pushintvalue,
 												 1,
 												 IC.jne,
@@ -257,7 +257,7 @@ def TestEngineFunctionInvalid():
 		ce = CompileEngine(tp, MockVariables([],[],[['engineFunction',0]]), None)
 		ce.CompileSingleExecutionBlock(script)
 		AssertTrue(False)
-	except CompileError, e:
+	except CompileError as e:
 		pass
 
 def TestFnRoutineDropSkipJump():
@@ -266,8 +266,8 @@ def TestFnRoutineDropSkipJump():
 	script = MockScript('name')
 	try:
 		ce.CompileSingleExecutionBlock(script)
-	except CompileError, e:
-		print 'TestFnRoutineDropSkipJump got a compile error:', e.value
+	except CompileError as e:
+		print('TestFnRoutineDropSkipJump got a compile error:', e.value)
 	script.CompareScript('fndsk', [IC.callfnroutine,
 									0,
 									'engineFunction',

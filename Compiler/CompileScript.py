@@ -13,15 +13,16 @@ from VariableEngine import VariableEngine
 from ScriptEngine import ScriptEngine
 
 def Useage(mess = None):
-	print 'Useage: ' + sys.argv[0] + " file"
+	print('Useage: ' + sys.argv[0] + " {script file} -variables {variable file} -functions {functions file}")
+	print("Options: -lst : Ouptut debug information")
 	if mess:
-		print
-		print mess
+		print()
+		print(mess)
 		sys.exit(-1)
 	sys.exit(0)
 
 def Quit(mess):
-	print mess
+	print(mess)
 	sys.exit(-1)
 
 def fetch_output_folder(parameters):
@@ -34,9 +35,13 @@ def make_output_script_path(script_path, output_folder):
 		return os.path.join(output_folder, file_name)
 	return full_path
 
+def get_list_file(path, create_list_file_path_flag):
+	if create_list_file_path_flag:
+		return open(output_script_path + '.lst', 'w')
+
 try:
-	p = Parameters(['test'],'[variables,functions,output]','[undefined]', sys.argv[1:])
-except ParamError, e:
+	p = Parameters(['test','lst'],'[variables,functions,output]','[undefined]', sys.argv[1:])
+except ParamError as e:
 	Useage('Param error: ' + e.value )
 
 if p.GetSwitch('test'):
@@ -59,7 +64,7 @@ try:
 		variableengine.LoadXml(p.GetOption('variables'))
 	if p.GetOption('functions') != None:
 		variableengine.LoadXml(p.GetOption('functions'))
-except CompileError, e:
+except CompileError as e:
 	Quit(''.join([p.GetOption('variables'), ': ', e.value]))
 
 scriptengine = ScriptEngine()
@@ -67,7 +72,7 @@ scriptengine = ScriptEngine()
 for script in p.GetParameters():
 	try:
 		filedata = open(script).read()
-	except IOError, e:
+	except IOError as e:
 		Useage(e)
 	tokenparser = TokenParser(filedata)
 	e = CompileEngine(tokenparser, variableengine, scriptengine)
@@ -76,12 +81,10 @@ for script in p.GetParameters():
 		try:
 			output_script_path = make_output_script_path(script, output_folder)
 			target = output_script_path + '.bytes'
-			objf = open(target, 'w')
-			lstf = open(output_script_path + '.lst', 'w')
-			scriptengine.Write(objf, lstf)
-		except IOError, e:
+			objf = open(target, 'wb')
+			listFile = get_list_file(output_script_path, p.GetSwitch('lst'))
+			scriptengine.Write(objf, listFile)
+		except IOError as e:
 			Useage(e)
-	except CompileError, e:
+	except CompileError as e:
 		Quit(''.join(['Error:', script, '(', str(e.line), '): ', e.value]))
-
-

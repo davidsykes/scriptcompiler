@@ -69,7 +69,7 @@ class TokenParser:
 			if token:
 				self.MoveDataOn(len(token))
 		if self.debug:
-			print 'Token', token
+			print('Token', token)
 		return token
 
 	def ValidVariableChar(self, ch):

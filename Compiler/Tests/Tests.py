@@ -24,16 +24,16 @@ def RunTests():
       TestScriptEngine()
       TestExpressionParser()
       TestCompileEngine()
-   except AssertFailure, e:
-      print '**** Assert failure ****'
-      print e.value
-      print
-      print '----- Stack trace ----'
+   except AssertFailure as e:
+      print('**** Assert failure ****')
+      print(e.value)
+      print()
+      print('----- Stack trace ----')
       traceback.print_exc(file=sys.stdout)
-   except CompileError, e:
-      print '**** Compile error ****'
-      print e.value
-      print '----- Stack trace ----'
+   except CompileError as e:
+      print('**** Compile error ****')
+      print(e.value)
+      print('----- Stack trace ----')
       traceback.print_exc(file=sys.stdout)
 
 RunTests()

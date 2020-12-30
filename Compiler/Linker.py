@@ -10,15 +10,15 @@ from Parameters import Parameters, ParamError
 from struct import pack
 
 def Useage(mess = None):
-	print 'Useage: ' + sys.argv[0] + " [files to link] -target targetfile"
+	print('Useage: ' + sys.argv[0] + " [files to link] -target targetfile")
 	if mess:
 		print
-		print mess
+		print(mess)
 		sys.exit(-1)
 	sys.exit(0)
 
 def Quit(mess):
-	print mess
+	print(mess)
 	sys.exit(-1)
 
 def ReadInt(file):
@@ -49,20 +49,20 @@ scripts = {}
 
 for scriptfile in p.GetParameters():
 	try:
-		print '======='
-		print 'File:', scriptfile
+		print('=======')
+		print('File:', scriptfile)
 		file = open(scriptfile, "rb")
 
 		scriptcount = ReadInt(file)
-		print 'Script count:', scriptcount
+		print('Script count:', scriptcount)
 
 		for x in range(0, scriptcount):
 			namelength = ReadInt(file)
-			print 'namelength', namelength
+			print('namelength', namelength)
 			scriptname = file.read(namelength)
-			print 'scriptname', scriptname
+			print('scriptname', scriptname)
 			scriptlength = struct.unpack('i', file.read(4))[0]
-			print 'scriptlength', scriptlength
+			print('scriptlength', scriptlength)
 			scriptcode = file.read(scriptlength)
 			scripts[scriptname] = scriptcode
 
@@ -70,8 +70,8 @@ for scriptfile in p.GetParameters():
 		Useage(e)
 
 if targetfile:
-	print '>>>>>>>', p.GetOption('target')
-	print 'script count', len(scripts)
+	print('>>>>>>>', p.GetOption('target'))
+	print('script count', len(scripts))
 	WriteInt(targetfile, len(scripts))
 
 	for script in scripts.iteritems():

@@ -7,7 +7,7 @@ myScript()
 	glob = 4;
 	loc = 4;
 
-	pause
+	pause;
 
 	Print("Done");
 }

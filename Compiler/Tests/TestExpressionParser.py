@@ -92,7 +92,8 @@ def TestHashCalculatorUsesSignedCRC32():
 	script = MockScript('name')
 	ep.ParseExpression(MockTokenParser('[ hello-world ]'), script)
 	script.CompareScript('hashs', [IC.pushintvalue,
-											  -1311505829 #2983461467
+											  #-1311505829 #2983461467
+											  2983461467
 											  ])
 
 def TestExpressionParser():

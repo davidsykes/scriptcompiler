@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
+from CompileError import CompileError
 from VariableEngine import VariableEngine
 from Assert import AssertEqual, AssertTrue, AssertFalse, AssertAlways, AssertContains
-from CompileError import CompileError
 
 def TestGlobalVariableCanBeDeclared():
 	ve = VariableEngine()
@@ -14,7 +14,7 @@ def TestGlobalVariableCantBeDeclaredTwice():
 	ve.AddGlobalVariable('globalvar')
 	try:
 		ve.AddGlobalVariable('globalvar')
-	except CompileError, e:
+	except CompileError as e:
 		AssertContains('tgvc', e.value, 'Variable with name globalvar defined twice')
 		return
 	AssertAlways('Exception expected when declaring a global variable twice')

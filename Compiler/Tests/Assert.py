@@ -14,9 +14,9 @@ def AssertTrue(m,b=None):
 
 def AssertFalse(m,b):
 	if b:
-		print '------------------------------------------------------'
-		print 'AssertFalse Failure', m
-		print '------------------------------------------------------'
+		print('------------------------------------------------------')
+		print('AssertFalse Failure', m)
+		print('------------------------------------------------------')
 
 def AssertEqual(m,a,b=None):
 	if b == None:
@@ -32,11 +32,11 @@ def AssertNEqual(m,a,b):
 
 def AssertContains(m,a,b):
 	if a.find(b) < 0:
-		print '------------------------------------------------------'
-		print 'AssertContains Failure', m
-		print 'Exp "' + str(b) + '"'
-		print 'Got "' + str(a) + '"'
-		print '------------------------------------------------------'
+		print('------------------------------------------------------')
+		print('AssertContains Failure', m)
+		print('Exp "' + str(b) + '"')
+		print('Got "' + str(a) + '"')
+		print('------------------------------------------------------')
 
 def AssertAlways(m):
 	raise AssertFailure(m)

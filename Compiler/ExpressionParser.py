@@ -143,4 +143,4 @@ class ExpressionParser:
 			return None
 
 	def CreateHashValue(self, hashString):
-		return zlib.crc32(hashString) # % (1<<32)
+		return zlib.crc32(hashString.encode()) # % (1<<32)
