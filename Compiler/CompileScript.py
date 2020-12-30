@@ -11,6 +11,7 @@ from CompileError import CompileError
 from TokenParser import TokenParser
 from VariableEngine import VariableEngine
 from ScriptEngine import ScriptEngine
+from NullFileWrapper import NullFileWrapper
 
 def Useage(mess = None):
 	print('Useage: ' + sys.argv[0] + " {script file} -variables {variable file} -functions {functions file}")
@@ -82,7 +83,7 @@ for script in p.GetParameters():
 			output_script_path = make_output_script_path(script, output_folder)
 			target = output_script_path + '.bytes'
 			objf = open(target, 'wb')
-			listFile = get_list_file(output_script_path, p.GetSwitch('lst'))
+			listFile = NullFileWrapper(get_list_file(output_script_path, p.GetSwitch('lst')))
 			scriptengine.Write(objf, listFile)
 		except IOError as e:
 			Useage(e)
