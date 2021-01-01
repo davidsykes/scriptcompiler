@@ -39,12 +39,12 @@ class ExpressionParser:
 
 	def ParseExpression(self, tokenparser, script):
 		operatorstack = OperatorStack()
-		token = self.ParseExpression2(tokenparser, script, operatorstack)
+		token = self.ParseExpressionToOperatorStack(tokenparser, script, operatorstack)
 		while not operatorstack.IsEmpty():
 			script.AddTokenInt(operatorstack.Pop().scriptcommand)
 		return token
 
-	def ParseExpression2(self, tokenparser, script, operatorstack):
+	def ParseExpressionToOperatorStack(self, tokenparser, script, operatorstack):
 		while True:
 			# Expecting some kind of value here
 			token = tokenparser.GetToken()
@@ -60,7 +60,7 @@ class ExpressionParser:
 				raise CompileError('10: Unexpected end of script', tokenparser.GetLineNumber())
 			if token == '(':
 				# Recursive expression
-				token = self.ParseExpression2(tokenparser, script, operatorstack)
+				token = self.ParseExpressionToOperatorStack(tokenparser, script, operatorstack)
 				if token != ')':
 					raise CompileError(''.join(["Expected ')' not '", token, "'"]), tokenparser.GetLineNumber())
 			else:
