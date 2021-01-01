@@ -3,6 +3,7 @@
    <functions>
       <function name="DropSkipJump" parameters="0" />
       <function name="Print" parameters="1" />
+      <function name="FunctionWithNoParameters"/>
    </functions>
 </xml>
 

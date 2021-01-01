@@ -31,12 +31,12 @@ class XMLHandler(xml.sax.handler.ContentHandler):
 		elif name == 'function':
 			try:
 				name = attributes['name']
-				try:
-					parametercount = int(attributes['parameters'])
-				except KeyError:
-					raise CompileError("Missing parameter count in function definition" + self.GetLocatorInfo())
-				except:
-					raise CompileError(''.join(["Invalid parameter count '", attributes['parameters'], "' ", self.GetLocatorInfo()]))
+				parametercount = 0
+				if 'parameters' in attributes:
+					try:
+						parametercount = int(attributes['parameters'])
+					except:
+						raise CompileError(''.join(["Invalid parameter count '", attributes['parameters'], "' ", self.GetLocatorInfo()]))
 				self.variables.AddFunction(name, parametercount)
 			except KeyError:
 				raise CompileError("Missing name or parameter count in function definition" + self.GetLocatorInfo())

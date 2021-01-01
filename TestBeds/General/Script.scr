@@ -1,13 +1,13 @@
 
 
-
-
 myScript()
 {
 	glob = 4;
 	loc = 4;
 
 	pause;
+
+	FunctionWithNoParameters();
 
 	Print("Done");
 }
