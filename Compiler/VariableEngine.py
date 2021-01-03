@@ -31,24 +31,10 @@ class XMLHandler(xml.sax.handler.ContentHandler):
 		elif name == 'function':
 			try:
 				name = attributes['name']
-				parametercount = 0
-				if 'parameters' in attributes:
-					try:
-						parametercount = int(attributes['parameters'])
-					except:
-						raise CompileError(''.join(["Invalid parameter count '", attributes['parameters'], "' ", self.GetLocatorInfo()]))
-				self.variables.AddFunction(name, parametercount)
+				self.variables.AddFunction(name)
 			except KeyError:
 				raise CompileError("Missing name or parameter count in function definition" + self.GetLocatorInfo())
  
-	def characters(self, data):
-		#print ''.join(['Characters "', data, '"'])
-		pass
- 
-	def endElement(self, name):
-		#print "EndElement", name
-		pass
-
 	def GetLocatorInfo(self):
 		if self._locator != None:
 			return ''.join([': Line ', str(self._locator.getLineNumber()), ' column ', str(self._locator.getColumnNumber())])
@@ -94,8 +80,8 @@ class VariableEngine:
 	def ClearScriptLocalVariables(self):
 		self.scriptlocalvariables = {}
 
-	def AddFunction(self, name, parameterCount):
-		self.engineFunctions[name] = parameterCount
+	def AddFunction(self, name):
+		self.engineFunctions[name] = True
 
 	def IsFunction(self, name):
 		return name in self.engineFunctions

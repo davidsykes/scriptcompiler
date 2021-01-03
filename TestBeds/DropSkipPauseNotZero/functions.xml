@@ -1,8 +1,8 @@
 <xml>
 
    <functions>
-      <function name="DropSkipJump" parameters="0" />
-      <function name="Print" parameters="1" />
+      <function name="DropSkipJump"/>
+      <function name="Print"/>
    </functions>
 </xml>
 

@@ -7,7 +7,9 @@ myScript()
 
 	pause;
 
-	FunctionWithNoParameters();
+	GeneralFunction();
+
+	GeneralFunction(1,2,3,4);
 
 	Print("Done");
 }
