@@ -1,8 +1,8 @@
-﻿using Interpreter;
+using Interpreter;
 
 namespace ScriptRunner
 {
-    class ScriptRunningInstance
+    public class ScriptRunningInstance
     {
         public ScriptRunningInstance(SingleScript scriptToRun)
         {
