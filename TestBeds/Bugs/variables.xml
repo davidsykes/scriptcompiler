@@ -1,0 +1,7 @@
+<xml>
+   <globals>
+      <global name="cycle" value="0" />
+      <local name="loc" value="0" />
+   </globals>
+</xml>
+

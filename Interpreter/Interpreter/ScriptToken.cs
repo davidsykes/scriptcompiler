@@ -20,6 +20,7 @@
         Lte = 17,
         Gte = 18,
         VariableEquals = 19,
+        LogicalAnd = 20,
         LogicalOr = 21,
         CallFnRoutine = 22,
         DropStackValue = 23,

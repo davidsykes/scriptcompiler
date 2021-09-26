@@ -1,0 +1,11 @@
+
+
+myScript()
+{
+	if (cycle>1 && cycle<3)
+	{
+		Print("Yes");
+	}
+
+	Print("Done");
+}

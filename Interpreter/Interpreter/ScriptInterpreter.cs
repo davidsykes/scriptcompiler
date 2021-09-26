@@ -112,6 +112,10 @@ namespace Interpreter
                     _stack.VariableEquals();
                     break;
 
+                case ScriptToken.LogicalAnd: //  20
+                    _stack.LogicalAnd();
+                    break;
+
                 case ScriptToken.LogicalOr: //  21
                     _stack.LogicalOr();
                     break;

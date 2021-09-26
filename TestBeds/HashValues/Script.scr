@@ -1,8 +1,6 @@
 
 
 
-
-
 myScript()
 {
 	local playernumber;
@@ -12,8 +10,5 @@ myScript()
 	pause;
 
 	playernumber = [sometext];
-
-	
-
 }
 

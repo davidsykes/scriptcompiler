@@ -382,6 +382,20 @@ namespace Interpreter.Tests
 
         #endregion
 
+        #region 20 LogicalAnd
+
+        [Test]
+        public void TheLogicalAndCommandCallsTheStackLogicalOrCommand()
+        {
+            _script.AddCommand(ScriptToken.LogicalAnd);
+
+            TerminateScriptAndRunScriptInterpreter();
+
+            _mockValueStack.Verify(m => m.LogicalAnd());
+        }
+
+        #endregion
+
         #region 21 LogicalOr
 
         [Test]

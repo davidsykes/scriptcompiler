@@ -104,6 +104,16 @@ namespace Interpreter
             PushValue(PopValue() == PopValue() ? 1 : 0);
         }
 
+        public void LogicalAnd()
+        {
+            if (_stack.Count < 2)
+                throw new StackOverflowException("Stack Underflow");
+
+            var a = PopValue() != 0;
+            var b = PopValue() != 0;
+            PushValue(a && b ? 1 : 0);
+        }
+
         public void LogicalOr()
         {
             if (_stack.Count < 2)

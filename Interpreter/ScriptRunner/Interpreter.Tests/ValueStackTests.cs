@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace Interpreter.Tests
 {
@@ -72,7 +71,7 @@ namespace Interpreter.Tests
             _stack.PushValue(22);
             _stack.PushValue(33);
 
-            _stack.PopValues(3).Should().BeEquivalentTo(11,22,33);
+            _stack.PopValues(3).Should().BeEquivalentTo(11, 22, 33);
         }
 
         [Test]
@@ -613,6 +612,61 @@ namespace Interpreter.Tests
             _stack.PushValue(11);
 
             Action act = () => _stack.VariableEquals();
+
+            act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
+        }
+
+        #endregion
+
+        #region 20 LogicalAnd
+
+        [Test]
+        public void TheLogicalAndCommandPopsTheTwoValuesAtTheBottomOfTheStackLogicalOrsThemAndPushesTheResult()
+        {
+            _stack.PushValue(0);
+            _stack.PushValue(0);
+            _stack.LogicalAnd();
+            _stack.PopValue().Should().Be(0);
+
+            _stack.PushValue(0);
+            _stack.PushValue(1);
+            _stack.LogicalAnd();
+            _stack.PopValue().Should().Be(0);
+
+            _stack.PushValue(2);
+            _stack.PushValue(0);
+            _stack.LogicalAnd();
+            _stack.PopValue().Should().Be(0);
+
+            _stack.PushValue(3);
+            _stack.PushValue(4);
+            _stack.LogicalAnd();
+            _stack.PopValue().Should().Be(1);
+
+            _stack.IsEmpty.Should().BeTrue();
+        }
+
+        [Test]
+        public void TheLogicalAndCommandLeavesOtherValuesOnTheStackUnchanged()
+        {
+            _stack.PushValue(12);
+            _stack.PushValue(34);
+            _stack.PushValue(56);
+            _stack.PushValue(78);
+
+            _stack.LogicalAnd();
+
+            _stack.PopValue().Should().Be(1);
+            _stack.PopValue().Should().Be(34);
+            _stack.PopValue().Should().Be(12);
+        }
+
+        [Test]
+        public void TheLogicalAndCommandThrowsAnExceptionWhenThereAreInsufficientValuesToLogicalOr()
+        {
+            _stack.PushValue(11);
+
+            Action act = () => _stack.LogicalAnd();
 
             act.Should().Throw<StackOverflowException>().WithMessage("Stack Underflow");
         }

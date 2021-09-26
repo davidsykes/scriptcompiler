@@ -16,6 +16,7 @@ namespace Interpreter
         void Negate();
         void LogicalNot();
         void VariableEquals();
+        void LogicalAnd();
         void LogicalOr();
         void Lt();
         void Lte();
