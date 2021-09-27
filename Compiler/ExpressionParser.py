@@ -48,9 +48,7 @@ class ExpressionParser:
 		while True:
 			# Expecting some kind of value here
 			token = tokenparser.GetToken()
-			print('petos', token)
 			if self.IsExpressionTerminator(token):
-				print('termin', token)
 				return token
 
 			unaryoperator = self.GetUnaryOperator(token)
@@ -63,7 +61,6 @@ class ExpressionParser:
 			if token == '(':
 				# Recursive expression
 				token = self.ParseExpressionToOperatorStack(tokenparser, script, operatorstack)
-				print('done with )')
 				if token != ')':
 					raise CompileError(''.join(["Expected ')' not '", token, "'"]), tokenparser.GetLineNumber())
 			else:
@@ -96,16 +93,12 @@ class ExpressionParser:
 
 			# Now expecting an operator or end of expression
 			token = tokenparser.GetToken()
-			print('operator', token)
 			if self.IsExpressionTerminator(token):
-				print('expression terminator', token)
 				return token
 
 			operator = self.GetOperator(token)
-			print('precedence', operator.precedence, operatorstack.GetPrecedence())
 			if operator:
 				while operator.precedence <= operatorstack.GetPrecedence():
-					print('added the operator')
 					script.AddTokenInt(operatorstack.Pop().scriptcommand)
 				operatorstack.Push(operator)
 			else:
