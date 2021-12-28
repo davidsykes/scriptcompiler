@@ -107,12 +107,7 @@ class CompileEngine:
 		elif token == 'local':
 			self.ParseLocalStatement(script)
 		elif self.variables.IsGlobalVariable(token):
-			#----- Variable assignment
-			self.RequireNextToken('=', ''.join(['Assignment to variable ', token]))
-			if self.expressionparser.ParseExpression(self.tokenparser, script) != ';':
-				raise CompileError(''.join(["Expression should be terminated by ';', found '", token, "'"]), self.tokenparser.GetLineNumber())
-			script.AddTokenInt(IC.popglobalvariable)
-			script.AddTokenString(token)
+			self.__assign_global_variable(token, script)
 		elif self.variables.IsLocalVariable(token):
 			#----- Variable assignment
 			self.RequireNextToken('=', ''.join(['Assignment to variable ', token]))
@@ -123,8 +118,16 @@ class CompileEngine:
 		elif self.variables.IsFunction(token):
 			self.ParseEngineFunction(token, script)
 		else:
-			raise CompileError(''.join(["02: Unrecognised token '", token, "'"]), self.tokenparser.GetLineNumber())
+			self.__assign_global_variable(token, script)
+			#raise CompileError(''.join(["02: Unrecognised token '", token, "'"]), self.tokenparser.GetLineNumber())
 
+	def __assign_global_variable(self, token, script):
+		#----- Variable assignment
+		self.RequireNextToken('=', ''.join(['Assignment to variable ', token]))
+		if self.expressionparser.ParseExpression(self.tokenparser, script) != ';':
+			raise CompileError(''.join(["Expression should be terminated by ';', found '", token, "'"]), self.tokenparser.GetLineNumber())
+		script.AddTokenInt(IC.popglobalvariable)
+		script.AddTokenString(token)
 
 	def ParseIfStatement(self, script):
 			# We have an if statement

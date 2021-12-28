@@ -83,13 +83,14 @@ class ExpressionParser:
 				elif self.variables.GetScriptParameter(token) != None:
 					script.AddTokenInt(IC.pushparam)
 					script.AddTokenInt(self.variables.GetScriptParameter(token))
+				elif token.isdigit():
+					value = int(token)
+					script.AddTokenInt(IC.pushintvalue)
+					script.AddTokenInt(value)
 				else:
-					try:
-						value = int(token)
-						script.AddTokenInt(IC.pushintvalue)
-						script.AddTokenInt(value)
-					except ValueError:
-						raise CompileError(''.join(["08: '",token,"' not recognised as value or variable"]), tokenparser.GetLineNumber())
+					self.variables.AddGlobalVariable(token)
+					script.AddTokenInt(IC.pushglobalvariable)
+					script.AddTokenString(token)
 
 			# Now expecting an operator or end of expression
 			token = tokenparser.GetToken()

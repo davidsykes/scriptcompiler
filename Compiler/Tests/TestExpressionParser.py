@@ -96,6 +96,19 @@ def TestHashCalculatorUsesSignedCRC32():
 											  2983461467
 											  ])
 
+def TestUnreferencedGlobalVariable():
+	ep = ExpressionParser(MockVariables(['var1','var2']))
+	script = MockScript('name')
+	ep.ParseExpression(MockTokenParser('var1 / var2 + var3'), script)
+	script.CompareScript('texprv', [IC.pushglobalvariable,
+											  'var1',
+											  IC.pushglobalvariable,
+											  'var2',
+											  IC.devide,
+											  IC.pushglobalvariable,
+											  'var3',
+											  IC.add])
+
 def TestExpressionParser():
 	TestExpressionTerminators()
 	TestUnaryOperators()
@@ -106,3 +119,4 @@ def TestExpressionParser():
 	TestFnRoutineNoParameters()
 	TestHashCalculator()
 	TestHashCalculatorUsesSignedCRC32()
+	TestUnreferencedGlobalVariable()

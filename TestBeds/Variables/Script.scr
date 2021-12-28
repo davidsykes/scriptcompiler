@@ -9,5 +9,6 @@ myScript()
 	global globalvariable;
 	Print("Player number", playernumber);
 	Print("Global variable", globalvariable);
+	Print("Previously Unreferenced Global variable", unreferencedglobalvariable);
 	pause;
 }

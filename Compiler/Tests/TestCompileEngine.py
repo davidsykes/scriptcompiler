@@ -46,52 +46,6 @@ def TestRequireNextToken():
 	except CompileError as e:
 		AssertEqual('trnt1', e.value, "Expected 'third' instead of 'second' after 'previous'")
 
-def Testob_menuStruct():
-	tp = MockTokenParser('struct ob_menu one ; struct ob_menu two ;')
-	variables = VariableEngine()
-	ce = CompileEngine(tp,variables, MockScriptEngine())
-	try:
-		ce.Process()
-	except CompileError as e:
-		AssertEqual('tms0', e.value, 'no error')
-	AssertNEqual('tms1', variables.GetVariable('one'), None)
-	AssertEqual('tms2', variables.GetVariable('one').GetIndex(), 0)
-	AssertEqual('tms3', variables.GetVariable('one').GetType(), 'ob_menu')
-	AssertNEqual('tms4', variables.GetVariable('two'), None)
-	AssertEqual('tms5', variables.GetVariable('two').GetIndex(), 1)
-	AssertEqual('tms6', variables.GetVariable('two').GetType(), 'ob_menu')
-
-def TestGobalVariable():
-	tp = MockTokenParser('Global one ; Global two ;')
-	variables = VariableEngine()
-	ce = CompileEngine(tp,variables, MockScriptEngine())
-	ce.Process()
-	AssertNEqual('tgv1', variables.GetVariable('one'), None)
-	AssertEqual('tgv2', variables.GetVariable('one').GetIndex(), 0)
-	AssertEqual('tgv3', variables.GetVariable('one').GetType(), 'Global')
-	AssertNEqual('tgv4', variables.GetVariable('two'), None)
-	AssertEqual('tgv5', variables.GetVariable('two').GetIndex(), 1)
-	AssertEqual('tgv6', variables.GetVariable('two').GetType(), 'Global')
-
-def TestConstDefinitionInvalid():
-	tp = MockTokenParser('const name = fred ;')
-	variables = VariableEngine()
-	ce = CompileEngine(tp,variables, MockScriptEngine())
-	try:
-		ce.Process()
-		AssertTrue('tcfi', False)
-	except CompileError:
-		pass
-
-def TestConstDefinitionValid():
-	tp = MockTokenParser('const name = 42 ;')
-	variables = VariableEngine()
-	ce = CompileEngine(tp,variables, MockScriptEngine())
-	ce.Process()
-	AssertNEqual('tcd1', variables.GetVariable('name'), None)
-	AssertEqual('tcd2', variables.GetVariable('name').GetIndex(), 42)
-	AssertEqual('tcd3', variables.GetVariable('name').GetType(), 'const')
-
 def TestEmptyScriptFunction():
 	tp = MockTokenParser('scriptname ( ) { }')
 	se = MockScriptEngine()
@@ -150,15 +104,36 @@ def TestLocalVariablesCanBeAssigned():
 									IC.poplocalvariable,
 									'localvar'])
 
-def TestScriptLocalVariablesDiscardedAfterScript():
-	tp = MockTokenParser('script1 ( ) { local localvar ; } script2 ( ) { localvar = 5 ; }')
-	ce = CompileEngine(tp, VariableEngine(), MockScriptEngine())
+def TestGlobalVariablesCanBeAssigned():
+	tp = MockTokenParser( 'globalvar = localvar ;')
+	ce = CompileEngine(tp, MockVariables(['globalvar'], ['localvar']), None)
+	script = MockScript('name')
+	ce.CompileSingleExecutionBlock(script)
+	script.CompareScript('testlocvar', [IC.pushlocalvariable,
+									'localvar',
+									IC.popglobalvariable,
+									'globalvar'])
 
-	try:
-		ce.Process()
-		AssertTrue('tstscrlocdis3', False)
-	except CompileError as e:
-		AssertEqual('tstscrlocdis', e.value, "02: Unrecognised token 'localvar'")
+def TestUndefinedGlobalVariablesCanBeAssigned():
+	tp = MockTokenParser( 'undefinedglobalvar = localvar ;')
+	ce = CompileEngine(tp, MockVariables(['globalvar'], ['localvar']), None)
+	script = MockScript('name')
+	ce.CompileSingleExecutionBlock(script)
+	script.CompareScript('testlocvar', [IC.pushlocalvariable,
+									'localvar',
+									IC.popglobalvariable,
+									'undefinedglobalvar'])
+
+# This test is invalid if unrecognised variables are treated as global variables
+#def TestScriptLocalVariablesDiscardedAfterScript():
+#	tp = MockTokenParser('script1 ( ) { local localvar ; } script2 ( ) { localvar = 5 ; }')
+#	ce = CompileEngine(tp, VariableEngine(), MockScriptEngine())
+#
+#	try:
+#		ce.Process()
+#		AssertTrue('tstscrlocdis3', False)
+#	except CompileError as e:
+#		AssertEqual('tstscrlocdis', e.value, "02: Unrecognised token 'localvar'")
 
 def TestScriptParameters():
 	tp = MockTokenParser('scriptname ( param ) { var = param ; }')
@@ -285,17 +260,13 @@ def TestCompileEngine():
 	TestEmptyTokenParser()
 	TestInvalidScript()
 	TestRequireNextToken()
-	#Testob_menuStruct()
-	#TestGobalVariable()
-	#TestConstDefinitionInvalid()
-	#TestConstDefinitionValid()
 	TestEmptyScriptFunction()
 	TestMissingScriptTerminator()
 	TestGlobalVariablesCanBeDeclared()
 	TestGlobalVariablesCanBeAssigned()
 	TestLocalVariablesCanBeDeclared()
 	TestLocalVariablesCanBeAssigned()
-	TestScriptLocalVariablesDiscardedAfterScript()
+	#TestScriptLocalVariablesDiscardedAfterScript()
 	TestScriptParameters()
 	TestIfStatement()
 	TestIfElseStatement()
@@ -303,3 +274,5 @@ def TestCompileEngine():
 	TestEngineFunctionInvalid()
 	TestFnRoutineDropSkipJump()
 	TestPauseStatement()
+	TestGlobalVariablesCanBeAssigned()
+	TestUndefinedGlobalVariablesCanBeAssigned()
