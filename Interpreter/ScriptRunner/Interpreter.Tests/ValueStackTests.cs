@@ -71,7 +71,7 @@ namespace Interpreter.Tests
             _stack.PushValue(22);
             _stack.PushValue(33);
 
-            _stack.PopValues(3).Should().BeEquivalentTo(11, 22, 33);
+            _stack.PopValues(3).Should().BeEquivalentTo(new[] { 11, 22, 33 });
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace Interpreter.Tests
             _stack.PushValue(22);
             _stack.PushValue(33);
 
-            _stack.PopValues(2).Should().BeEquivalentTo(22, 33);
+            _stack.PopValues(2).Should().BeEquivalentTo(new[] { 22, 33 });
             _stack.PopValue().Should().Be(11);
         }
 

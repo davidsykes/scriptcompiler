@@ -1,6 +1,5 @@
-﻿using System.Text;
-using FluentAssertions;
-using NUnit.Framework;
+﻿using FluentAssertions;
+using System.Text;
 
 namespace Interpreter.Tests
 {
