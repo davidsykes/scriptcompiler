@@ -179,7 +179,6 @@ namespace Interpreter
             _stack.PushValue(value);
         }
 
-
         void ProcessFnRoutine(IProgramCounter programCounter, IVariableManager localVariables)
         {
             var parameterCount = programCounter.GetInteger();
