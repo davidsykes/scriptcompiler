@@ -1,6 +1,4 @@
 ﻿using FluentAssertions;
-using NUnit.Framework;
-using System;
 
 namespace Interpreter.Tests
 {

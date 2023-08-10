@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Interpreter.Tests
+﻿namespace Interpreter.Tests
 {
     class MockSingleScript : IProgramCounter
     {
