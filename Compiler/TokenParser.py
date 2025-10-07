@@ -61,7 +61,7 @@ class TokenParser:
 			# 		(a|b|c)
 			self.tokenLineNumber = self.curlinenumber
 			if self.curline:
-				m = re.search('^([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+|[>=<]=?|&&?|[,{}\+-]|\|\|?|;|\(|\)|\[|\]|"[^"]*")', self.curline)
+				m = re.search(r'^([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+|[>=<]=?|&&?|[,{}\+-]|\|\|?|;|\(|\)|\[|\]|"[^"]*")', self.curline)
 				if m:
 					token = m.group(1)
 				else:
