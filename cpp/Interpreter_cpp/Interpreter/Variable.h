@@ -5,13 +5,15 @@
 
 #include <string>
 
+using std::string;
+
 namespace Script
 {
 
 class Variable
 {
 public:
-	Variable() : m_int(0){}
+	Variable() : m_int(0), m_variableIsInteger(true){}
 	Variable(int v) : m_variableIsInteger(true),m_int(v){}
 	Variable(const std::string& v):m_variableIsInteger(false),m_int(0),m_string(v){}
 

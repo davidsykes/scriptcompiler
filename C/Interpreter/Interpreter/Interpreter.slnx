@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Interpreter/Interpreter.vcxproj" Id="4ae0ee15-80cc-4dfd-a45a-5f9864befc20" />
+</Solution>
