@@ -47,7 +47,7 @@ static Arena* AllocateArena(const char* scriptData)
 
 
 	arena->code_block = script_code_block_create(scriptData);
-	arena->variable_stack = variable_stack_create();
+	arena->variable_stack = variable_stack_create(10);
 
 	return arena;
 }
@@ -68,12 +68,12 @@ int main_c(const char* scriptData)
 
 	while (1)
 	{
-		int opcode = code->fetch_int(arena->code_block);
+		int opcode = code->_vtable->fetch_int(arena->code_block);
 
 		switch (opcode)
 		{
 		case pushintvalue:
-			variable_stack->push_value(code->fetch_int(arena->code_block));
+			variable_stack->push_value(variable_stack, code->_vtable->fetch_int(arena->code_block));
 			break;
 
 		default:

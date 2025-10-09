@@ -2,7 +2,7 @@
 
 
 
-void assert(int v)
+void assert_(int v)
 {
 	if (v==0)
 	{

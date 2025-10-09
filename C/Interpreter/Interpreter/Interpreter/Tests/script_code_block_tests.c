@@ -1,5 +1,5 @@
 #include "..\script_code_bock.h"
-#include "assert.h"
+#include <assert.h>
 
 void a_code_block_can_be_created_and_destroyed()
 {
@@ -16,7 +16,7 @@ void an_integer_can_be_fetched()
 
 	ScriptCodeBlock* code = script_code_block_create(test_code);
 
-	int v = code->fetch_int(code);
+	int v = code->_vtable->fetch_int(code);
 
 	assert(v == 67305985);
 
@@ -27,11 +27,11 @@ void multiple_integers_can_be_fetched()
 {
 	int data[3] = { 42, 1234, 999 };
 
-	ScriptCodeBlock* code = script_code_block_create(&data);
+	ScriptCodeBlock* code = script_code_block_create((char*) & data);
 
-	assert(code->fetch_int(code) == 42);
-	assert(code->fetch_int(code) == 1234);
-	assert(code->fetch_int(code) == 999);
+	assert(code->_vtable->fetch_int(code) == 42);
+	assert(code->_vtable->fetch_int(code) == 1234);
+	assert(code->_vtable->fetch_int(code) == 999);
 
 	script_code_block_delete(code);
 }

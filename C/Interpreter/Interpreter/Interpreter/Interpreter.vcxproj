@@ -128,17 +128,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Main_c.c" />
+    <ClCompile Include="script_system.c" />
     <ClCompile Include="script_code_block.c" />
     <ClCompile Include="Tests\assert.c" />
+    <ClCompile Include="fatal.c" />
     <ClCompile Include="Tests\script_code_block_tests.c" />
     <ClCompile Include="Tests\tests.c" />
+    <ClCompile Include="Tests\test_rig.c" />
+    <ClCompile Include="variable_value.c" />
+    <ClCompile Include="tobemoved.c" />
     <ClCompile Include="Tests\variable_stack_tests.c" />
     <ClCompile Include="variable_stack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="script_code_bock.h" />
     <ClInclude Include="Tests\assert.h" />
+    <ClInclude Include="common_includes.h" />
+    <ClInclude Include="fatal.h" />
+    <ClInclude Include="Tests\test_rig.h" />
+    <ClInclude Include="variable_value.h" />
     <ClInclude Include="variable_stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,10 +1,16 @@
 #pragma once
-#include <stdlib.h>
+#include "common_includes.h"
+#include "variable_value.h"
 
 
 typedef struct VariableStack {
-    int (*push_value)(int value);
+    void (*push_value)(struct VariableStack* stack, VariableValue* value);
+	VariableValue*(*pop_value)(struct VariableStack* stack);
+	VariableValue** values;
+    int pointer;
+	int stack_size;
 } VariableStack;
 
-VariableStack* variable_stack_create();
-void variable_stack_delete(VariableStack*);
+void variable_stack_initialise();
+VariableStack* variable_stack_create(int stack_size);
+void variable_stack_delete(VariableStack* stack);

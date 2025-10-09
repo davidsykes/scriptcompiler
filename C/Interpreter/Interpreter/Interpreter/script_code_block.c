@@ -1,8 +1,14 @@
 #include "script_code_bock.h"
-#include <stdint.h> // Add this line to define int32_t
+#include <stdint.h>
 
+static struct ScriptCodeBlockVTable _scriptCodeBlockVTable;
 
 int fetch_int(struct ScriptCodeBlock* self);
+
+void script_code_block_initialise()
+{
+	_scriptCodeBlockVTable.fetch_int = fetch_int;
+}
 
 ScriptCodeBlock* script_code_block_create(const char* scriptData)
 {
@@ -11,9 +17,9 @@ ScriptCodeBlock* script_code_block_create(const char* scriptData)
 		return NULL;
 	}
 
+	code->_vtable = &_scriptCodeBlockVTable;
 	code->script_data = scriptData;
 	code->script_pointer = 0;
-	code->fetch_int = fetch_int;
 
 	return code;
 }

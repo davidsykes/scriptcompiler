@@ -10,7 +10,8 @@
 extern "C" {
 #endif
 int main_c(const char* scriptData);
-void run_tests();
+void run_script_interpreter_tests();
+void* script_system_initialise();
 #ifdef __cplusplus
 }
 #endif
@@ -18,7 +19,9 @@ int	ReadInt(std::ifstream& is);
 
 int main(int argc, char* argv[])
 {
-	run_tests();
+	void* script_system = script_system_initialise();
+	run_script_interpreter_tests();
+
 
 	try
 	{

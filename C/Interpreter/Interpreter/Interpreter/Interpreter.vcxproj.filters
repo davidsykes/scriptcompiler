@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main_c.c">
+    <ClCompile Include="script_system.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
@@ -39,6 +39,18 @@
     <ClCompile Include="Tests\assert.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tests\test_rig.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tobemoved.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="variable_value.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fatal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="script_code_bock.h">
@@ -48,6 +60,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tests\assert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\test_rig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="variable_value.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common_includes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fatal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
