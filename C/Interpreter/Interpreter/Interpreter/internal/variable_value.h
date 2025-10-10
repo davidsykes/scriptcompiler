@@ -1,5 +1,4 @@
-#include "common_includes.h"
-
+#pragma once
 
 
 typedef struct VariableValueVTable {

@@ -1,5 +1,5 @@
 #include "test_rig.h"
-#include "..\variable_stack.h"
+#include "..\internal/variable_stack.h"
 #include <string.h>
 #include "..\internal/fatal.h"
 

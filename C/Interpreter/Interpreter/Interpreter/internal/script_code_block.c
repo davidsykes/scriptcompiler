@@ -1,4 +1,4 @@
-#include "internal/xalloc.h"
+#include "xalloc.h"
 #include "script_code_bock.h"
 #include <stdint.h>
 

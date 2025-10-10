@@ -21,10 +21,10 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="script_code_block.c">
+    <ClCompile Include="internal\script_code_block.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="variable_stack.c">
+    <ClCompile Include="internal\variable_stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Tests\tests.c">
@@ -45,24 +45,27 @@
     <ClCompile Include="tobemoved.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="variable_value.c">
+    <ClCompile Include="internal\variable_value.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="internal\fatal.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="script_interpreter.c">
+    <ClCompile Include="internal\script_interpreter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="script_system.h">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="internal\script_instance.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="script_code_bock.h">
+    <ClInclude Include="internal\script_code_bock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="variable_stack.h">
+    <ClInclude Include="internal\variable_stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tests\assert.h">
@@ -71,19 +74,19 @@
     <ClInclude Include="Tests\test_rig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="variable_value.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="common_includes.h">
+    <ClInclude Include="internal\variable_value.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="internal\fatal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="script_interpreter.h">
+    <ClInclude Include="internal\script_interpreter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="internal\xalloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="internal\script_instance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,7 @@
+#include <stdlib.h>
+#include "xalloc.h"
 #include "variable_stack.h"
-#include "internal/fatal.h"
+#include "fatal.h"
 
 void variable_stack_initialise()
 {
@@ -30,12 +32,12 @@ static VariableValue* pop_value(VariableStack* stack)
 
 VariableStack* variable_stack_create(int stack_size)
 {
-	VariableStack* stack = (VariableStack*)malloc(sizeof(VariableStack));
+	VariableStack* stack = xmalloc(sizeof(*stack));
 	if (stack)
 	{
 		stack->push_value = push_value;
 		stack->pop_value = pop_value;
-		stack->values = (VariableValue**)malloc(stack_size * sizeof(VariableValue*));
+		stack->values = xmalloc(stack_size * sizeof(VariableValue*));
 		stack->pointer = 0;
 		stack->stack_size = stack_size;
 	}

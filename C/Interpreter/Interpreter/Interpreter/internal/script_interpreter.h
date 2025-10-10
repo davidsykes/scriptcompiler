@@ -1,4 +1,4 @@
-#include "common_includes.h"
+#pragma once
 
 
 
@@ -9,7 +9,7 @@ typedef struct ScriptInterpreterVTable {
 
 typedef struct ScriptInterpreter {
 	struct ScriptInterpreterVTable* vtable;
-	int value;
+	int stack_size;
 } ScriptInterpreter;
 
 

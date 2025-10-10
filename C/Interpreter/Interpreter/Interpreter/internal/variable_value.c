@@ -1,14 +1,12 @@
+#include "xalloc.h"
 #include "variable_value.h"
 
 
 
 VariableValue* variable_value_create(int _value)
 {
-	VariableValue* value = (VariableValue*)malloc(sizeof(VariableValue));
-	if (value)
-	{
-		value->value = _value;
-	}
+	VariableValue* value = xmalloc(sizeof(*value));
+	value->value = _value;
 	return value;
 }
 

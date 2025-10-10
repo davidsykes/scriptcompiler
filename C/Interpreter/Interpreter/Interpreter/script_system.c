@@ -1,9 +1,9 @@
 #include <assert.h>
 #include "internal/xalloc.h"
 #include "script_system.h"
-#include "variable_stack.h"
-#include "script_code_bock.h"
-#include "script_interpreter.h"
+#include "internal/variable_stack.h"
+#include "internal/script_code_bock.h"
+#include "internal/script_interpreter.h"
 
 
 typedef struct ScriptSystemImp {
@@ -25,9 +25,7 @@ int interpret(struct ScriptSystem* script_system, const char* script)
 //	return m;
 //}
 
-ScriptSystem* script_system_initialise(
-	int stack_size
-)
+ScriptSystem* script_system_initialise(int stack_size)
 {
 	variable_stack_initialise();
 	script_code_block_initialise();

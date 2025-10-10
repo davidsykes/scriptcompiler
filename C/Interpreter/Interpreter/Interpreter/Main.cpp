@@ -13,7 +13,6 @@ extern "C" {
 #endif
 int main_c(const char* scriptData);
 void run_script_interpreter_tests();
-ScriptSystem* script_system_initialise();
 #ifdef __cplusplus
 }
 #endif
