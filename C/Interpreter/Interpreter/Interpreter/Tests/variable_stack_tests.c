@@ -1,7 +1,7 @@
 #include "test_rig.h"
 #include "..\variable_stack.h"
 #include <string.h>
-#include "..\fatal.h"
+#include "..\internal/fatal.h"
 
 typedef struct VariableStackTestsContext {
 	VariableStack* stack;
@@ -59,7 +59,7 @@ void pushing_over_the_top_generates_an_error(void* _context)
 
 void* set_up()
 {
-	VariableStackTestsContext* context = (VariableStackTestsContext*)malloc(sizeof(*context));
+	VariableStackTestsContext* context = malloc(sizeof(*context));
 	if (!context) abort();
 	context->stack = variable_stack_create(10);
 	context->value1 = variable_value_create(42);

@@ -1,5 +1,5 @@
 #include "variable_stack.h"
-#include "fatal.h"
+#include "internal/fatal.h"
 
 void variable_stack_initialise()
 {
@@ -17,7 +17,7 @@ static void push_value(VariableStack* stack, VariableValue* value)
 	++stack->pointer;
 }
 
-static VariableStack* pop_value(VariableStack* stack)
+static VariableValue* pop_value(VariableStack* stack)
 {
 	if (stack->pointer <= 0)
 	{

@@ -48,7 +48,7 @@
     <ClCompile Include="variable_value.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fatal.c">
+    <ClCompile Include="internal\fatal.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="script_interpreter.c">
@@ -77,10 +77,13 @@
     <ClInclude Include="common_includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fatal.h">
+    <ClInclude Include="internal\fatal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="script_interpreter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="internal\xalloc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

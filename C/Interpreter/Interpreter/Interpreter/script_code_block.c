@@ -1,3 +1,4 @@
+#include "internal/xalloc.h"
 #include "script_code_bock.h"
 #include <stdint.h>
 
@@ -12,10 +13,7 @@ void script_code_block_initialise()
 
 ScriptCodeBlock* script_code_block_create(const char* scriptData)
 {
-	ScriptCodeBlock* code = (ScriptCodeBlock*)malloc(sizeof(ScriptCodeBlock));
-	if (code == NULL) {
-		return NULL;
-	}
+	ScriptCodeBlock* code = xmalloc(sizeof(*code));
 
 	code->_vtable = &_scriptCodeBlockVTable;
 	code->script_data = scriptData;

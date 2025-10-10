@@ -1,20 +1,20 @@
+#include "internal/xalloc.h"
 #include "script_interpreter.h"
 
+static int interpret(struct ScriptInterpreter* interpreter, const char* script)
+{
 
+}
 
-//static const ScriptInterpreterVTable _scriptCodeBlockVTable = {
-//	.say_hello = greet,
-//	.add = sum
-//};
+static const ScriptInterpreterVTable _scriptCodeBlockVTable = {
+	.interpret = &interpret
+};
 
 ScriptInterpreter* script_interpreter_create(int stack_size)
 {
-	ScriptInterpreter* si = (ScriptInterpreter*)malloc(sizeof(ScriptInterpreter));
-	if (si == NULL) {
-		return NULL;
-	}
+	ScriptInterpreter* si = xmalloc(sizeof(*si));
 
-	//si->_vtable = &_scriptCodeBlockVTable;
+	si->vtable = &_scriptCodeBlockVTable;
 	//si->script_data = scriptData;
 	//si->script_pointer = 0;
 

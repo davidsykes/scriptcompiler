@@ -133,7 +133,7 @@
     <ClCompile Include="script_code_block.c" />
     <ClCompile Include="script_system.h" />
     <ClCompile Include="Tests\assert.c" />
-    <ClCompile Include="fatal.c" />
+    <ClCompile Include="internal\fatal.c" />
     <ClCompile Include="Tests\script_code_block_tests.c" />
     <ClCompile Include="Tests\tests.c" />
     <ClCompile Include="Tests\test_rig.c" />
@@ -143,11 +143,12 @@
     <ClCompile Include="variable_stack.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="internal\xalloc.h" />
     <ClInclude Include="script_code_bock.h" />
     <ClInclude Include="script_interpreter.h" />
     <ClInclude Include="Tests\assert.h" />
     <ClInclude Include="common_includes.h" />
-    <ClInclude Include="fatal.h" />
+    <ClInclude Include="internal\fatal.h" />
     <ClInclude Include="Tests\test_rig.h" />
     <ClInclude Include="variable_value.h" />
     <ClInclude Include="variable_stack.h" />

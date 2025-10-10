@@ -14,4 +14,4 @@ typedef struct VariableValue {
 
 
 VariableValue* variable_value_create(int value);
-void variable_stack_delete(VariableValue*);
+void variable_value_delete(VariableValue*);

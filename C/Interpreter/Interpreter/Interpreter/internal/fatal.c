@@ -1,6 +1,5 @@
-#include "common_includes.h"
-#include "fatal.h"
 #include <stdio.h>
+#include "fatal.h"
 
 void fatal(const char* message)
 {
