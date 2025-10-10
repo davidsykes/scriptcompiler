@@ -128,8 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="script_interpreter.c" />
     <ClCompile Include="script_system.c" />
     <ClCompile Include="script_code_block.c" />
+    <ClCompile Include="script_system.h" />
     <ClCompile Include="Tests\assert.c" />
     <ClCompile Include="fatal.c" />
     <ClCompile Include="Tests\script_code_block_tests.c" />
@@ -142,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="script_code_bock.h" />
+    <ClInclude Include="script_interpreter.h" />
     <ClInclude Include="Tests\assert.h" />
     <ClInclude Include="common_includes.h" />
     <ClInclude Include="fatal.h" />

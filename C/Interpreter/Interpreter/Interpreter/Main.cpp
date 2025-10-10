@@ -6,12 +6,14 @@
 #include <iostream>
 #include <memory>
 
+#include "script_system.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 int main_c(const char* scriptData);
 void run_script_interpreter_tests();
-void* script_system_initialise();
+ScriptSystem* script_system_initialise();
 #ifdef __cplusplus
 }
 #endif
@@ -19,7 +21,7 @@ int	ReadInt(std::ifstream& is);
 
 int main(int argc, char* argv[])
 {
-	void* script_system = script_system_initialise();
+	ScriptSystem* script_system = script_system_initialise();
 	run_script_interpreter_tests();
 
 
@@ -55,7 +57,8 @@ int main(int argc, char* argv[])
 
 			if (scriptName == scriptToRun)
 			{
-				int result = main_c(scriptData.get());
+				int result = script_system
+					->interpret(script_system, scriptData.get());
 				if (result != 0)
 				{
 					std::cerr << "Script returned error code " << result << std::endl;

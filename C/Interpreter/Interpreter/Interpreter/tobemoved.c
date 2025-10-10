@@ -2,7 +2,7 @@
 // One more time, for the kids!
 
 #include <stdint.h>
-#include <stdlib.h> // Add this line to fix 'malloc' undefined error
+#include <stdlib.h>
 #include "script_code_bock.h"
 #include "variable_stack.h"
 
