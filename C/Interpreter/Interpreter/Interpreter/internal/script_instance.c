@@ -1,15 +1,6 @@
 #include "xalloc.h"
 #include "script_instance.h"
-//
-//static struct ScriptCodeBlockVTable _scriptCodeBlockVTable;
-//
-//int fetch_int(struct ScriptCodeBlock* self);
-//
-//void script_code_block_initialise()
-//{
-//	_scriptCodeBlockVTable.fetch_int = fetch_int;
-//}
-//
+
 ScriptInstance* script_instance_create(const char* scriptData, int stack_size)
 {
 	ScriptInstance* i = xmalloc(sizeof(*i));

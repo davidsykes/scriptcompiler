@@ -1,5 +1,5 @@
 #pragma once
-#include "variable_value.h"
+#include "../public/variable_value.h"
 
 
 typedef struct VariableStack {

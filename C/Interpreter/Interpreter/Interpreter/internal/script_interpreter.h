@@ -1,5 +1,5 @@
 #pragma once
-
+#include "../public/external_system.h"
 
 
 typedef struct ScriptInterpreterVTable {
@@ -8,10 +8,11 @@ typedef struct ScriptInterpreterVTable {
 
 
 typedef struct ScriptInterpreter {
-	struct ScriptInterpreterVTable* vtable;
+	const ScriptInterpreterVTable* vtable;
 	int stack_size;
+	ExternalSystem* external_system;
 } ScriptInterpreter;
 
 
-ScriptInterpreter* script_interpreter_create(int stack_size);
+ScriptInterpreter* script_interpreter_create(int stack_size, ExternalSystem* external_system);
 void script_interpreter_delete(ScriptInterpreter*);

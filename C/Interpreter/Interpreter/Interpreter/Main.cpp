@@ -20,7 +20,7 @@ int	ReadInt(std::ifstream& is);
 
 int main(int argc, char* argv[])
 {
-	ScriptSystem* script_system = script_system_initialise();
+	ScriptSystem* script_system = script_system_initialise(WATEV);
 	run_script_interpreter_tests();
 
 

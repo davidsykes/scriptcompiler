@@ -10,7 +10,9 @@
 	pushparam = 2
 pushstring = 3
 pushvariable = 4
-popvariable = 5
+*/
+#define popvariable 5
+/*
 jfalse = 6
 jtrue = 7
 jall = 8
@@ -50,7 +52,15 @@ static int interpret(struct ScriptInterpreter* interpreter, const char* script)
 			VariableValue* value = variable_value_create(intvalue);
 			variable_stack->push_value(variable_stack, value);
 		}
-			break;
+		break;
+
+		case popvariable:
+		{
+			const char* varname = (const char*)code->_vtable->fetch_string(code);
+			VariableValue* value = variable_stack->pop_value(variable_stack);
+			interpreter->external_system->set_global_variable(varname, value->value);
+		}
+		break;
 
 		default:
 			script_instance_delete(inst);
@@ -63,12 +73,13 @@ static const ScriptInterpreterVTable _scriptCodeBlockVTable = {
 	.interpret = &interpret
 };
 
-ScriptInterpreter* script_interpreter_create(int stack_size)
+ScriptInterpreter* script_interpreter_create(int stack_size, ExternalSystem* external_system)
 {
 	ScriptInterpreter* si = xmalloc(sizeof(*si));
 
 	si->vtable = &_scriptCodeBlockVTable;
 	si->stack_size = stack_size;
+	si->external_system = external_system;
 
 	return si;
 }

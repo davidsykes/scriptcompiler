@@ -2,14 +2,24 @@
 #include "script_code_bock.h"
 #include <stdint.h>
 
-static struct ScriptCodeBlockVTable _scriptCodeBlockVTable;
-
-int fetch_int(struct ScriptCodeBlock* self);
-
-void script_code_block_initialise()
+static int fetch_int(struct ScriptCodeBlock* code)
 {
-	_scriptCodeBlockVTable.fetch_int = fetch_int;
+	int v = *((int32_t*)(code->script_data + code->script_pointer));
+	code->script_pointer += sizeof(int32_t);
+	return v;
 }
+
+static const char* fetch_string(struct ScriptCodeBlock* code)
+{
+	int v = *((int32_t*)(code->script_data + code->script_pointer));
+	code->script_pointer += sizeof(int32_t);
+	return "v";
+}
+
+static const ScriptCodeBlockVTable _scriptCodeBlockVTable = {
+	.fetch_int = fetch_int,
+	.fetch_string = fetch_string
+};
 
 ScriptCodeBlock* script_code_block_create(const char* scriptData)
 {
@@ -25,11 +35,4 @@ ScriptCodeBlock* script_code_block_create(const char* scriptData)
 void script_code_block_delete(ScriptCodeBlock* code)
 {
 	free(code);
-}
-
-int fetch_int(struct ScriptCodeBlock* code)
-{
-	int v = *((int32_t*)(code->script_data + code->script_pointer));
-	code->script_pointer += sizeof(int32_t);
-	return v;
 }

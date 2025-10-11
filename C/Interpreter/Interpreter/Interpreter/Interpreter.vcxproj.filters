@@ -42,10 +42,7 @@
     <ClCompile Include="Tests\test_rig.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tobemoved.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="internal\variable_value.c">
+    <ClCompile Include="public\variable_value.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="internal\fatal.c">
@@ -74,7 +71,7 @@
     <ClInclude Include="Tests\test_rig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="internal\variable_value.h">
+    <ClInclude Include="public\variable_value.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="internal\fatal.h">
@@ -87,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="internal\script_instance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\external_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

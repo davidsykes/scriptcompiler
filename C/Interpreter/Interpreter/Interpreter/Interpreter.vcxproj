@@ -138,12 +138,12 @@
     <ClCompile Include="Tests\script_code_block_tests.c" />
     <ClCompile Include="Tests\tests.c" />
     <ClCompile Include="Tests\test_rig.c" />
-    <ClCompile Include="internal\variable_value.c" />
-    <ClCompile Include="tobemoved.c" />
+    <ClCompile Include="public\variable_value.c" />
     <ClCompile Include="Tests\variable_stack_tests.c" />
     <ClCompile Include="internal\variable_stack.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="public\external_system.h" />
     <ClInclude Include="internal\script_instance.h" />
     <ClInclude Include="internal\xalloc.h" />
     <ClInclude Include="internal\script_code_bock.h" />
@@ -151,7 +151,7 @@
     <ClInclude Include="Tests\assert.h" />
     <ClInclude Include="internal\fatal.h" />
     <ClInclude Include="Tests\test_rig.h" />
-    <ClInclude Include="internal\variable_value.h" />
+    <ClInclude Include="public\variable_value.h" />
     <ClInclude Include="internal\variable_stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

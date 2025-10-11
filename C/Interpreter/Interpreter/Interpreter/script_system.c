@@ -15,7 +15,8 @@ typedef struct ScriptSystemImp {
 int interpret(struct ScriptSystem* script_system, const char* script)
 {
 	ScriptSystemImp* ssimp = script_system->system;
-	ssimp->script_interpreter->vtable->interpret(ssimp->script_interpreter, script);
+	int r = ssimp->script_interpreter->vtable->interpret(ssimp->script_interpreter, script);
+	return r;
 }
 
 //static void* simalloc(size_t size)
@@ -25,16 +26,15 @@ int interpret(struct ScriptSystem* script_system, const char* script)
 //	return m;
 //}
 
-ScriptSystem* script_system_initialise(int stack_size)
+ScriptSystem* script_system_initialise(int stack_size, ExternalSystem* external_system)
 {
 	variable_stack_initialise();
-	script_code_block_initialise();
 
 	ScriptSystem* ss = xmalloc(sizeof(*ss));
 	ss->interpret = &interpret;
 
 	ScriptSystemImp* ssimp = xmalloc(sizeof(*ssimp));
-	ssimp->script_interpreter = script_interpreter_create(stack_size);
+	ssimp->script_interpreter = script_interpreter_create(stack_size, external_system);
 
 	ss->system = ssimp;
 
