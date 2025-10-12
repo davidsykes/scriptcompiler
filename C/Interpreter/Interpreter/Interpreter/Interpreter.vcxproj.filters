@@ -57,6 +57,9 @@
     <ClCompile Include="internal\script_instance.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="public\external_system.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="internal\script_code_bock.h">

@@ -31,7 +31,7 @@ static void values_can_be_pushed_and_popped(void* _context)
 	assert(stack->pop_value(stack) == context->value1);
 }
 
-void popping_off_the_bottom_generates_an_error(void* _context)
+static void popping_off_the_bottom_generates_an_error(void* _context)
 {
 	VariableStackTestsContext* context = _context;
 	VariableStack* stack = context->stack;
@@ -44,10 +44,11 @@ void popping_off_the_bottom_generates_an_error(void* _context)
 	assert(strcmp(_error_message, "Variable stack underflow") == 0);
 }
 
-void pushing_over_the_top_generates_an_error(void* _context)
+static void pushing_over_the_top_generates_an_error(void* _context)
 {
 	VariableStackTestsContext* context = _context;
 	VariableStack* stack = context->stack;
+	fatal_fn = mock_fatal;
 
 	for (int i = 0 ; i < 11 ; ++i)
 	{
@@ -77,6 +78,7 @@ void tear_down(void* _context)
 	variable_value_delete(context->value2);
 	variable_value_delete(context->value3);
 	free(_context);
+	fatal_fn = 0;
 }
 
 void run_variable_stack_tests()

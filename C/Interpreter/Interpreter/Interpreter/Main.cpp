@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "script_system.h"
+#include "public/external_system.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,7 +21,12 @@ int	ReadInt(std::ifstream& is);
 
 int main(int argc, char* argv[])
 {
-	ScriptSystem* script_system = script_system_initialise(WATEV);
+	ExternalSystem* external_system = external_system_create();
+
+	ScriptSystem* script_system = script_system_initialise(
+		10,
+		external_system
+	);
 	run_script_interpreter_tests();
 
 

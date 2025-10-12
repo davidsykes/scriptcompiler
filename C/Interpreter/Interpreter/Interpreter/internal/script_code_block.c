@@ -11,9 +11,9 @@ static int fetch_int(struct ScriptCodeBlock* code)
 
 static const char* fetch_string(struct ScriptCodeBlock* code)
 {
-	int v = *((int32_t*)(code->script_data + code->script_pointer));
-	code->script_pointer += sizeof(int32_t);
-	return "v";
+	const char* s = code->script_data + code->script_pointer;
+	code->script_pointer += strlen(s) + 1;
+	return s;
 }
 
 static const ScriptCodeBlockVTable _scriptCodeBlockVTable = {

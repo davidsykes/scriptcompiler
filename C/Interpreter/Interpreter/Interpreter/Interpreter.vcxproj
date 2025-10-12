@@ -130,6 +130,7 @@
     <ClCompile Include="internal\script_instance.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="internal\script_interpreter.c" />
+    <ClCompile Include="public\external_system.c" />
     <ClCompile Include="script_system.c" />
     <ClCompile Include="internal\script_code_block.c" />
     <ClCompile Include="script_system.h" />

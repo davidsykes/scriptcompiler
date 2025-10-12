@@ -19,13 +19,6 @@ int interpret(struct ScriptSystem* script_system, const char* script)
 	return r;
 }
 
-//static void* simalloc(size_t size)
-//{
-//	void* m = malloc(size);
-//	if (!m) fatal("Memory allocation error.");
-//	return m;
-//}
-
 ScriptSystem* script_system_initialise(int stack_size, ExternalSystem* external_system)
 {
 	variable_stack_initialise();
