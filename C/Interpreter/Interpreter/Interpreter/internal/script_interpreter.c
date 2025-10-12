@@ -33,6 +33,7 @@ callfnroutine = 22
 dropstackvalue = 23
 endscript = 24
 */
+#define POP_LOCAL_VARIABLE	28
 
 static int interpret(struct ScriptInterpreter* interpreter, const char* script)
 {
@@ -59,6 +60,14 @@ static int interpret(struct ScriptInterpreter* interpreter, const char* script)
 			const char* varname = (const char*)code->_vtable->fetch_string(code);
 			VariableValue* value = variable_stack->pop_value(variable_stack);
 			interpreter->external_system->set_global_variable(varname, value->value);
+		}
+		break;
+
+		case POP_LOCAL_VARIABLE:
+		{
+			const char* varname = (const char*)code->_vtable->fetch_string(code);
+			VariableValue* value = variable_stack->pop_value(variable_stack);
+			interpreter->external_system->set_local_variable(varname, value->value);
 		}
 		break;
 

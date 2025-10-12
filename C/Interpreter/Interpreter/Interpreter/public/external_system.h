@@ -3,7 +3,7 @@
 
 typedef struct ExternalSystem {
 	void (*set_global_variable)(const char* name, int value);
-	void* system;
+	void (*set_local_variable)(const char* name, int value);
 } ExternalSystem;
 
 #ifdef __cplusplus
