@@ -1,9 +1,10 @@
 #pragma once
 #include "../public/external_system.h"
+#include "../public/script_instance.h"
 
 
 typedef struct ScriptInterpreterVTable {
-	int (*interpret)(struct ScriptInterpreter* interpreter, const char *script);
+	int (*interpret)(struct ScriptInterpreter* interpreter, ScriptInstance* script);
 } ScriptInterpreterVTable;
 
 

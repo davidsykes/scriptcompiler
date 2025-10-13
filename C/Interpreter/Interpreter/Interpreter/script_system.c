@@ -2,7 +2,6 @@
 #include "internal/xalloc.h"
 #include "script_system.h"
 #include "internal/variable_stack.h"
-#include "internal/script_code_bock.h"
 #include "internal/script_interpreter.h"
 
 
@@ -12,17 +11,16 @@ typedef struct ScriptSystemImp {
 
 
 
-int interpret(struct ScriptSystem* script_system, const char* script)
+static int interpret(struct ScriptSystem* script_system, ScriptInstance* script)
 {
 	ScriptSystemImp* ssimp = script_system->system;
-	int r = ssimp->script_interpreter->vtable->interpret(ssimp->script_interpreter, script);
+	int r = ssimp->script_interpreter->vtable->interpret(
+		ssimp->script_interpreter, script);
 	return r;
 }
 
 ScriptSystem* script_system_initialise(int stack_size, ExternalSystem* external_system)
 {
-	variable_stack_initialise();
-
 	ScriptSystem* ss = xmalloc(sizeof(*ss));
 	ss->interpret = &interpret;
 

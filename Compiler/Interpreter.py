@@ -62,6 +62,6 @@ class Dissassembler(object):
 		self.codes[IC.dropstackvalue]		= ['dropstackvalue', False]
 		self.codes[IC.endscript]			= ['endscript', False]
 		self.codes[IC.dropskippausenonzero]	= ['dropskippausenonzero', True]
-		self.codes[IC.pause]				= ['dropskippausenonzero', False]
+		self.codes[IC.pause]				= ['pause', False]
 		self.codes[IC.pushlocalvariable]	= ['pushlocalvariable', True]
 		self.codes[IC.poplocalvariable]		= ['poplocalvariable', True]

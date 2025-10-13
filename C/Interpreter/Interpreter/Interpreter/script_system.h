@@ -1,8 +1,9 @@
 #pragma once
 #include "public/external_system.h"
+#include "public/script_instance.h"
 
 typedef struct ScriptSystem {
-	int (*interpret)(struct ScriptSystem* script_system, const char* script);
+	int (*interpret)(struct ScriptSystem* script_system, ScriptInstance* script);
 	void* system;
 } ScriptSystem;
 

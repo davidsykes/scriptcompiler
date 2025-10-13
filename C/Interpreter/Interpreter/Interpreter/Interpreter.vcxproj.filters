@@ -21,7 +21,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="internal\script_code_block.c">
+    <ClCompile Include="internal\script_code_navigator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="internal\variable_stack.c">
@@ -30,7 +30,7 @@
     <ClCompile Include="Tests\tests.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tests\script_code_block_tests.c">
+    <ClCompile Include="Tests\script_code_navigator_tests.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Tests\variable_stack_tests.c">
@@ -54,15 +54,18 @@
     <ClCompile Include="script_system.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="internal\script_instance.c">
+    <ClCompile Include="public\external_system.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="public\external_system.c">
+    <ClCompile Include="public\script_code.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="public\script_instance.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="internal\script_code_bock.h">
+    <ClInclude Include="internal\script_code_navigator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="internal\variable_stack.h">
@@ -86,10 +89,13 @@
     <ClInclude Include="internal\xalloc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="internal\script_instance.h">
+    <ClInclude Include="public\external_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\external_system.h">
+    <ClInclude Include="public\script_code.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\script_instance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

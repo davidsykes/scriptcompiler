@@ -127,16 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="internal\script_instance.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="internal\script_interpreter.c" />
     <ClCompile Include="public\external_system.c" />
+    <ClCompile Include="public\script_code.c" />
+    <ClCompile Include="public\script_instance.c" />
     <ClCompile Include="script_system.c" />
-    <ClCompile Include="internal\script_code_block.c" />
+    <ClCompile Include="internal\script_code_navigator.c" />
     <ClCompile Include="script_system.h" />
     <ClCompile Include="Tests\assert.c" />
     <ClCompile Include="internal\fatal.c" />
-    <ClCompile Include="Tests\script_code_block_tests.c" />
+    <ClCompile Include="Tests\script_code_navigator_tests.c" />
     <ClCompile Include="Tests\tests.c" />
     <ClCompile Include="Tests\test_rig.c" />
     <ClCompile Include="public\variable_value.c" />
@@ -145,10 +146,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="public\external_system.h" />
-    <ClInclude Include="internal\script_instance.h" />
     <ClInclude Include="internal\xalloc.h" />
-    <ClInclude Include="internal\script_code_bock.h" />
+    <ClInclude Include="internal\script_code_navigator.h" />
     <ClInclude Include="internal\script_interpreter.h" />
+    <ClInclude Include="public\script_code.h" />
+    <ClInclude Include="public\script_instance.h" />
     <ClInclude Include="Tests\assert.h" />
     <ClInclude Include="internal\fatal.h" />
     <ClInclude Include="Tests\test_rig.h" />

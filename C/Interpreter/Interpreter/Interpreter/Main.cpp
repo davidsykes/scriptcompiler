@@ -8,6 +8,8 @@
 
 #include "script_system.h"
 #include "public/external_system.h"
+#include "public/script_code.h"
+#include "public/script_instance.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -62,8 +64,12 @@ int main(int argc, char* argv[])
 
 			if (scriptName == scriptToRun)
 			{
+				const char* script = scriptData.get();
+				ScriptCode* code = script_code_create(script);
+				ScriptInstance* inst = script_instance_create(code);
+
 				int result = script_system
-					->interpret(script_system, scriptData.get());
+					->interpret(script_system, inst);
 				if (result != 0)
 				{
 					std::cerr << "Script returned error code " << result << std::endl;

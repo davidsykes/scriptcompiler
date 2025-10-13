@@ -7,9 +7,7 @@ typedef struct VariableStack {
 	VariableValue*(*pop_value)(struct VariableStack* stack);
 	VariableValue** values;
     int pointer;
-	int stack_size;
 } VariableStack;
 
-void variable_stack_initialise();
-VariableStack* variable_stack_create(int stack_size);
+VariableStack* variable_stack_create();
 void variable_stack_delete(VariableStack* stack);

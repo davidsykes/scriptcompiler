@@ -62,7 +62,7 @@ void* set_up()
 {
 	VariableStackTestsContext* context = malloc(sizeof(*context));
 	if (!context) abort();
-	context->stack = variable_stack_create(10);
+	context->stack = variable_stack_create();
 	context->value1 = variable_value_create(42);
 	context->value2 = variable_value_create(1234);
 	context->value3 = variable_value_create(99);

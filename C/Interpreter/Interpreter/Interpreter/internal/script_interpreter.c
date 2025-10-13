@@ -1,6 +1,6 @@
 #include "xalloc.h"
 #include "script_interpreter.h"
-#include "script_instance.h"
+#include "../public/script_instance.h"
 
 
 #define ERR_INVALID_OPCODE 1
@@ -33,23 +33,23 @@ callfnroutine = 22
 dropstackvalue = 23
 endscript = 24
 */
+#define PAUSE				26
 #define POP_LOCAL_VARIABLE	28
 
-static int interpret(struct ScriptInterpreter* interpreter, const char* script)
+static int interpret(struct ScriptInterpreter* interpreter, ScriptInstance* script)
 {
-	ScriptInstance* inst = script_instance_create(script, interpreter->stack_size);
-	ScriptCodeBlock* code = inst->code_block;
-	VariableStack* variable_stack = inst->variable_stack;
+	ScriptCodeNavigator* code = script->script;
+	VariableStack* variable_stack = script->variable_stack;
 
 	while (1)
 	{
-		int opcode = code->_vtable->fetch_int(code);
+		int opcode = code->fn->fetch_int(code);
 
 		switch (opcode)
 		{
 		case pushintvalue:
 		{
-			int intvalue = code->_vtable->fetch_int(code);
+			int intvalue = code->fn->fetch_int(code);
 			VariableValue* value = variable_value_create(intvalue);
 			variable_stack->push_value(variable_stack, value);
 		}
@@ -57,29 +57,32 @@ static int interpret(struct ScriptInterpreter* interpreter, const char* script)
 
 		case popvariable:
 		{
-			const char* varname = (const char*)code->_vtable->fetch_string(code);
+			const char* varname = (const char*)code->fn->fetch_string(code);
 			VariableValue* value = variable_stack->pop_value(variable_stack);
 			interpreter->external_system->set_global_variable(varname, value->value);
 		}
 		break;
 
+		case PAUSE:
+			return 0;
+			break;
+
 		case POP_LOCAL_VARIABLE:
 		{
-			const char* varname = (const char*)code->_vtable->fetch_string(code);
+			const char* varname = (const char*)code->fn->fetch_string(code);
 			VariableValue* value = variable_stack->pop_value(variable_stack);
 			interpreter->external_system->set_local_variable(varname, value->value);
 		}
 		break;
 
 		default:
-			script_instance_delete(inst);
 			fatal("Invalid opcode");
 			return ERR_INVALID_OPCODE;
 		}
 	}
 }
 
-static const ScriptInterpreterVTable _scriptCodeBlockVTable = {
+static const ScriptInterpreterVTable _scriptCodeBlockFnTable = {
 	.interpret = &interpret
 };
 
@@ -87,7 +90,7 @@ ScriptInterpreter* script_interpreter_create(int stack_size, ExternalSystem* ext
 {
 	ScriptInterpreter* si = xmalloc(sizeof(*si));
 
-	si->vtable = &_scriptCodeBlockVTable;
+	si->vtable = &_scriptCodeBlockFnTable;
 	si->stack_size = stack_size;
 	si->external_system = external_system;
 

@@ -1,0 +1,15 @@
+
+1   push int value
+    Take the following integer value and push it on to the stack
+
+5   pop variable
+    take the following string value as the name of a global variable
+    pop the last value of the stack and call the set global variable function
+
+26  pause
+    end the script with a return value of false
+
+28  pop local variable
+    take the following string value as the name of a local variable
+    pop the last value of the stack and call the set local variable function
+
