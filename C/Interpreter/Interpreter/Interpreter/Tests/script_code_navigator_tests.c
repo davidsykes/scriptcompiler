@@ -17,7 +17,7 @@ static void an_integer_can_be_fetched()
 
 	ScriptCodeNavigator* code = script_code_navigator_create(test_code);
 
-	int v = code->fn->fetch_int(code);
+	int v = scn_fetch_int(code);
 
 	assert(v == 67305985);
 
@@ -30,9 +30,9 @@ static void multiple_integers_can_be_fetched()
 
 	ScriptCodeNavigator* code = script_code_navigator_create((char*)&data);
 
-	assert(code->fn->fetch_int(code) == 42);
-	assert(code->fn->fetch_int(code) == 1234);
-	assert(code->fn->fetch_int(code) == 999);
+	assert(scn_fetch_int(code) == 42);
+	assert(scn_fetch_int(code) == 1234);
+	assert(scn_fetch_int(code) == 999);
 
 	script_code_navigator_delete(code);
 }
@@ -43,9 +43,9 @@ static void multiple_strings_can_be_fetched()
 
 	ScriptCodeNavigator* code = script_code_navigator_create(test_code);
 
-	assert(strcmp(code->fn->fetch_string(code), "string1") == 0);
-	assert(strcmp(code->fn->fetch_string(code), "str2") == 0);
-	assert(strcmp(code->fn->fetch_string(code), "s3") == 0);
+	assert(strcmp(scn_fetch_string(code), "string1") == 0);
+	assert(strcmp(scn_fetch_string(code), "str2") == 0);
+	assert(strcmp(scn_fetch_string(code), "s3") == 0);
 
 	script_code_navigator_delete(code);
 }

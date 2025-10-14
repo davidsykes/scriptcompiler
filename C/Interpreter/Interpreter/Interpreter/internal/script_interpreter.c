@@ -43,13 +43,13 @@ static int interpret(struct ScriptInterpreter* interpreter, ScriptInstance* scri
 
 	while (1)
 	{
-		int opcode = code->fn->fetch_int(code);
+		int opcode = scn_fetch_int(code);
 
 		switch (opcode)
 		{
 		case pushintvalue:
 		{
-			int intvalue = code->fn->fetch_int(code);
+			int intvalue = scn_fetch_int(code);
 			VariableValue* value = variable_value_create(intvalue);
 			variable_stack->push_value(variable_stack, value);
 		}
@@ -57,7 +57,7 @@ static int interpret(struct ScriptInterpreter* interpreter, ScriptInstance* scri
 
 		case popvariable:
 		{
-			const char* varname = (const char*)code->fn->fetch_string(code);
+			const char* varname = scn_fetch_string(code);
 			VariableValue* value = variable_stack->pop_value(variable_stack);
 			interpreter->external_system->set_global_variable(varname, value->value);
 		}
@@ -69,7 +69,7 @@ static int interpret(struct ScriptInterpreter* interpreter, ScriptInstance* scri
 
 		case POP_LOCAL_VARIABLE:
 		{
-			const char* varname = (const char*)code->fn->fetch_string(code);
+			const char* varname = scn_fetch_string(code);
 			VariableValue* value = variable_stack->pop_value(variable_stack);
 			interpreter->external_system->set_local_variable(varname, value->value);
 		}

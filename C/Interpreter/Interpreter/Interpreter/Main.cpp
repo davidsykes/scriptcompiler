@@ -68,8 +68,13 @@ int main(int argc, char* argv[])
 				ScriptCode* code = script_code_create(script);
 				ScriptInstance* inst = script_instance_create(code);
 
-				int result = script_system
-					->interpret(script_system, inst);
+				int result = 0;
+				do
+				{
+					result = script_system
+						->interpret(script_system, inst);
+				} while (!result);
+
 				if (result != 0)
 				{
 					std::cerr << "Script returned error code " << result << std::endl;
