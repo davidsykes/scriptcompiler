@@ -23,9 +23,9 @@ static void call_fn_routine_with_no_parameters(ScriptInterpreterTestsContext* co
 
 	const char* script_data =
 		"\x16\0\0\0" //callfnroutine
-		"FnRoutine"
-		"0"
-		"0";
+		"\0\0\0\0"
+		"FnRoutine" "\0"
+		"\x18\0\0\0";
 
 	ScriptInstance* inst = script_instance_create(
 		script_code_create(script_data));
@@ -44,6 +44,7 @@ static void* script_interpreter_tests_set_up()
 	context->interpreter = script_interpreter_create(
 		context->global_variables,
 		FnRoutine);
+	called_routine = 0;
 	return context;
 }
 
@@ -53,7 +54,6 @@ static void script_interpreter_tests_tear_down(void* _context)
 	script_interpreter_delete(context->interpreter);
 	variable_collection_delete(context->global_variables);
 	free(_context);
-	free(called_routine);
 }
 
 void run_script_interpreter_tests()

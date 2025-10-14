@@ -39,8 +39,8 @@ logicalor = 21
 #define CALL_FN_ROUTINE		22
 /*
 dropstackvalue = 23
-endscript = 24
 */
+#define ENDSCRIPT			24
 #define PAUSE				26
 #define POP_LOCAL_VARIABLE	28
 
@@ -75,7 +75,15 @@ int script_interpreter_interpret(
 		break;
 
 		case CALL_FN_ROUTINE:
+		{
+			scn_fetch_int(code);
+			const char* fnname = scn_fetch_string(code);
+			interpreter->fn_routine(fnname);
+		}
 			break;
+
+		case ENDSCRIPT:
+			return 1;
 
 		case PAUSE:
 			return 0;
