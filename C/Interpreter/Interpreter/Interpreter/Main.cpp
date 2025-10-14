@@ -6,32 +6,18 @@
 #include <iostream>
 #include <memory>
 
-#include "script_system.h"
-#include "public/external_system.h"
-#include "public/script_code.h"
-#include "public/script_instance.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 int main_c(const char* scriptData);
-void run_script_interpreter_tests();
 #ifdef __cplusplus
 }
 #endif
+
 int	ReadInt(std::ifstream& is);
 
 int main(int argc, char* argv[])
 {
-	ExternalSystem* external_system = external_system_create();
-
-	ScriptSystem* script_system = script_system_initialise(
-		10,
-		external_system
-	);
-	run_script_interpreter_tests();
-
-
 	try
 	{
 		if (argc != 3)
@@ -65,15 +51,8 @@ int main(int argc, char* argv[])
 			if (scriptName == scriptToRun)
 			{
 				const char* script = scriptData.get();
-				ScriptCode* code = script_code_create(script);
-				ScriptInstance* inst = script_instance_create(code);
 
-				int result = 0;
-				do
-				{
-					result = script_system
-						->interpret(script_system, inst);
-				} while (!result);
+				int result = main_c(script);
 
 				if (result != 0)
 				{

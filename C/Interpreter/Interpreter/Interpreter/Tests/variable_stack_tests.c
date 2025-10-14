@@ -1,4 +1,5 @@
 #include "test_rig.h"
+#include "../internal/xalloc.h"
 #include "..\internal/variable_stack.h"
 #include <string.h>
 #include "..\internal/fatal.h"
@@ -60,8 +61,7 @@ static void pushing_over_the_top_generates_an_error(void* _context)
 
 void* set_up()
 {
-	VariableStackTestsContext* context = malloc(sizeof(*context));
-	if (!context) abort();
+	VariableStackTestsContext* context = xmalloc(sizeof(*context));
 	context->stack = variable_stack_create();
 	context->value1 = variable_value_create(42);
 	context->value2 = variable_value_create(1234);

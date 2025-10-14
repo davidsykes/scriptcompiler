@@ -1,8 +1,9 @@
 #include "../internal\script_code_navigator.h"
 #include <string.h>
 #include <assert.h>
+#include "test_rig.h"
 
-static void a_code_block_can_be_created_and_destroyed()
+static void a_code_block_can_be_created_and_destroyed(void* context)
 {
 	const char* test_code = "test";
 
@@ -11,7 +12,7 @@ static void a_code_block_can_be_created_and_destroyed()
 	script_code_navigator_delete(code);
 }
 
-static void an_integer_can_be_fetched()
+static void an_integer_can_be_fetched(void* context)
 {
 	const char* test_code = "\x01\x02\x03\x04\x05\x06\x07\x08";
 
@@ -24,7 +25,7 @@ static void an_integer_can_be_fetched()
 	script_code_navigator_delete(code);
 }
 
-static void multiple_integers_can_be_fetched()
+static void multiple_integers_can_be_fetched(void* context)
 {
 	int data[3] = { 42, 1234, 999 };
 
@@ -37,7 +38,7 @@ static void multiple_integers_can_be_fetched()
 	script_code_navigator_delete(code);
 }
 
-static void multiple_strings_can_be_fetched()
+static void multiple_strings_can_be_fetched(void* context)
 {
 	const char* test_code = "string1\x00str2\x00s3\x00";
 
@@ -50,10 +51,28 @@ static void multiple_strings_can_be_fetched()
 	script_code_navigator_delete(code);
 }
 
+void* script_code_navigator_tests_set_up()
+{
+	return 0;
+}
+
+void script_code_navigator_tests_tear_down(void* _context)
+{
+}
+
 void run_script_code_block_tests()
 {
-	a_code_block_can_be_created_and_destroyed();
-	an_integer_can_be_fetched();
-	multiple_integers_can_be_fetched();
-	multiple_strings_can_be_fetched();
+	void (*tests[])(void* context) = {
+	a_code_block_can_be_created_and_destroyed,
+	an_integer_can_be_fetched,
+	multiple_integers_can_be_fetched,
+	multiple_strings_can_be_fetched,
+		0
+	};
+
+	run_test_rig(
+		script_code_navigator_tests_set_up,
+		script_code_navigator_tests_tear_down,
+		tests
+	);
 }

@@ -3,11 +3,11 @@
 #include "variable_stack.h"
 #include "fatal.h"
 
-#define STACK_SIZE	10
+#define VARIABLE_STACK_SIZE	10
 
 static void push_value(VariableStack* stack, VariableValue* value)
 {
-	if (stack->pointer >= STACK_SIZE)
+	if (stack->pointer >= VARIABLE_STACK_SIZE)
 	{
 		fatal("Variable stack overflow");
 		return;
@@ -34,7 +34,7 @@ VariableStack* variable_stack_create()
 	{
 		stack->push_value = push_value;
 		stack->pop_value = pop_value;
-		stack->values = xmalloc(STACK_SIZE * sizeof(VariableValue*));
+		stack->values = xmalloc(VARIABLE_STACK_SIZE * sizeof(VariableValue*));
 		stack->pointer = 0;
 	}
 	return stack;

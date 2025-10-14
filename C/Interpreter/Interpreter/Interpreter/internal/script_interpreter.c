@@ -3,15 +3,20 @@
 #include "../public/script_instance.h"
 
 
+typedef struct ScriptInterpreter {
+	VariableCollection* global_variables;
+} ScriptInterpreter;
+
+
 #define ERR_INVALID_OPCODE 1
 
-#define pushintvalue 1
+#define PUSH_INT_VALUE 1
 /*
 	pushparam = 2
 pushstring = 3
 pushvariable = 4
 */
-#define popvariable 5
+#define POP_VARIABLE 5
 /*
 jfalse = 6
 jtrue = 7
@@ -29,14 +34,16 @@ gte = 18
 equals = 19
 logicaland = 20
 logicalor = 21
-callfnroutine = 22
+*/
+#define CALL_FN_ROUTINE		22
+/*
 dropstackvalue = 23
 endscript = 24
 */
 #define PAUSE				26
 #define POP_LOCAL_VARIABLE	28
 
-static int interpret(struct ScriptInterpreter* interpreter, ScriptInstance* script)
+int script_interpreter_interpret(struct ScriptInterpreter* interpreter, ScriptInstance* script)
 {
 	ScriptCodeNavigator* code = script->script;
 	VariableStack* variable_stack = script->variable_stack;
@@ -47,7 +54,7 @@ static int interpret(struct ScriptInterpreter* interpreter, ScriptInstance* scri
 
 		switch (opcode)
 		{
-		case pushintvalue:
+		case PUSH_INT_VALUE:
 		{
 			int intvalue = scn_fetch_int(code);
 			VariableValue* value = variable_value_create(intvalue);
@@ -55,13 +62,17 @@ static int interpret(struct ScriptInterpreter* interpreter, ScriptInstance* scri
 		}
 		break;
 
-		case popvariable:
+		case POP_VARIABLE:
 		{
 			const char* varname = scn_fetch_string(code);
 			VariableValue* value = variable_stack->pop_value(variable_stack);
-			interpreter->external_system->set_global_variable(varname, value->value);
+			variable_collection_set_variable(
+				interpreter->global_variables, varname, value);
 		}
 		break;
+
+		case CALL_FN_ROUTINE:
+			break;
 
 		case PAUSE:
 			return 0;
@@ -71,7 +82,11 @@ static int interpret(struct ScriptInterpreter* interpreter, ScriptInstance* scri
 		{
 			const char* varname = scn_fetch_string(code);
 			VariableValue* value = variable_stack->pop_value(variable_stack);
-			interpreter->external_system->set_local_variable(varname, value->value);
+			variable_collection_set_variable(
+				script->local_variables,
+				varname,
+				value
+			);
 		}
 		break;
 
@@ -82,17 +97,16 @@ static int interpret(struct ScriptInterpreter* interpreter, ScriptInstance* scri
 	}
 }
 
-static const ScriptInterpreterVTable _scriptCodeBlockFnTable = {
-	.interpret = &interpret
-};
-
-ScriptInterpreter* script_interpreter_create(int stack_size, ExternalSystem* external_system)
+ScriptInterpreter* script_interpreter_create(VariableCollection* gobal_variables)
 {
 	ScriptInterpreter* si = xmalloc(sizeof(*si));
 
-	si->vtable = &_scriptCodeBlockFnTable;
-	si->stack_size = stack_size;
-	si->external_system = external_system;
+	si->global_variables = gobal_variables;
 
 	return si;
+}
+
+void script_interpreter_delete(ScriptInterpreter* si)
+{
+	free(si);
 }

@@ -2,18 +2,13 @@
 #include "script_code.h"
 #include "../internal/script_code_navigator.h"
 #include "../internal/variable_stack.h"
+#include "variable_collection.h"
 
 typedef struct ScriptInstance {
 	ScriptCodeNavigator* script;
 	VariableStack* variable_stack;
+	VariableCollection* local_variables;
 } ScriptInstance;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-	ScriptInstance* script_instance_create(ScriptCode* script);
-	void script_instance_delete(ScriptInstance*);
-#ifdef __cplusplus
-}
-#endif
-
+ScriptInstance* script_instance_create(ScriptCode* script);
+void script_instance_delete(ScriptInstance*);

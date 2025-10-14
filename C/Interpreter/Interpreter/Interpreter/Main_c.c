@@ -1,0 +1,26 @@
+#include "public/script_code.h"
+#include "public/script_instance.h"
+#include "public/variable_collection.h"
+#include "internal/script_interpreter.h"
+
+run_all_tests();
+
+int main_c(const char* scriptData)
+{
+	run_all_tests();
+
+
+
+	ScriptCode* code = script_code_create(scriptData);
+	ScriptInstance* inst = script_instance_create(code);
+	VariableCollection* globals = variable_collection_create();
+	ScriptInterpreter* interpreter = script_interpreter_create(globals);
+
+	int result = 0;
+	do
+	{
+		script_interpreter_interpret(interpreter, inst);
+	} while (!result);
+
+	return result;
+}

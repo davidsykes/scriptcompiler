@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="script_system.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,16 +48,19 @@
     <ClCompile Include="internal\script_interpreter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="script_system.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="public\external_system.c">
+    <ClCompile Include="public\variable_collection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="public\script_code.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="public\script_instance.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\script_interpreter_tests.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main_c.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,7 +89,7 @@
     <ClInclude Include="internal\xalloc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\external_system.h">
+    <ClInclude Include="public\variable_collection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="public\script_code.h">
