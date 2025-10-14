@@ -5,6 +5,13 @@
 
 run_all_tests();
 
+
+
+static VariableValue* FnRoutine(const char* name)
+{
+	return variable_value_create(0);
+}
+
 int main_c(const char* scriptData)
 {
 	run_all_tests();
@@ -14,7 +21,7 @@ int main_c(const char* scriptData)
 	ScriptCode* code = script_code_create(scriptData);
 	ScriptInstance* inst = script_instance_create(code);
 	VariableCollection* globals = variable_collection_create();
-	ScriptInterpreter* interpreter = script_interpreter_create(globals);
+	ScriptInterpreter* interpreter = script_interpreter_create(globals, FnRoutine);
 
 	int result = 0;
 	do

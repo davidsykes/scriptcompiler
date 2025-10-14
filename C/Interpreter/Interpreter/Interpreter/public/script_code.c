@@ -3,7 +3,6 @@
 
 
 
-
 ScriptCode* script_code_create(const char* script)
 {
 	ScriptCode* code = xmalloc(sizeof(*code));

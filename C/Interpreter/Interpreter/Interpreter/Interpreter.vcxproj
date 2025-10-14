@@ -145,6 +145,7 @@
     <ClCompile Include="internal\variable_stack.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="public\fn_routines.h" />
     <ClInclude Include="public\variable_collection.h" />
     <ClInclude Include="internal\xalloc.h" />
     <ClInclude Include="internal\script_code_navigator.h" />

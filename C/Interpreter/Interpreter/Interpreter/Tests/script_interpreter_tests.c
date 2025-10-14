@@ -1,3 +1,4 @@
+#include <string.h>
 #include "test_rig.h"
 #include "../internal/xalloc.h"
 #include "../internal/script_interpreter.h"
@@ -7,28 +8,52 @@ typedef struct ScriptInterpreterTestsContext {
 	VariableCollection* global_variables;
 } ScriptInterpreterTestsContext;
 
+static const char* called_routine;
+
+static VariableValue* FnRoutine(const char* name)
+{
+	called_routine = name;
+	return variable_value_create(0);
+}
+
 
 static void call_fn_routine_with_no_parameters(ScriptInterpreterTestsContext* context)
 {
 	ScriptInterpreter* interpreter = context->interpreter;
 
-	assert(0);
+	const char* script_data =
+		"\x16\0\0\0" //callfnroutine
+		"FnRoutine"
+		"0"
+		"0";
+
+	ScriptInstance* inst = script_instance_create(
+		script_code_create(script_data));
+
+	int result = script_interpreter_interpret(
+		interpreter,
+		inst);
+
+	assert(strcmp(called_routine, "FnRoutine") == 0);
 }
 
-void* script_interpreter_tests_set_up()
+static void* script_interpreter_tests_set_up()
 {
 	ScriptInterpreterTestsContext* context = xmalloc(sizeof(*context));
 	context->global_variables = variable_collection_create();
-	context->interpreter = script_interpreter_create(context->global_variables);
+	context->interpreter = script_interpreter_create(
+		context->global_variables,
+		FnRoutine);
 	return context;
 }
 
-void script_interpreter_tests_tear_down(void* _context)
+static void script_interpreter_tests_tear_down(void* _context)
 {
 	ScriptInterpreterTestsContext* context = _context;
 	script_interpreter_delete(context->interpreter);
 	variable_collection_delete(context->global_variables);
 	free(_context);
+	free(called_routine);
 }
 
 void run_script_interpreter_tests()

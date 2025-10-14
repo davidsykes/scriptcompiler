@@ -5,6 +5,7 @@
 
 typedef struct ScriptInterpreter {
 	VariableCollection* global_variables;
+	FN_ROUTINE fn_routine;
 } ScriptInterpreter;
 
 
@@ -43,7 +44,9 @@ endscript = 24
 #define PAUSE				26
 #define POP_LOCAL_VARIABLE	28
 
-int script_interpreter_interpret(struct ScriptInterpreter* interpreter, ScriptInstance* script)
+int script_interpreter_interpret(
+	struct ScriptInterpreter* interpreter,
+	ScriptInstance* script)
 {
 	ScriptCodeNavigator* code = script->script;
 	VariableStack* variable_stack = script->variable_stack;
@@ -97,11 +100,14 @@ int script_interpreter_interpret(struct ScriptInterpreter* interpreter, ScriptIn
 	}
 }
 
-ScriptInterpreter* script_interpreter_create(VariableCollection* gobal_variables)
+ScriptInterpreter* script_interpreter_create(
+	VariableCollection* gobal_variables,
+	FN_ROUTINE fn_routine)
 {
 	ScriptInterpreter* si = xmalloc(sizeof(*si));
 
 	si->global_variables = gobal_variables;
+	si->fn_routine = fn_routine;
 
 	return si;
 }

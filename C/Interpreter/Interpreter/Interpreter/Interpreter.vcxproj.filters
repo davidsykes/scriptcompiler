@@ -98,5 +98,8 @@
     <ClInclude Include="public\script_instance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="public\fn_routines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
