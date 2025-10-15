@@ -79,7 +79,10 @@ int script_interpreter_interpret(
 		{
 			scn_fetch_int(code);
 			const char* fnname = scn_fetch_string(code);
-			interpreter->fn_routine(fnname);
+			VariableValue* value = interpreter->fn_routine(fnname);
+			VariableValue* value_copy = variable_value_create(
+				variable_value_get_integer(value));
+			variable_stack->push_value(variable_stack, value_copy);
 		}
 			break;
 

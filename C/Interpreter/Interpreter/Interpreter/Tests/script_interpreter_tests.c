@@ -10,12 +10,11 @@ typedef struct ScriptInterpreterTestsContext {
 
 static const char* called_routine;
 static int fn_return_value = 0;
-static int global_variable_var = 0;
 
 static VariableValue* FnRoutine(const char* name)
 {
 	called_routine = name;
-	return variable_value_create(0);
+	return variable_value_create(fn_return_value);
 }
 
 static void call_fn_routine_with_no_parameters(ScriptInterpreterTestsContext* context)
@@ -50,6 +49,7 @@ static void call_fn_routine_return_value_is_pushed_on_to_the_stack(ScriptInterpr
 		"var" "\0"
 		"\x18\0\0\0";
 
+	fn_return_value = 42;
 	ScriptInstance* inst = script_instance_create(
 		script_code_create(script_data));
 
@@ -57,7 +57,11 @@ static void call_fn_routine_return_value_is_pushed_on_to_the_stack(ScriptInterpr
 		interpreter,
 		inst);
 
-	assert(global_variable_var == 42);
+	int set_value = variable_collection_get_variable(
+		context->global_variables,
+		"var")
+		->integer;
+	assert(set_value == 42);
 }
 
 static void when_fn_returns_0_script_continues(ScriptInterpreterTestsContext* context)
@@ -160,7 +164,6 @@ static void* script_interpreter_tests_set_up()
 		context->global_variables,
 		FnRoutine);
 	called_routine = 0;
-	global_variable_var = 0;
 	return context;
 }
 
