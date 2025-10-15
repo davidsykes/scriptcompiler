@@ -59,7 +59,7 @@ static void pushing_over_the_top_generates_an_error(void* _context)
 	assert(strcmp(_error_message, "Variable stack overflow") == 0);
 }
 
-void* set_up()
+static void* set_up()
 {
 	VariableStackTestsContext* context = xmalloc(sizeof(*context));
 	context->stack = variable_stack_create();
@@ -70,7 +70,7 @@ void* set_up()
 	return context;
 }
 
-void tear_down(void* _context)
+static void tear_down(void* _context)
 {
 	VariableStackTestsContext* context = _context;
 	variable_stack_delete(context->stack);

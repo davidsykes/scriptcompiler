@@ -41,6 +41,7 @@ logicalor = 21
 dropstackvalue = 23
 */
 #define ENDSCRIPT			24
+#define DROPSKIPPAUSEREPEAT	25
 #define PAUSE				26
 #define POP_LOCAL_VARIABLE	28
 
@@ -84,6 +85,14 @@ int script_interpreter_interpret(
 
 		case ENDSCRIPT:
 			return 1;
+
+		case DROPSKIPPAUSEREPEAT:
+		{
+			int jump = scn_fetch_int(code);
+			VariableValue* value = variable_stack->pop_value(variable_stack);
+			int intvalue = variable_value_get_integer(value);
+		}
+			break;
 
 		case PAUSE:
 			return 0;

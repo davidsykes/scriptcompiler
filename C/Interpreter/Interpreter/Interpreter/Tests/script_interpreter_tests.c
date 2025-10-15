@@ -9,6 +9,8 @@ typedef struct ScriptInterpreterTestsContext {
 } ScriptInterpreterTestsContext;
 
 static const char* called_routine;
+static int fn_return_value = 0;
+static int global_variable_var = 0;
 
 static VariableValue* FnRoutine(const char* name)
 {
@@ -16,35 +18,149 @@ static VariableValue* FnRoutine(const char* name)
 	return variable_value_create(0);
 }
 
-
 static void call_fn_routine_with_no_parameters(ScriptInterpreterTestsContext* context)
 {
 	ScriptInterpreter* interpreter = context->interpreter;
 
 	const char* script_data =
-		"\x16\0\0\0" //callfnroutine
-		"\0\0\0\0"
+		"\x16\0\0\0"		//	callfnroutine
+		"\0\0\0\0"			//	0 parameters
 		"FnRoutine" "\0"
 		"\x18\0\0\0";
 
 	ScriptInstance* inst = script_instance_create(
 		script_code_create(script_data));
 
-	int result = script_interpreter_interpret(
+	script_interpreter_interpret(
 		interpreter,
 		inst);
 
 	assert(strcmp(called_routine, "FnRoutine") == 0);
 }
 
+static void call_fn_routine_return_value_is_pushed_on_to_the_stack(ScriptInterpreterTestsContext* context)
+{
+	ScriptInterpreter* interpreter = context->interpreter;
+
+	const char* script_data =
+		"\x16\0\0\0"		//	callfnroutine
+		"\0\0\0\0"			//	0 parameters
+		"FnRoutine" "\0"
+		"\x05\0\0\0"		//	pop variable
+		"var" "\0"
+		"\x18\0\0\0";
+
+	ScriptInstance* inst = script_instance_create(
+		script_code_create(script_data));
+
+	script_interpreter_interpret(
+		interpreter,
+		inst);
+
+	assert(global_variable_var == 42);
+}
+
+static void when_fn_returns_0_script_continues(ScriptInterpreterTestsContext* context)
+{
+	ScriptInterpreter* interpreter = context->interpreter;
+
+	const char* script_data =
+		"\x16\0\0\0"		//callfnroutine
+		"\0\0\0\0"			// 0 parameters
+		"FnRoutine" "\0"
+		"\x19\0\0\0"		// dropskippausenonzero
+		"\xff\0\0\0"		// jump invalid
+		"\x16\0\0\0"		//callfnroutine
+		"\0\0\0\0"			// 0 parameters
+		"FnRoutine2" "\0"
+		"\x18\0\0\0";		// end script
+
+	ScriptInstance* inst = script_instance_create(
+		script_code_create(script_data));
+
+	fn_return_value = 0;
+	script_interpreter_interpret(
+		interpreter,
+		inst);
+
+	assert(strcmp(called_routine, "FnRoutine2") == 0);
+}
+
+static void when_fn_returns_1_script_pauses_then_reruns(ScriptInterpreterTestsContext* context)
+{
+	ScriptInterpreter* interpreter = context->interpreter;
+
+	const char* script_data =
+		"\x16\0\0\0"		//callfnroutine
+		"\0\0\0\0"			// 0 parameters
+		"FnRoutine" "\0"
+		"\x19\0\0\0"		// dropskippausenonzero
+		"\xff\0\0\0"		// jump invalid
+		"\x16\0\0\0"		//callfnroutine
+		"\0\0\0\0"			// 0 parameters
+		"FnRoutine2" "\0"
+		"\x18\0\0\0";		// end script
+
+	ScriptInstance* inst = script_instance_create(
+		script_code_create(script_data));
+
+	fn_return_value = 1;
+	script_interpreter_interpret(
+		interpreter,
+		inst);
+	assert(strcmp(called_routine, "FnRoutine") == 0);
+
+	fn_return_value = 2;
+	script_interpreter_interpret(
+		interpreter,
+		inst);
+	assert(strcmp(called_routine, "FnRoutine") == 0);
+
+	script_interpreter_interpret(
+		interpreter,
+		inst);
+	assert(strcmp(called_routine, "FnRoutine2") == 0);
+}
+
+static void when_fn_returns_2_script_pauses(ScriptInterpreterTestsContext* context)
+{
+	ScriptInterpreter* interpreter = context->interpreter;
+
+	const char* script_data =
+		"\x16\0\0\0"		//callfnroutine
+		"\0\0\0\0"			// 0 parameters
+		"FnRoutine" "\0"
+		"\x19\0\0\0"		// dropskippausenonzero
+		"\xff\0\0\0"		// jump invalid
+		"\x16\0\0\0"		//callfnroutine
+		"\0\0\0\0"			// 0 parameters
+		"FnRoutine2" "\0"
+		"\x18\0\0\0";		// end script
+
+	ScriptInstance* inst = script_instance_create(
+		script_code_create(script_data));
+
+	fn_return_value = 2;
+	script_interpreter_interpret(
+		interpreter,
+		inst);
+	assert(strcmp(called_routine, "FnRoutine") == 0);
+
+	script_interpreter_interpret(
+		interpreter,
+		inst);
+	assert(strcmp(called_routine, "FnRoutine2") == 0);
+}
+
 static void* script_interpreter_tests_set_up()
 {
 	ScriptInterpreterTestsContext* context = xmalloc(sizeof(*context));
-	context->global_variables = variable_collection_create();
+	context->global_variables = variable_collection_create(10);
 	context->interpreter = script_interpreter_create(
 		context->global_variables,
 		FnRoutine);
 	called_routine = 0;
+	global_variable_var = 0;
 	return context;
 }
 
@@ -60,6 +176,10 @@ void run_script_interpreter_tests()
 {
 	void (*tests[])(void* context) = {
 		call_fn_routine_with_no_parameters,
+		call_fn_routine_return_value_is_pushed_on_to_the_stack,
+		when_fn_returns_0_script_continues,
+		when_fn_returns_1_script_pauses_then_reruns,
+		when_fn_returns_2_script_pauses,
 		0
 	};
 

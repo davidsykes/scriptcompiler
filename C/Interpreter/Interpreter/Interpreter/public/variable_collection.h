@@ -1,6 +1,7 @@
 #pragma once
 #include "variable_value.h"
 
+#define INITIAL_VARIABLE_COLLECTION_CAPACITY 10
 
 typedef struct VariableCollection VariableCollection;
 

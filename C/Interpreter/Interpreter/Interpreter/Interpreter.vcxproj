@@ -141,6 +141,7 @@
     <ClCompile Include="Tests\tests.c" />
     <ClCompile Include="Tests\test_rig.c" />
     <ClCompile Include="public\variable_value.c" />
+    <ClCompile Include="Tests\variable_collection_tests.c" />
     <ClCompile Include="Tests\variable_stack_tests.c" />
     <ClCompile Include="internal\variable_stack.c" />
   </ItemGroup>
