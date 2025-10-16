@@ -14,7 +14,9 @@ typedef struct ScriptInterpreter {
 #define PUSH_INT_VALUE 1
 /*
 	pushparam = 2
-pushstring = 3
+*/
+#define PUSH_STRING_VALUE 3
+/*
 pushvariable = 4
 */
 #define POP_VARIABLE 5
@@ -66,6 +68,14 @@ int script_interpreter_interpret(
 		}
 		break;
 
+		case PUSH_STRING_VALUE:
+		{
+			char * string_value = scn_fetch_string(code);
+			VariableValue* value = variable_value_create(string_value);
+			variable_stack->push_value(variable_stack, value);
+		}
+		break;
+
 		case POP_VARIABLE:
 		{
 			const char* varname = scn_fetch_string(code);
@@ -103,8 +113,8 @@ int script_interpreter_interpret(
 
 		case POP_LOCAL_VARIABLE:
 		{
-			const char* varname = scn_fetch_string(code);
 			VariableValue* value = variable_stack->pop_value(variable_stack);
+			const char* varname = scn_fetch_string(code);
 			variable_collection_set_variable(
 				script->local_variables,
 				varname,

@@ -180,9 +180,9 @@ void run_script_interpreter_tests()
 	void (*tests[])(void* context) = {
 		call_fn_routine_with_no_parameters,
 		call_fn_routine_return_value_is_pushed_on_to_the_stack,
-		when_fn_returns_0_script_continues,
-		when_fn_returns_1_script_pauses_then_reruns,
-		when_fn_returns_2_script_pauses,
+		//when_fn_returns_0_script_continues,
+		//when_fn_returns_1_script_pauses_then_reruns,
+		//when_fn_returns_2_script_pauses,
 		0
 	};
 

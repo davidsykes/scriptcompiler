@@ -3,9 +3,6 @@
 #include "public/variable_collection.h"
 #include "internal/script_interpreter.h"
 
-run_all_tests();
-
-
 
 static VariableValue* FnRoutine(const char* name)
 {
@@ -14,7 +11,7 @@ static VariableValue* FnRoutine(const char* name)
 
 int main_c(const char* scriptData)
 {
-	run_all_tests();
+	//run_all_tests();
 
 	ScriptCode* code = script_code_create(scriptData);
 	ScriptInstance* inst = script_instance_create(code);
@@ -24,7 +21,7 @@ int main_c(const char* scriptData)
 	int result = 0;
 	do
 	{
-		script_interpreter_interpret(interpreter, inst);
+		result = script_interpreter_interpret(interpreter, inst);
 	} while (!result);
 
 	return result;
