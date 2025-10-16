@@ -1,7 +1,7 @@
 #pragma once
-#include "../public/script_instance.h"
-#include "../public/variable_collection.h"
-#include "../public/fn_routines.h"
+#include "script_instance.h"
+#include "variable_collection.h"
+#include "fn_routines.h"
 
 typedef struct ScriptInterpreter ScriptInterpreter;
 

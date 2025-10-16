@@ -14,7 +14,7 @@ static int fn_return_value = 0;
 static VariableValue* FnRoutine(const char* name)
 {
 	called_routine = name;
-	return variable_value_create(fn_return_value);
+	return variable_value_create_integer(fn_return_value);
 }
 
 static void call_fn_routine_with_no_parameters(ScriptInterpreterTestsContext* context)

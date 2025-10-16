@@ -53,7 +53,7 @@ static char* create_string(const char* str)
 static VariableValue* create_variable(VariableCollection* collection, const char* name)
 {
 	ensure_capacity(collection);
-	VariableValue* variable = variable_value_create(0);
+	VariableValue* variable = variable_value_create_integer(0);
 	collection->variables[collection->count].key = create_string(name);
 	collection->variables[collection->count].variable = variable;
 	collection->count++;
@@ -83,5 +83,5 @@ VariableValue* variable_collection_get_variable(
 	VariableCollection* collection, const char* name)
 {
 	VariableValue* variable = find_or_create_variable(collection, name);
-	return variable_value_create(variable->integer);
+	return variable_value_create_copy(variable);
 }

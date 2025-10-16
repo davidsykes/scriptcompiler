@@ -1,6 +1,6 @@
 #include "xalloc.h"
 #include "script_interpreter.h"
-#include "../public/script_instance.h"
+#include "script_instance.h"
 
 
 typedef struct ScriptInterpreter {
@@ -9,7 +9,7 @@ typedef struct ScriptInterpreter {
 } ScriptInterpreter;
 
 
-#define ERR_INVALID_OPCODE 1
+#define ERR_INVALID_OPCODE 2
 
 #define PUSH_INT_VALUE 1
 /*
@@ -63,15 +63,15 @@ int script_interpreter_interpret(
 		case PUSH_INT_VALUE:
 		{
 			int intvalue = scn_fetch_int(code);
-			VariableValue* value = variable_value_create(intvalue);
+			VariableValue* value = variable_value_create_integer(intvalue);
 			variable_stack->push_value(variable_stack, value);
 		}
 		break;
 
 		case PUSH_STRING_VALUE:
 		{
-			char * string_value = scn_fetch_string(code);
-			VariableValue* value = variable_value_create(string_value);
+			const char* string_value = scn_fetch_string(code);
+			VariableValue* value = variable_value_create_string(string_value);
 			variable_stack->push_value(variable_stack, value);
 		}
 		break;
@@ -90,11 +90,10 @@ int script_interpreter_interpret(
 			scn_fetch_int(code);
 			const char* fnname = scn_fetch_string(code);
 			VariableValue* value = interpreter->fn_routine(fnname);
-			VariableValue* value_copy = variable_value_create(
-				variable_value_get_integer(value));
+			VariableValue* value_copy = variable_value_create_copy(value);
 			variable_stack->push_value(variable_stack, value_copy);
 		}
-			break;
+		break;
 
 		case ENDSCRIPT:
 			return 1;
@@ -105,7 +104,7 @@ int script_interpreter_interpret(
 			VariableValue* value = variable_stack->pop_value(variable_stack);
 			int intvalue = variable_value_get_integer(value);
 		}
-			break;
+		break;
 
 		case PAUSE:
 			return 0;

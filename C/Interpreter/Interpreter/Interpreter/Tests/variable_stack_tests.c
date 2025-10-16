@@ -63,9 +63,9 @@ static void* set_up()
 {
 	VariableStackTestsContext* context = xmalloc(sizeof(*context));
 	context->stack = variable_stack_create();
-	context->value1 = variable_value_create(42);
-	context->value2 = variable_value_create(1234);
-	context->value3 = variable_value_create(99);
+	context->value1 = variable_value_create_integer(42);
+	context->value2 = variable_value_create_integer(1234);
+	context->value3 = variable_value_create_integer(99);
 	_error_message = NULL;
 	return context;
 }

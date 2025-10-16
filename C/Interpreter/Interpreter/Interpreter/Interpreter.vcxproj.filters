@@ -39,7 +39,7 @@
     <ClCompile Include="Tests\test_rig.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="public\variable_value.c">
+    <ClCompile Include="internal\variable_value.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="internal\fatal.c">
@@ -48,13 +48,13 @@
     <ClCompile Include="internal\script_interpreter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="public\variable_collection.c">
+    <ClCompile Include="internal\variable_collection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="public\script_code.c">
+    <ClCompile Include="internal\script_code.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="public\script_instance.c">
+    <ClCompile Include="internal\script_instance.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Tests\script_interpreter_tests.c">
@@ -80,7 +80,7 @@
     <ClInclude Include="Tests\test_rig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\variable_value.h">
+    <ClInclude Include="internal\variable_value.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="internal\fatal.h">
@@ -92,16 +92,19 @@
     <ClInclude Include="internal\xalloc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\variable_collection.h">
+    <ClInclude Include="internal\variable_collection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\script_code.h">
+    <ClInclude Include="internal\script_code.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\script_instance.h">
+    <ClInclude Include="internal\script_instance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="public\fn_routines.h">
+    <ClInclude Include="internal\fn_routines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="public\script_interpreter_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

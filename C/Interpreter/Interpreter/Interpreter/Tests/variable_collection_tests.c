@@ -1,6 +1,7 @@
 #include <assert.h>
+#include <string.h>
 #include "test_rig.h"
-#include "../public/variable_collection.h"
+#include "../internal/variable_collection.h"
 #include "../internal/xalloc.h"
 
 typedef struct VariableCollectionTestsContext {
@@ -50,16 +51,18 @@ static void an_existing_global_variable_can_be_set_and_retrieved(void* _context)
 static void the_name_and_variable_pointer_are_mainained_internally(void* _context)
 {
 	VariableCollectionTestsContext* context = _context;
-	char* name = xmalloc(20);
-	strcpy(name, "Variable Name");
-	VariableValue* var = variable_value_create(470);
+	const char* variable_name = "Variable Name";
+	size_t name_len = strlen(variable_name)+1;
+	char* name = xmalloc(name_len);
+	strcpy_s(name, name_len, "Variable Name");
+	VariableValue* var = variable_value_create_integer(470);
 
 	variable_collection_set_variable(
 		context->collection,
 		name,
 		var);
 
-	strcpy(name, "bla bla bla");
+	strcpy_s(name, 12, "bla bla bla");
 	var->integer = 99;
 
 	VariableValue* var2 = variable_collection_get_variable(
@@ -75,7 +78,7 @@ static void* variable_collection_tests_set_up()
 {
 	VariableCollectionTestsContext* context = xmalloc(sizeof(*context));
 	context->collection = variable_collection_create(4);
-	context->var = variable_value_create(47);
+	context->var = variable_value_create_integer(47);
 	return context;
 }
 
