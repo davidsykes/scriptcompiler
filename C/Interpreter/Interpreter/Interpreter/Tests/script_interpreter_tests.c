@@ -11,7 +11,7 @@ typedef struct ScriptInterpreterTestsContext {
 static const char* called_routine;
 static int fn_return_value = 0;
 
-static void FnRoutine(const char* name, VariableValue* parameters, VariableValue* fn_return_variable)
+static void FnRoutine(const char* name, VariableValue* parameters, int parameter_count, VariableValue* fn_return_variable)
 {
 	called_routine = name;
 	variable_value_set_integer(fn_return_variable, fn_return_value);

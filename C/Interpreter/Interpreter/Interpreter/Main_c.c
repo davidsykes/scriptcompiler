@@ -2,7 +2,7 @@
 
 void run_all_tests();
 
-static void FnRoutine(const char* name, VariableValue* parameters, VariableValue* return_value)
+static void FnRoutine(const char* name, VariableValue* parameters, int parameter_count, VariableValue* return_value)
 {
 	variable_value_set_integer(return_value, 0);
 }

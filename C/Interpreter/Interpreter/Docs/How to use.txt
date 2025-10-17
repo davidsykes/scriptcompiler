@@ -16,7 +16,12 @@ VariableCollection
     VariableCollection* globals = variable_collection_create();
 
 FnRoutine
-    A pointer to the 
+    A pointer to the function to handle fn routines.
+    typedef void (*FN_ROUTINE)(const char* name, VariableValue* parameters, VariableValue* fn_return_value);
+        name                fn routine name
+        parameters          The parameters for the routine
+        parameter_count     The number of parameters supplied
+        fn_return_value     The variable value to use for the return value
 
 
 
