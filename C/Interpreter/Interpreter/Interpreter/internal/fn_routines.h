@@ -2,4 +2,4 @@
 
 #include "variable_value.h"
 
-typedef VariableValue* (*FN_ROUTINE)(const char* name);
+typedef void (*FN_ROUTINE)(const char* name, VariableValue* parameters, VariableValue* fn_return_value);

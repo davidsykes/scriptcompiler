@@ -2,9 +2,9 @@
 
 void run_all_tests();
 
-static VariableValue* FnRoutine(const char* name)
+static void FnRoutine(const char* name, VariableValue* parameters, VariableValue* return_value)
 {
-	return variable_value_create_integer(0);
+	variable_value_set_integer(return_value, 0);
 }
 
 int main_c(const char* scriptData)

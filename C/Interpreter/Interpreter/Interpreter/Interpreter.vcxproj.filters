@@ -66,6 +66,9 @@
     <ClCompile Include="Tests\variable_collection_tests.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tests\variable_value_tests.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="internal\script_code_navigator.h">

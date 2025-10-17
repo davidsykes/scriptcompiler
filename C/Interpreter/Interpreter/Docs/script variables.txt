@@ -5,7 +5,7 @@ Variables are maintained using a struct
 typedef struct VariableValue {
 	int is_integer;
 	int integer;
-	char* string;
+	const char* string;
 } VariableValue;
 
 If the variable is an integer the value is in integer and is_integer is 1

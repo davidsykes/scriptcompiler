@@ -10,6 +10,7 @@ ScriptInstance* script_instance_create(ScriptCode* script)
 	inst->script = script_code_navigator_create(script->script);
 	inst->variable_stack = variable_stack_create();
 	inst->local_variables = variable_collection_create();
+	inst->fn_return_value = variable_value_create();
 	return inst;
 }
 

@@ -11,10 +11,10 @@ typedef struct ScriptInterpreterTestsContext {
 static const char* called_routine;
 static int fn_return_value = 0;
 
-static VariableValue* FnRoutine(const char* name)
+static void FnRoutine(const char* name, VariableValue* parameters, VariableValue* fn_return_variable)
 {
 	called_routine = name;
-	return variable_value_create_integer(fn_return_value);
+	variable_value_set_integer(fn_return_variable, fn_return_value);
 }
 
 static void call_fn_routine_with_no_parameters(ScriptInterpreterTestsContext* context)

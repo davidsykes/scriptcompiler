@@ -6,3 +6,4 @@ How are memory leaks identified?
 
 What string values can script variables have?
 Are the all string values goint to be pointers to static areas of memory?
+Can string values be modified, or just set?

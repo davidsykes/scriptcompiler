@@ -8,6 +8,7 @@ typedef struct ScriptInstance {
 	ScriptCodeNavigator* script;
 	VariableStack* variable_stack;
 	VariableCollection* local_variables;
+	VariableValue* fn_return_value;
 } ScriptInstance;
 
 ScriptInstance* script_instance_create(ScriptCode* script);

@@ -8,10 +8,9 @@ typedef struct ScriptInstance ScriptInstance;
 typedef struct VariableCollection VariableCollection;
 typedef struct ScriptInterpreter ScriptInterpreter;
 
-typedef VariableValue* (*FN_ROUTINE)(const char* name);
+typedef void (*FN_ROUTINE)(const char* name, VariableValue* parameters, VariableValue* fn_return_value);
 
-VariableValue* variable_value_create_integer(int value);
-VariableValue* variable_value_create_tring(const char* value);
+void variable_value_set_integer(VariableValue* value, int integer);
 ScriptCode* script_code_create(const char* script);
 ScriptInstance* script_instance_create(ScriptCode* script);
 

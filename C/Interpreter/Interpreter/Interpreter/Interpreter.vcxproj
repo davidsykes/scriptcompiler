@@ -144,6 +144,7 @@
     <ClCompile Include="Tests\variable_collection_tests.c" />
     <ClCompile Include="Tests\variable_stack_tests.c" />
     <ClCompile Include="internal\variable_stack.c" />
+    <ClCompile Include="Tests\variable_value_tests.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="internal\fn_routines.h" />
