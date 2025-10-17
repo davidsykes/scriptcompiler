@@ -77,7 +77,7 @@ static void the_name_and_variable_pointer_are_mainained_internally(void* _contex
 static void* variable_collection_tests_set_up()
 {
 	VariableCollectionTestsContext* context = xmalloc(sizeof(*context));
-	context->collection = variable_collection_create(4);
+	context->collection = variable_collection_create();
 	context->var = variable_value_create_integer(47);
 	return context;
 }

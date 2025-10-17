@@ -15,7 +15,7 @@ VariableValue* variable_value_create_tring(const char* value);
 ScriptCode* script_code_create(const char* script);
 ScriptInstance* script_instance_create(ScriptCode* script);
 
-VariableCollection* variable_collection_create();
+VariableCollection* variable_collection_create(void);
 ScriptInterpreter* script_interpreter_create(
 	VariableCollection* gobal_variables,
 	FN_ROUTINE fn_routine);

@@ -1,0 +1,3 @@
+Turn VariableValues into statically allocated objects
+A variable stack initialises the variables at construction and reuses them
+The fn routine return value is a statically allocated variable

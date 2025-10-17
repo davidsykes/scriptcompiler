@@ -1,0 +1,23 @@
+ScriptCode
+    A pointer to a unit of compiled script
+    ScriptCode* script_code = script_code_create(scriptData);
+
+ScriptInstance
+    A runnable instance of a Script function
+        It contains
+            A pointer to the unit of script
+            A current position within the script
+            A variable stack for processing
+            Local variables
+    ScriptInstance* inst = script_instance_create(script_code);
+
+VariableCollection
+    A collection of script variables
+    VariableCollection* globals = variable_collection_create();
+
+FnRoutine
+    A pointer to the 
+
+
+
+    It can be repeatedly run, returning 0 for pauses mid script, and 1 when the script completes.

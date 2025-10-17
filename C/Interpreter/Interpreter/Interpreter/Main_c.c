@@ -11,9 +11,9 @@ int main_c(const char* scriptData)
 {
 	run_all_tests();
 
-	ScriptCode* code = script_code_create(scriptData);
-	ScriptInstance* inst = script_instance_create(code);
-	VariableCollection* globals = variable_collection_create(100);
+	ScriptCode* script_code = script_code_create(scriptData);
+	ScriptInstance* inst = script_instance_create(script_code);
+	VariableCollection* globals = variable_collection_create();
 	ScriptInterpreter* interpreter = script_interpreter_create(globals, FnRoutine);
 
 	int result = 0;

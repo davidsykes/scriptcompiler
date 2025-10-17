@@ -13,7 +13,7 @@ typedef struct VariableStackTestsContext {
 
 const char* _error_message;
 
-void mock_fatal(const char* message)
+static void mock_fatal(const char* message)
 {
 	_error_message = message;
 }

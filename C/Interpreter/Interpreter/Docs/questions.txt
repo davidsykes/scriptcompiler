@@ -1,0 +1,8 @@
+If script variables are not declared how can global variables be diferentiated from local variables?
+
+How is memory allocated? It is using the system malloc and free?
+Is there a memory limit, and how is this managed?
+How are memory leaks identified?
+
+What string values can script variables have?
+Are the all string values goint to be pointers to static areas of memory?

@@ -1,0 +1,17 @@
+Script variables can either be integers or strings.
+
+Variables are maintained using a struct
+
+typedef struct VariableValue {
+	int is_integer;
+	int integer;
+	char* string;
+} VariableValue;
+
+If the variable is an integer the value is in integer and is_integer is 1
+If the variable is a string then string points to the string and is_integer is 0
+
+String values need careful management. If they point to static areas of memory then those areas must be static,
+they can not move. If the strings point to allocated memory then the ownership of the strings need to be specified
+so they can be freed when no longer in use
+

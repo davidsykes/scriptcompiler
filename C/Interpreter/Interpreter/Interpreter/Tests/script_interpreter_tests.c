@@ -159,7 +159,7 @@ static void when_fn_returns_2_script_pauses(ScriptInterpreterTestsContext* conte
 static void* script_interpreter_tests_set_up()
 {
 	ScriptInterpreterTestsContext* context = xmalloc(sizeof(*context));
-	context->global_variables = variable_collection_create(10);
+	context->global_variables = variable_collection_create();
 	context->interpreter = script_interpreter_create(
 		context->global_variables,
 		FnRoutine);

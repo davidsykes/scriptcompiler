@@ -5,7 +5,7 @@
 
 typedef struct VariableCollection VariableCollection;
 
-VariableCollection* variable_collection_create();
+VariableCollection* variable_collection_create(void);
 void variable_collection_delete(VariableCollection* collection);
 
 void variable_collection_set_variable(

@@ -9,5 +9,5 @@ typedef struct VariableStack {
     int pointer;
 } VariableStack;
 
-VariableStack* variable_stack_create();
+VariableStack* variable_stack_create(void);
 void variable_stack_delete(VariableStack* stack);
