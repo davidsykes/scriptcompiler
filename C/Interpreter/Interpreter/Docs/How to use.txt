@@ -23,6 +23,6 @@ FnRoutine
         parameter_count     The number of parameters supplied
         fn_return_value     The variable value to use for the return value
 
-
-
+ScriptInterpreter
+    The script execution engine that runs a script instance
     It can be repeatedly run, returning 0 for pauses mid script, and 1 when the script completes.

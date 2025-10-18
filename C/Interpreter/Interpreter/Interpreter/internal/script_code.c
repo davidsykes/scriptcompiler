@@ -9,3 +9,8 @@ ScriptCode* script_code_create(const char* script)
 	code->script = script;
 	return code;
 }
+
+void script_code_delete(ScriptCode* script_code)
+{
+	free(script_code);
+}
