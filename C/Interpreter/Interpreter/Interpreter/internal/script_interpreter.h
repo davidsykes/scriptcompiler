@@ -42,11 +42,16 @@ equals = 19
 logicaland = 20
 logicalor = 21
 */
-#define CALL_FN_ROUTINE		22
+#define CALL_FN_ROUTINE				22
 /*
 dropstackvalue = 23
 */
-#define ENDSCRIPT			24
-#define DROPSKIPPAUSEREPEAT	25
-#define PAUSE				26
-#define POP_LOCAL_VARIABLE	28
+#define ENDSCRIPT					24
+#define DROPSKIPPAUSEREPEAT			25
+#define PAUSE						26
+#define POP_LOCAL_VARIABLE			28
+
+#define DROPSKIPPAUSEREPEAT_REPEAT	1
+#define DROPSKIPPAUSEREPEAT_PAUSE	2
+#define SCRIPT_PAUSED				0
+#define SCRIPT_COMPLETED			1

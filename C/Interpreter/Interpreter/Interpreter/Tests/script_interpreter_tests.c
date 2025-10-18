@@ -63,7 +63,7 @@ static void when_fn_returns_0_script_continues(ScriptInterpreterTestsContext* co
 {
 	code_add_fn_routine(context, "FnRoutine", 0);
 	code_add_integer(context, DROPSKIPPAUSEREPEAT);
-	code_add_integer(context, 999);
+	code_add_integer(context, 999);	// jump invalid
 	code_add_fn_routine(context, "FnRoutine2", 0);
 	code_add_integer(context, ENDSCRIPT);
 
@@ -77,70 +77,49 @@ static void when_fn_returns_0_script_continues(ScriptInterpreterTestsContext* co
 
 static void when_fn_returns_1_script_pauses_then_reruns(ScriptInterpreterTestsContext* context)
 {
-	ScriptInterpreter* interpreter = context->interpreter;
-
-	const char* script_data =
-		"\x16\0\0\0"		//callfnroutine
-		"\0\0\0\0"			// 0 parameters
-		"FnRoutine" "\0"
-		"\x19\0\0\0"		// dropskippausenonzero
-		"\xff\0\0\0"		// jump invalid
-		"\x16\0\0\0"		//callfnroutine
-		"\0\0\0\0"			// 0 parameters
-		"FnRoutine2" "\0"
-		"\x18\0\0\0";		// end script
-
-	ScriptInstance* inst = script_instance_create(
-		script_code_create(script_data));
+	code_add_fn_routine(context, "FnRoutine", 0);
+	code_add_integer(context, DROPSKIPPAUSEREPEAT);
+	code_add_integer(context, -22);
+	code_add_fn_routine(context, "FnRoutine2", 0);
+	code_add_integer(context, ENDSCRIPT);
 
 	fn_return_value = 1;
 	script_interpreter_interpret(
-		interpreter,
-		inst);
+		context->interpreter,
+		context->script_instance);
 	assert(strcmp(last_called_routine, "FnRoutine") == 0);
 
 	fn_return_value = 2;
 	script_interpreter_interpret(
-		interpreter,
-		inst);
+		context->interpreter,
+		context->script_instance);
 	assert(strcmp(last_called_routine, "FnRoutine") == 0);
 
 	script_interpreter_interpret(
-		interpreter,
-		inst);
+		context->interpreter,
+		context->script_instance);
 	assert(strcmp(last_called_routine, "FnRoutine2") == 0);
 }
 
 static void when_fn_returns_2_script_pauses(ScriptInterpreterTestsContext* context)
 {
-	ScriptInterpreter* interpreter = context->interpreter;
-
-	const char* script_data =
-		"\x16\0\0\0"		//callfnroutine
-		"\0\0\0\0"			// 0 parameters
-		"FnRoutine" "\0"
-		"\x19\0\0\0"		// dropskippausenonzero
-		"\xff\0\0\0"		// jump invalid
-		"\x16\0\0\0"		//callfnroutine
-		"\0\0\0\0"			// 0 parameters
-		"FnRoutine2" "\0"
-		"\x18\0\0\0";		// end script
-
-	ScriptInstance* inst = script_instance_create(
-		script_code_create(script_data));
+	code_add_fn_routine(context, "FnRoutine", 0);
+	code_add_integer(context, DROPSKIPPAUSEREPEAT);
+	code_add_integer(context, 999);	// jump invalid
+	code_add_fn_routine(context, "FnRoutine2", 0);
+	code_add_integer(context, ENDSCRIPT);
 
 	fn_return_value = 2;
 	script_interpreter_interpret(
-		interpreter,
-		inst);
+		context->interpreter,
+		context->script_instance);
 	assert(strcmp(last_called_routine, "FnRoutine") == 0);
 
 	script_interpreter_interpret(
-		interpreter,
-		inst);
+		context->interpreter,
+		context->script_instance);
 	assert(strcmp(last_called_routine, "FnRoutine2") == 0);
 }
-
 
 static void code_add_bytes(ScriptInterpreterTestsContext* context, const void* data, size_t size)
 {
@@ -196,8 +175,8 @@ void run_script_interpreter_tests()
 		call_fn_routine_with_no_parameters,
 		call_fn_routine_return_value_is_pushed_on_to_the_stack,
 		when_fn_returns_0_script_continues,
-		//when_fn_returns_1_script_pauses_then_reruns,
-		//when_fn_returns_2_script_pauses,
+		when_fn_returns_1_script_pauses_then_reruns,
+		when_fn_returns_2_script_pauses,
 		0
 	};
 

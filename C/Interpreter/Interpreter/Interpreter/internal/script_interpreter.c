@@ -58,18 +58,25 @@ int script_interpreter_interpret(
 		break;
 
 		case ENDSCRIPT:
-			return 1;
+			return SCRIPT_COMPLETED;
 
 		case DROPSKIPPAUSEREPEAT:
 		{
 			int jump = scn_fetch_int(code);
 			VariableValue* value = variable_stack->pop_value(variable_stack);
 			int intvalue = variable_value_get_integer(value);
+			if (intvalue == DROPSKIPPAUSEREPEAT_PAUSE)
+				return SCRIPT_PAUSED;
+			if (intvalue == DROPSKIPPAUSEREPEAT_REPEAT)
+			{
+				scn_jump(code, jump - sizeof(int32_t));
+				return SCRIPT_PAUSED;
+			}
 		}
 		break;
 
 		case PAUSE:
-			return 0;
+			return SCRIPT_PAUSED;
 			break;
 
 		case POP_LOCAL_VARIABLE:

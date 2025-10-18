@@ -23,6 +23,12 @@ const char* scn_fetch_string(struct ScriptCodeNavigator* code)
 	return s;
 }
 
+
+void scn_jump(struct ScriptCodeNavigator* code, int distance)
+{
+	code->script_pointer += distance;
+}
+
 ScriptCodeNavigator* script_code_navigator_create(const char* scriptData)
 {
 	ScriptCodeNavigator* code = xmalloc(sizeof(*code));
