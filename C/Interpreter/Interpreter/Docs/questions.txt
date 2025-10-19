@@ -1,11 +1,14 @@
+Script variables were separated into local and global variables so that a script could be run
+by multiple objects at the same time.
+So two characters could run the same action script but have their own state values.
+Is that no longer the case? Do all scripts refer to the same set of global values?
+
+
+
 If script variables are not declared how can global variables be diferentiated from local variables?
 
 What values can fn routines return? Only integers or can strings be returned?
-Can fn_routines be used as rvalues?
-
-How is memory allocated? It is using the system malloc and free?
-Is there a memory limit, and how is this managed?
-How are memory leaks identified?
+If strings can be returned are they static of allocated on the heap?
 
 What string values can script variables have?
 Are the all string values goint to be pointers to static areas of memory?

@@ -41,5 +41,5 @@ ScriptCodeNavigator* script_code_navigator_create(const char* scriptData)
 
 void script_code_navigator_delete(ScriptCodeNavigator* code)
 {
-	free(code);
+	xfree(code);
 }

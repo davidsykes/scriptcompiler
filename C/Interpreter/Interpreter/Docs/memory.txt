@@ -1,0 +1,8 @@
+
+fn_routines
+
+When a fn routine is called an array of variable values are passed to the routine
+The values passed to the fn routines are managed by the script interpreter
+They will become undefined when control is returned to the interpreter
+
+The value returned by the fn routine must be managed

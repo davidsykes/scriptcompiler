@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "fatal.h"
+#include "memory_tracker.h"
 
 #if defined(__GNUC__) || defined(__clang__)
 #  define XATTR_NONNULL    __attribute__((returns_nonnull))
@@ -22,6 +23,9 @@ XATTR_MALLOC XATTR_NONNULL XATTR_ALLOCSZ(1)
 {
     void* p = malloc(n);
     if (!p && n) fatal("Memory allocation.");
+#if MEMORY_TRACKER_ENABLED
+    track_memory(p);
+#endif
     return p;
 }
 
@@ -40,6 +44,17 @@ XATTR_NONNULL
     void* p = realloc(ptr, total);
     if (!p) fatal("Memory allocation.");
     return p;
+}
+
+static void xfree(void* ptr)
+{
+    if (ptr)
+    {
+#if MEMORY_TRACKER_ENABLED
+        untrack_memory(ptr);
+#endif
+        free(ptr);
+    }
 }
 
 #endif

@@ -88,7 +88,7 @@ static void tear_down(void* _context)
 	variable_value_delete(context->value1);
 	variable_value_delete(context->value2);
 	variable_value_delete(context->value3);
-	free(_context);
+	xfree(_context);
 	fatal_fn = 0;
 }
 

@@ -1,4 +1,5 @@
 #include "public/script_interpreter_interface.h"
+#include "internal/memory_tracker.h"
 
 void run_all_tests();
 
@@ -21,6 +22,8 @@ int main_c(const char* scriptData)
 	{
 		result = script_interpreter_interpret(interpreter, inst);
 	} while (!result);
+
+	track_memory_allocations();
 
 	return result;
 }
