@@ -51,12 +51,12 @@ static void multiple_strings_can_be_fetched(void* context)
 	script_code_navigator_delete(code);
 }
 
-void* script_code_navigator_tests_set_up()
+static void* script_code_navigator_tests_set_up()
 {
 	return 0;
 }
 
-void script_code_navigator_tests_tear_down(void* _context)
+static void script_code_navigator_tests_tear_down(void* _context)
 {
 }
 

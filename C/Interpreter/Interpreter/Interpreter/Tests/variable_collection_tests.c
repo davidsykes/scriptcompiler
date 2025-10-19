@@ -9,10 +9,8 @@ typedef struct VariableCollectionTestsContext {
 	VariableValue* var;
 } VariableCollectionTestsContext;
 
-static void a_new_global_variable_can_be_set_and_retrieved(void* _context)
+static void a_new_global_variable_can_be_set_and_retrieved(VariableCollectionTestsContext* context)
 {
-	VariableCollectionTestsContext* context = _context;
-
 	variable_collection_set_variable(
 		context->collection,
 		"Variable Name",
@@ -25,10 +23,8 @@ static void a_new_global_variable_can_be_set_and_retrieved(void* _context)
 	assert(var2->integer == 47);
 }
 
-static void an_existing_global_variable_can_be_set_and_retrieved(void* _context)
+static void an_existing_global_variable_can_be_set_and_retrieved(VariableCollectionTestsContext* context)
 {
-	VariableCollectionTestsContext* context = _context;
-
 	variable_collection_set_variable(
 		context->collection,
 		"Variable Name",
@@ -48,9 +44,8 @@ static void an_existing_global_variable_can_be_set_and_retrieved(void* _context)
 	assert(var2->integer == 55);
 }
 
-static void the_name_and_variable_pointer_are_mainained_internally(void* _context)
+static void the_name_and_variable_pointer_are_mainained_internally(VariableCollectionTestsContext* context)
 {
-	VariableCollectionTestsContext* context = _context;
 	const char* variable_name = "Variable Name";
 	size_t name_len = strlen(variable_name)+1;
 	char* name = xmalloc(name_len);

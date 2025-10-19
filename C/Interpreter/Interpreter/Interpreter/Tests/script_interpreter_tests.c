@@ -14,7 +14,7 @@ typedef struct ScriptInterpreterTestsContext {
 	ScriptInstance* script_instance;
 } ScriptInterpreterTestsContext;
 
-static const char* last_called_routine;
+static char last_called_routine[1024];
 static int fn_return_value = 0;
 
 static void code_add_bytes(ScriptInterpreterTestsContext* context, const void* data, size_t size);
@@ -24,7 +24,14 @@ static void code_add_fn_routine(ScriptInterpreterTestsContext* context, const ch
 
 static void FnRoutine(const char* name, VariableValue* parameters, int parameter_count, VariableValue* fn_return_variable)
 {
-	last_called_routine = name;
+	size_t p = strlen(name);
+	strcpy_s(last_called_routine, p+1, name);
+	for (int i = 0; i < parameter_count; i++)
+	{
+		size_t p2 = strlen(parameters[i].string);
+		strcpy_s(last_called_routine + p, p2+1, parameters[i].string);
+		p += p2;
+	}
 	variable_value_set_integer(fn_return_variable, fn_return_value);
 }
 
@@ -121,6 +128,24 @@ static void when_fn_returns_2_script_pauses(ScriptInterpreterTestsContext* conte
 	assert(strcmp(last_called_routine, "FnRoutine2") == 0);
 }
 
+static void call_fn_routine_with_parameters(ScriptInterpreterTestsContext* context)
+{
+	code_add_integer(context, PUSH_STRING_VALUE);
+	code_add_string(context, "1");
+	code_add_integer(context, PUSH_STRING_VALUE);
+	code_add_string(context, "2");
+	code_add_integer(context, PUSH_STRING_VALUE);
+	code_add_string(context, "3");
+	code_add_fn_routine(context, "FnRoutine", 3);
+	code_add_integer(context, ENDSCRIPT);
+
+	script_interpreter_interpret(
+		context->interpreter,
+		context->script_instance);
+
+	assert(strcmp(last_called_routine, "FnRoutineXXX") == 0);
+}
+
 static void code_add_bytes(ScriptInterpreterTestsContext* context, const void* data, size_t size)
 {
 	memcpy(context->script_data + context->script_pointer, data, size);
@@ -155,18 +180,17 @@ static void* script_interpreter_tests_set_up()
 	context->script_pointer = 0;
 	context->script_code = script_code_create(context->script_data);
 	context->script_instance = script_instance_create(context->script_code);
-	last_called_routine = 0;
+	last_called_routine[0] = 0;
 	return context;
 }
 
-static void script_interpreter_tests_tear_down(void* _context)
+static void script_interpreter_tests_tear_down(ScriptInterpreterTestsContext* context)
 {
-	ScriptInterpreterTestsContext* context = _context;
 	script_interpreter_delete(context->interpreter);
 	variable_collection_delete(context->global_variables);
 	script_instance_delete(context->script_instance);
 	script_code_delete(context->script_code);
-	free(_context);
+	free(context);
 }
 
 void run_script_interpreter_tests()
@@ -177,6 +201,7 @@ void run_script_interpreter_tests()
 		when_fn_returns_0_script_continues,
 		when_fn_returns_1_script_pauses_then_reruns,
 		when_fn_returns_2_script_pauses,
+		call_fn_routine_with_parameters,
 		0
 	};
 
