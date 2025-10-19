@@ -5,7 +5,12 @@
 
 #define VARIABLE_STACK_SIZE	10
 
-static void push_value(VariableStack* stack, VariableValue* value)
+typedef struct VariableStack {
+	VariableValue** values;
+	int pointer;
+} VariableStack;
+
+void vs_push_value(VariableStack* stack, VariableValue* value)
 {
 	if (stack->pointer >= VARIABLE_STACK_SIZE)
 	{
@@ -16,7 +21,7 @@ static void push_value(VariableStack* stack, VariableValue* value)
 	++stack->pointer;
 }
 
-static VariableValue* pop_value(VariableStack* stack)
+VariableValue* vs_pop_value(VariableStack* stack)
 {
 	if (stack->pointer <= 0)
 	{
@@ -27,20 +32,23 @@ static VariableValue* pop_value(VariableStack* stack)
 	return stack->values[stack->pointer];
 }
 
+
+VariableValue** vs_get_parameter_pointer(VariableStack* stack, int parameter_count)
+{
+	return stack->values + (stack->pointer - parameter_count);
+}
+
 VariableStack* variable_stack_create()
 {
 	VariableStack* stack = xmalloc(sizeof(*stack));
-	if (stack)
-	{
-		stack->push_value = push_value;
-		stack->pop_value = pop_value;
-		stack->values = xmalloc(VARIABLE_STACK_SIZE * sizeof(VariableValue*));
-		stack->pointer = 0;
-	}
+	stack->values = xmalloc(VARIABLE_STACK_SIZE * sizeof(VariableValue*));
+	stack->pointer = 0;
+
 	return stack;
 }
 
 void variable_stack_delete(VariableStack* stack)
 {
+	free(stack->values);
 	free(stack);
 }

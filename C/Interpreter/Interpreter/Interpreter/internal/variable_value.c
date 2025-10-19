@@ -22,9 +22,10 @@ VariableValue* variable_value_create_string(const char* str)
 {
 	VariableValue* value = xmalloc(sizeof(*value));
 	size_t len = strlen(str) + 1;
-	value->string = xmalloc(len);
+	char *string = xmalloc(len);
+	memcpy(string, str, len);
+	value->string = string;
 	value->is_integer = 0;
-	memcpy(value->string, str, len);
 	return value;
 }
 

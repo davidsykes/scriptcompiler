@@ -22,14 +22,14 @@ static void code_add_integer(ScriptInterpreterTestsContext* context, int value);
 static void code_add_string(ScriptInterpreterTestsContext* context, const char* value);
 static void code_add_fn_routine(ScriptInterpreterTestsContext* context, const char* name, int parameter_count);
 
-static void FnRoutine(const char* name, VariableValue* parameters, int parameter_count, VariableValue* fn_return_variable)
+static void FnRoutine(const char* name, VariableValue** parameters, int parameter_count, VariableValue* fn_return_variable)
 {
 	size_t p = strlen(name);
 	strcpy_s(last_called_routine, p+1, name);
 	for (int i = 0; i < parameter_count; i++)
 	{
-		size_t p2 = strlen(parameters[i].string);
-		strcpy_s(last_called_routine + p, p2+1, parameters[i].string);
+		size_t p2 = strlen(parameters[i]->string);
+		strcpy_s(last_called_routine + p, p2+1, parameters[i]->string);
 		p += p2;
 	}
 	variable_value_set_integer(fn_return_variable, fn_return_value);
@@ -143,7 +143,7 @@ static void call_fn_routine_with_parameters(ScriptInterpreterTestsContext* conte
 		context->interpreter,
 		context->script_instance);
 
-	assert(strcmp(last_called_routine, "FnRoutineXXX") == 0);
+	assert(strcmp(last_called_routine, "FnRoutine123") == 0);
 }
 
 static void code_add_bytes(ScriptInterpreterTestsContext* context, const void* data, size_t size)

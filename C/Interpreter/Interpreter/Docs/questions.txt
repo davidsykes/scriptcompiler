@@ -1,5 +1,8 @@
 If script variables are not declared how can global variables be diferentiated from local variables?
 
+What values can fn routines return? Only integers or can strings be returned?
+Can fn_routines be used as rvalues?
+
 How is memory allocated? It is using the system malloc and free?
 Is there a memory limit, and how is this managed?
 How are memory leaks identified?
@@ -7,3 +10,7 @@ How are memory leaks identified?
 What string values can script variables have?
 Are the all string values goint to be pointers to static areas of memory?
 Can string values be modified, or just set?
+
+When retrieving a global or local value is a copy or pointer required?
+If a pointer then what if the value is changed elsewhere?
+If a copy then how is it disposed of or stored?

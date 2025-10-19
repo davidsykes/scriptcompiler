@@ -18,45 +18,56 @@ static void mock_fatal(const char* message)
 	_error_message = message;
 }
 
-static void values_can_be_pushed_and_popped(void* _context)
+static void values_can_be_pushed_and_popped(VariableStackTestsContext* context)
 {
-	VariableStackTestsContext* context = _context;
 	VariableStack* stack = context->stack;
 
-	stack->push_value(stack, context->value1);
-	stack->push_value(stack, context->value2);
-	stack->push_value(stack, context->value3);
+	vs_push_value(stack, context->value1);
+	vs_push_value(stack, context->value2);
+	vs_push_value(stack, context->value3);
 
-	assert(stack->pop_value(stack) == context->value3);
-	assert(stack->pop_value(stack) == context->value2);
-	assert(stack->pop_value(stack) == context->value1);
+	assert(vs_pop_value(stack) == context->value3);
+	assert(vs_pop_value(stack) == context->value2);
+	assert(vs_pop_value(stack) == context->value1);
 }
 
-static void popping_off_the_bottom_generates_an_error(void* _context)
+static void popping_off_the_bottom_generates_an_error(VariableStackTestsContext* context)
 {
-	VariableStackTestsContext* context = _context;
 	VariableStack* stack = context->stack;
 	fatal_fn = mock_fatal;
 
-	stack->push_value(stack, context->value1);
-	stack->pop_value(stack);
-	stack->pop_value(stack);
+	vs_push_value(stack, context->value1);
+	vs_pop_value(stack);
+	vs_pop_value(stack);
 
 	assert(strcmp(_error_message, "Variable stack underflow") == 0);
 }
 
-static void pushing_over_the_top_generates_an_error(void* _context)
+static void pushing_over_the_top_generates_an_error(VariableStackTestsContext* context)
 {
-	VariableStackTestsContext* context = _context;
 	VariableStack* stack = context->stack;
 	fatal_fn = mock_fatal;
 
 	for (int i = 0 ; i < 11 ; ++i)
 	{
-		stack->push_value(stack, context->value1);
+		vs_push_value(stack, context->value1);
 	}
 
 	assert(strcmp(_error_message, "Variable stack overflow") == 0);
+}
+
+static void a_pointer_to_values_on_the_stack_can_be_returned(VariableStackTestsContext* context)
+{
+	VariableStack* stack = context->stack;
+
+	vs_push_value(stack, context->value1);
+	vs_push_value(stack, context->value2);
+	vs_push_value(stack, context->value3);
+
+	VariableValue** params = vs_get_parameter_pointer(stack, 2);
+
+	assert(params[0] == context->value2);
+	assert(params[1] == context->value3);
 }
 
 static void* set_up()
@@ -87,6 +98,7 @@ void run_variable_stack_tests()
 		values_can_be_pushed_and_popped,
 		popping_off_the_bottom_generates_an_error,
 		pushing_over_the_top_generates_an_error,
+		a_pointer_to_values_on_the_stack_can_be_returned,
 		0
 	};
 

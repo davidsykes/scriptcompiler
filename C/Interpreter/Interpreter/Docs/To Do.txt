@@ -1,8 +1,13 @@
 Turn VariableValues into statically allocated objects
 A variable stack initialises the variables at construction and reuses them
+
 The fn routine return value is a statically allocated variable
+
 Hide the ability to create them
     VariableValue* variable_value_create_integer(int value);
     VariableValue* variable_value_create_string(const char* value);
     VariableValue* variable_value_create_copy(VariableValue* value);
     void variable_value_delete(VariableValue*);
+
+When setting a global variable the collection should accept ownershop of the memory
+If an existing value is overwritten it should be freed

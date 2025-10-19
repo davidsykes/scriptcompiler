@@ -26,7 +26,7 @@ int script_interpreter_interpret(
 		{
 			int intvalue = scn_fetch_int(code);
 			VariableValue* value = variable_value_create_integer(intvalue);
-			variable_stack->push_value(variable_stack, value);
+			vs_push_value(variable_stack, value);
 		}
 		break;
 
@@ -34,14 +34,14 @@ int script_interpreter_interpret(
 		{
 			const char* string_value = scn_fetch_string(code);
 			VariableValue* value = variable_value_create_string(string_value);
-			variable_stack->push_value(variable_stack, value);
+			vs_push_value(variable_stack, value);
 		}
 		break;
 
 		case POP_VARIABLE:
 		{
 			const char* varname = scn_fetch_string(code);
-			VariableValue* value = variable_stack->pop_value(variable_stack);
+			VariableValue* value = vs_pop_value(variable_stack);
 			variable_collection_set_variable(
 				interpreter->global_variables, varname, value);
 		}
@@ -49,11 +49,12 @@ int script_interpreter_interpret(
 
 		case CALL_FN_ROUTINE:
 		{
-			scn_fetch_int(code);
+			int parameter_count = scn_fetch_int(code);
 			const char* fnname = scn_fetch_string(code);
-			interpreter->fn_routine(fnname, 0, 0, script->fn_return_value);
+			VariableValue** parameters = vs_get_parameter_pointer(variable_stack, parameter_count);
+			interpreter->fn_routine(fnname, parameters, parameter_count, script->fn_return_value);
 			VariableValue* value_copy = variable_value_create_copy(script->fn_return_value);
-			variable_stack->push_value(variable_stack, value_copy);
+			vs_push_value(variable_stack, value_copy);
 		}
 		break;
 
@@ -63,8 +64,9 @@ int script_interpreter_interpret(
 		case DROPSKIPPAUSEREPEAT:
 		{
 			int jump = scn_fetch_int(code);
-			VariableValue* value = variable_stack->pop_value(variable_stack);
+			VariableValue* value = vs_pop_value(variable_stack);
 			int intvalue = variable_value_get_integer(value);
+			free(value);
 			if (intvalue == DROPSKIPPAUSEREPEAT_PAUSE)
 				return SCRIPT_PAUSED;
 			if (intvalue == DROPSKIPPAUSEREPEAT_REPEAT)
@@ -81,7 +83,7 @@ int script_interpreter_interpret(
 
 		case POP_LOCAL_VARIABLE:
 		{
-			VariableValue* value = variable_stack->pop_value(variable_stack);
+			VariableValue* value = vs_pop_value(variable_stack);
 			const char* varname = scn_fetch_string(code);
 			variable_collection_set_variable(
 				script->local_variables,
