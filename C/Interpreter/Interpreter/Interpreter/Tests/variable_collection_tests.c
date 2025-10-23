@@ -48,7 +48,7 @@ static void the_name_and_variable_pointer_are_mainained_internally(VariableColle
 {
 	const char* variable_name = "Variable Name";
 	size_t name_len = strlen(variable_name)+1;
-	char* name = xmalloc(name_len);
+	char* name = xmalloc(MEM_TEST, name_len);
 	strcpy_s(name, name_len, "Variable Name");
 	VariableValue* var = variable_value_create_integer(470);
 
@@ -71,7 +71,7 @@ static void the_name_and_variable_pointer_are_mainained_internally(VariableColle
 
 static void* variable_collection_tests_set_up()
 {
-	VariableCollectionTestsContext* context = xmalloc(sizeof(*context));
+	VariableCollectionTestsContext* context = xmalloc(MEM_TEST, sizeof(*context));
 	context->collection = variable_collection_create();
 	context->var = variable_value_create_integer(47);
 	return context;

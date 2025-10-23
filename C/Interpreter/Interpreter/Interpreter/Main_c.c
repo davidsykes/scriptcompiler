@@ -12,8 +12,7 @@ int main_c(const char* scriptData)
 {
 	run_all_tests();
 
-	ScriptCode* script_code = script_code_create(scriptData);
-	ScriptInstance* inst = script_instance_create(script_code);
+	ScriptInstance* inst = script_instance_create(scriptData);
 	VariableCollection* globals = variable_collection_create();
 	ScriptInterpreter* interpreter = script_interpreter_create(globals, FnRoutine);
 

@@ -31,7 +31,7 @@ void scn_jump(struct ScriptCodeNavigator* code, int distance)
 
 ScriptCodeNavigator* script_code_navigator_create(const char* scriptData)
 {
-	ScriptCodeNavigator* code = xmalloc(sizeof(*code));
+	ScriptCodeNavigator* code = xmalloc(MEM_SCRIPT_NAVIGATOR, sizeof(*code));
 
 	code->script_data = scriptData;
 	code->script_pointer = 0;

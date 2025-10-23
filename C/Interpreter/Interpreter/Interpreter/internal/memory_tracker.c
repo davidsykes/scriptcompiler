@@ -11,7 +11,7 @@ int allocation_count = 0;
 
 #define MEMORY_TRACKER_INDEX_BREAK -1
 
-void track_memory(void* ptr)
+void track_memory(const char* origin, void* ptr)
 {
 	if (allocation_count == MEMORY_TRACKER_INDEX_BREAK)
 	{

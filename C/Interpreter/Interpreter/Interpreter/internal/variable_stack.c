@@ -40,8 +40,8 @@ VariableValue** vs_get_parameter_pointer(VariableStack* stack, int parameter_cou
 
 VariableStack* variable_stack_create()
 {
-	VariableStack* stack = xmalloc(sizeof(*stack));
-	stack->values = xmalloc(VARIABLE_STACK_SIZE * sizeof(VariableValue*));
+	VariableStack* stack = xmalloc(MEM_VARIABLE_STACK, sizeof(*stack));
+	stack->values = xmalloc(MEM_VARIABLE_STACK, VARIABLE_STACK_SIZE * sizeof(VariableValue*));
 	stack->pointer = 0;
 
 	return stack;

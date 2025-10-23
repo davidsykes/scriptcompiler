@@ -104,7 +104,7 @@ ScriptInterpreter* script_interpreter_create(
 	VariableCollection* gobal_variables,
 	FN_ROUTINE fn_routine)
 {
-	ScriptInterpreter* si = xmalloc(sizeof(*si));
+	ScriptInterpreter* si = xmalloc(MEM_SCRIPT_INTERPRETER, sizeof(*si));
 
 	si->global_variables = gobal_variables;
 	si->fn_routine = fn_routine;

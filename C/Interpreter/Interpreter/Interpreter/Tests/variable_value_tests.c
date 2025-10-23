@@ -40,7 +40,7 @@ static void strings_are_zero_integers(VariableValueTestsContext* context)
 
 static void* set_up()
 {
-	VariableValueTestsContext* context = xmalloc(sizeof(*context));
+	VariableValueTestsContext* context = xmalloc(MEM_TEST, sizeof(*context));
 	context->value1 = variable_value_create();
 	return context;
 }

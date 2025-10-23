@@ -4,10 +4,10 @@
 
 
 
-ScriptInstance* script_instance_create(ScriptCode* script)
+ScriptInstance* script_instance_create(const char* script)
 {
-	ScriptInstance* inst = xmalloc(sizeof(*inst));
-	inst->script = script_code_navigator_create(script->script);
+	ScriptInstance* inst = xmalloc(MEM_SCRIPT_INSTANCE, sizeof(*inst));
+	inst->script = script_code_navigator_create(script);
 	inst->variable_stack = variable_stack_create();
 	inst->local_variables = variable_collection_create();
 	inst->fn_return_value = variable_value_create();

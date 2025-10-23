@@ -8,6 +8,16 @@
 #include "fatal.h"
 #include "memory_tracker.h"
 
+#define MEM_SCRIPT_INTERPRETER "ScriptInterpreter"
+#define MEM_SCRIPT_INSTANCE "ScriptInstance"
+#define MEM_VARIABLE_COLLECTION "VariableCollection"
+#define MEM_VARIABLES "Variables"
+#define MEM_STRING_VARIABLE "StringVariable"
+#define MEM_SCRIPT_NAVIGATOR "ScriptCodeNavigator"
+#define MEM_VARIABLE_STACK "VariableStack"
+#define MEM_VARIABLE_VALUE "VariableValue"
+#define MEM_TEST "Test"
+
 #if defined(__GNUC__) || defined(__clang__)
 #  define XATTR_NONNULL    __attribute__((returns_nonnull))
 #  define XATTR_MALLOC     __attribute__((malloc))
@@ -18,13 +28,13 @@
 #  define XATTR_ALLOCSZ(i)
 #endif
 
-static inline void* xmalloc(size_t n)
+static inline void* xmalloc(const char* origin, size_t n)
 XATTR_MALLOC XATTR_NONNULL XATTR_ALLOCSZ(1)
 {
     void* p = malloc(n);
     if (!p && n) fatal("Memory allocation.");
 #if MEMORY_TRACKER_ENABLED
-    track_memory(p);
+    track_memory(origin, p);
 #endif
     return p;
 }

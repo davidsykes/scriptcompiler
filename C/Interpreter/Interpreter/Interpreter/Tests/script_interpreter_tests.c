@@ -10,7 +10,6 @@ typedef struct ScriptInterpreterTestsContext {
 	VariableCollection* global_variables;
 	char script_data[MAX_SCRIPT_SIZE];
 	size_t script_pointer;
-	ScriptCode* script_code;
 	ScriptInstance* script_instance;
 } ScriptInterpreterTestsContext;
 
@@ -172,14 +171,13 @@ static void code_add_fn_routine(ScriptInterpreterTestsContext* context, const ch
 
 static void* script_interpreter_tests_set_up()
 {
-	ScriptInterpreterTestsContext* context = xmalloc(sizeof(*context));
+	ScriptInterpreterTestsContext* context = xmalloc(MEM_TEST, sizeof(*context));
 	context->global_variables = variable_collection_create();
 	context->interpreter = script_interpreter_create(
 		context->global_variables,
 		FnRoutine);
 	context->script_pointer = 0;
-	context->script_code = script_code_create(context->script_data);
-	context->script_instance = script_instance_create(context->script_code);
+	context->script_instance = script_instance_create(context->script_data);
 	last_called_routine[0] = 0;
 	return context;
 }
@@ -189,7 +187,6 @@ static void script_interpreter_tests_tear_down(ScriptInterpreterTestsContext* co
 	script_interpreter_delete(context->interpreter);
 	variable_collection_delete(context->global_variables);
 	script_instance_delete(context->script_instance);
-	script_code_delete(context->script_code);
 	free(context);
 }
 

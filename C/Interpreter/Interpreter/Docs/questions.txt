@@ -1,7 +1,17 @@
-Script variables were separated into local and global variables so that a script could be run
-by multiple objects at the same time.
-So two characters could run the same action script but have their own state values.
+I wouldn't have thought you could manage memory better than the system, but you know the Amiga better than me.
+
+What sort of values do you need for the script variables? The current systems allow integers and strings.
+Strings are a problem because they can either point to static strings, or dynamically allocated memory.
+Will all the scripts be loaded into memory and kept in a static location? If the only strings are those
+in scripts then they are just pointers. If strings need to be created then the system needs to know
+when they should be freed.
+
+Local and global script variables also need considering.
+Script variables were separated into local and global variables so that any script could be run
+by multiple objects at the same time, each keeping their own local values.
 Is that no longer the case? Do all scripts refer to the same set of global values?
+
+
 
 
 

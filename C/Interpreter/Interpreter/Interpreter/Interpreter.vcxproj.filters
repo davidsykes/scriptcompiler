@@ -51,9 +51,6 @@
     <ClCompile Include="internal\variable_collection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="internal\script_code.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="internal\script_instance.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,9 +96,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="internal\variable_collection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="internal\script_code.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="internal\script_instance.h">

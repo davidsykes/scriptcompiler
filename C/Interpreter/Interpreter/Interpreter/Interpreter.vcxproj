@@ -133,7 +133,6 @@
     <ClCompile Include="internal\script_interpreter.c" />
     <ClCompile Include="Main_c.c" />
     <ClCompile Include="internal\variable_collection.c" />
-    <ClCompile Include="internal\script_code.c" />
     <ClCompile Include="internal\script_instance.c" />
     <ClCompile Include="internal\script_code_navigator.c" />
     <ClCompile Include="Tests\assert.c" />
@@ -155,7 +154,6 @@
     <ClInclude Include="internal\xalloc.h" />
     <ClInclude Include="internal\script_code_navigator.h" />
     <ClInclude Include="internal\script_interpreter.h" />
-    <ClInclude Include="internal\script_code.h" />
     <ClInclude Include="internal\script_instance.h" />
     <ClInclude Include="public\script_interpreter_interface.h" />
     <ClInclude Include="Tests\assert.h" />

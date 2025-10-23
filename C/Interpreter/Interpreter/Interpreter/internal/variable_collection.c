@@ -19,10 +19,10 @@ typedef struct VariableCollection {
 
 VariableCollection* variable_collection_create()
 {
-	VariableCollection* variable_collection = xmalloc(sizeof(*variable_collection));
+	VariableCollection* variable_collection = xmalloc(MEM_VARIABLE_COLLECTION, sizeof(*variable_collection));
 	variable_collection->capacity = INITIAL_VARIABLE_COLLECTION_CAPACITY;
 	variable_collection->count = 0;
-	variable_collection->variables = xmalloc(variable_collection->capacity * sizeof(VariableItem));
+	variable_collection->variables = xmalloc(MEM_VARIABLES, variable_collection->capacity * sizeof(VariableItem));
 	return variable_collection;
 }
 
@@ -45,7 +45,7 @@ static void ensure_capacity(VariableCollection* collection)
 static char* create_string(const char* str)
 {
 	size_t len = strlen(str);
-	char* new_str = xmalloc(len + 1);
+	char* new_str = xmalloc(MEM_STRING_VARIABLE, len + 1);
 	strcpy_s(new_str, len + 1, str);
 	return new_str;
 }

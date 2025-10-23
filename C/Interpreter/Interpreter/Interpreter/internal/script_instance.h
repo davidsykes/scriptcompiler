@@ -1,5 +1,4 @@
 #pragma once
-#include "script_code.h"
 #include "../internal/script_code_navigator.h"
 #include "../internal/variable_stack.h"
 #include "variable_collection.h"
@@ -11,5 +10,5 @@ typedef struct ScriptInstance {
 	VariableValue* fn_return_value;
 } ScriptInstance;
 
-ScriptInstance* script_instance_create(ScriptCode* script);
+ScriptInstance* script_instance_create(const char* script);
 void script_instance_delete(ScriptInstance*);

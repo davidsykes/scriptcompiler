@@ -72,7 +72,7 @@ static void a_pointer_to_values_on_the_stack_can_be_returned(VariableStackTestsC
 
 static void* set_up()
 {
-	VariableStackTestsContext* context = xmalloc(sizeof(*context));
+	VariableStackTestsContext* context = xmalloc(MEM_TEST, sizeof(*context));
 	context->stack = variable_stack_create();
 	context->value1 = variable_value_create_integer(42);
 	context->value2 = variable_value_create_integer(1234);
