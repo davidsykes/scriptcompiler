@@ -49,6 +49,6 @@ VariableStack* variable_stack_create()
 
 void variable_stack_delete(VariableStack* stack)
 {
-	free(stack->values);
-	free(stack);
+	xfree(stack->values);
+	xfree(stack);
 }

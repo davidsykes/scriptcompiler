@@ -1,3 +1,16 @@
+ScriptInterpreter
+    The script execution engine that runs a script instance
+    It can be repeatedly run, returning 0 for pauses mid script, and 1 when the script completes.
+
+ScriptInstance
+    This is an instance of a running script. It is initialised with a pointer to the script to run.
+    There is one of these for every object that is running a script
+    It maintains the current execution position within the script
+    It maintains a variable stack for the ScriptInterpreter
+
+
+
+
 ScriptCode
     A pointer to a unit of compiled script
     ScriptCode* script_code = script_code_create(scriptData);
@@ -23,6 +36,4 @@ FnRoutine
         parameter_count     The number of parameters supplied
         fn_return_value     The variable value to use for the return value
 
-ScriptInterpreter
-    The script execution engine that runs a script instance
-    It can be repeatedly run, returning 0 for pauses mid script, and 1 when the script completes.
+

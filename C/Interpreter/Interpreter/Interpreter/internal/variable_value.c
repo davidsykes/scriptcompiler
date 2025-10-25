@@ -2,6 +2,14 @@
 #include "../internal/xalloc.h"
 #include "variable_value.h"
 
+
+typedef struct VariableValue {
+	int is_integer;
+	int integer;
+	const char* string;
+} VariableValue;
+
+
 VariableValue* variable_value_create_integer(int integer)
 {
 	VariableValue* value = xmalloc(MEM_VARIABLE_VALUE, sizeof(*value));
@@ -54,9 +62,7 @@ void variable_value_set_integer(VariableValue* value, int integer)
 
 int variable_value_get_integer(VariableValue* value)
 {
-	//if (value->is_integer)
-		return value->integer;
-	//return 0;
+	return value->integer;
 }
 
 void variable_value_set_string(VariableValue* value, const char* string)

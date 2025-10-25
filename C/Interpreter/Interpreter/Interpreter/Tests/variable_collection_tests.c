@@ -20,7 +20,7 @@ static void a_new_global_variable_can_be_set_and_retrieved(VariableCollectionTes
 		context->collection,
 		"Variable Name");
 
-	assert(var2->integer == 47);
+	assert(variable_value_get_integer(var2) == 47);
 }
 
 static void an_existing_global_variable_can_be_set_and_retrieved(VariableCollectionTestsContext* context)
@@ -41,7 +41,7 @@ static void an_existing_global_variable_can_be_set_and_retrieved(VariableCollect
 		context->collection,
 		"Variable Name");
 
-	assert(var2->integer == 55);
+	assert(variable_value_get_integer(var2) == 55);
 }
 
 static void the_name_and_variable_pointer_are_mainained_internally(VariableCollectionTestsContext* context)
@@ -58,13 +58,13 @@ static void the_name_and_variable_pointer_are_mainained_internally(VariableColle
 		var);
 
 	strcpy_s(name, 12, "bla bla bla");
-	var->integer = 99;
+	variable_value_set_integer(var, 99);
 
 	VariableValue* var2 = variable_collection_get_variable(
 		context->collection,
 		"Variable Name");
 
-	assert(var2->integer == 470);
+	assert(variable_value_get_integer(var2) == 470);
 
 	free(name);
 }

@@ -28,7 +28,7 @@ VariableCollection* variable_collection_create()
 
 void variable_collection_delete(VariableCollection* collection)
 {
-	free(collection);
+	xfree(collection);
 }
 
 static void ensure_capacity(VariableCollection* collection)
@@ -76,7 +76,7 @@ void variable_collection_set_variable(
 	VariableCollection* collection, const char* name, VariableValue* value)
 {
 	VariableValue* variable = find_or_create_variable(collection, name);
-	variable_value_set_integer(variable, value->integer);
+	variable_value_set_integer(variable, variable_value_get_integer(value));
 }
 
 VariableValue* variable_collection_get_variable(

@@ -10,10 +10,10 @@
 
 #define MEM_SCRIPT_INTERPRETER "ScriptInterpreter"
 #define MEM_SCRIPT_INSTANCE "ScriptInstance"
+#define MEM_SCRIPT_NAVIGATOR "ScriptCodeNavigator"
 #define MEM_VARIABLE_COLLECTION "VariableCollection"
 #define MEM_VARIABLES "Variables"
 #define MEM_STRING_VARIABLE "StringVariable"
-#define MEM_SCRIPT_NAVIGATOR "ScriptCodeNavigator"
 #define MEM_VARIABLE_STACK "VariableStack"
 #define MEM_VARIABLE_VALUE "VariableValue"
 #define MEM_TEST "Test"

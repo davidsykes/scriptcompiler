@@ -11,6 +11,7 @@ void run_test_rig(void* (*setup)(),
         void* context = setup();
         tests[test](context);
         teardown(context);
+        track_memory_allocations();
 
         ++test;
     }

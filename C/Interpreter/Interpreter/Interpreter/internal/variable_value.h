@@ -1,11 +1,7 @@
 #pragma once
 
 
-typedef struct VariableValue {
-	int is_integer;
-	int integer;
-	const char* string;
-} VariableValue;
+typedef struct VariableValue VariableValue;
 
 
 VariableValue* variable_value_create();

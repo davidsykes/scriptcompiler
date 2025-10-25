@@ -27,8 +27,8 @@ static void FnRoutine(const char* name, VariableValue** parameters, int paramete
 	strcpy_s(last_called_routine, p+1, name);
 	for (int i = 0; i < parameter_count; i++)
 	{
-		size_t p2 = strlen(parameters[i]->string);
-		strcpy_s(last_called_routine + p, p2+1, parameters[i]->string);
+		size_t p2 = strlen(variable_value_get_string(parameters[i]));
+		strcpy_s(last_called_routine + p, p2 + 1, variable_value_get_string(parameters[i]));
 		p += p2;
 	}
 	variable_value_set_integer(fn_return_variable, fn_return_value);
@@ -58,10 +58,10 @@ static void call_fn_routine_return_value_is_pushed_on_to_the_stack(ScriptInterpr
 		context->interpreter,
 		context->script_instance);
 
-	int set_value = variable_collection_get_variable(
+	VariableValue* vv = variable_collection_get_variable(
 		context->global_variables,
-		"var")
-		->integer;
+		"var");
+	int set_value = variable_value_get_integer(vv);
 	assert(set_value == 42);
 }
 

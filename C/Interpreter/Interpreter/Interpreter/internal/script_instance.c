@@ -19,6 +19,6 @@ void script_instance_delete(ScriptInstance* inst)
 	script_code_navigator_delete(inst->script);
 	variable_stack_delete(inst->variable_stack);
 	variable_collection_delete(inst->local_variables);
-	free(inst);
+	xfree(inst);
 }
 
