@@ -114,5 +114,5 @@ ScriptInterpreter* script_interpreter_create(
 
 void script_interpreter_delete(ScriptInterpreter* si)
 {
-	free(si);
+	xfree(si);
 }

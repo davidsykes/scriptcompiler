@@ -9,57 +9,32 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-int main_c(const char* scriptData);
+#include <vector>
+void run_all_tests();
+int run_script(const char* scriptData, const char* script_name);
 #ifdef __cplusplus
 }
 #endif
 
-int	ReadInt(std::ifstream& is);
+static std::vector<std::byte> LoadEntireFile(const char* filePath);
 
 int main(int argc, char* argv[])
 {
+	run_all_tests();
+
 	try
 	{
 		if (argc != 3)
 		{
 			throw std::exception("Missing script file or script name");
 		}
+		const char* scriptFileName = argv[1];
+		const char* scriptName = argv[2];
 
-		std::string sourceFile(argv[1]);
-		std::ifstream scriptFile(sourceFile, std::ios_base::binary);
-		if (!scriptFile.is_open())
-		{
-			std::stringstream ss;
-			ss << "Failed to open script file '" << sourceFile << "'";
-			throw std::exception(ss.str().c_str());
-		}
 
-		std::string scriptToRun(argv[2]);
-		int numberOfScripts = ReadInt(scriptFile);
+		std::vector<std::byte> scriptData = LoadEntireFile(scriptFileName);
 
-		for (int script = 0 ; script < numberOfScripts ; ++script)
-		{
-			int nameLength = ReadInt(scriptFile);
-			std::unique_ptr<char> apName(new char[nameLength]);
-			scriptFile.read(apName.get(), nameLength);
-			std::string scriptName(apName.get(), nameLength);
-
-			int scriptLength = ReadInt(scriptFile);
-			std::unique_ptr<char[]> scriptData(new char[scriptLength]);
-			scriptFile.read(scriptData.get(), scriptLength);
-
-			if (scriptName == scriptToRun)
-			{
-				const char* script = scriptData.get();
-
-				int result = main_c(script);
-
-				if (result != 0)
-				{
-					std::cerr << "Script returned error code " << result << std::endl;
-				}
-			}
-		}
+		int result = run_script((const char*)scriptData.data(), scriptName);
 	}
 	catch (std::exception ex)
 	{
@@ -71,11 +46,22 @@ int main(int argc, char* argv[])
 }
 
 
-int ReadInt(std::ifstream& is)
+static std::vector<std::byte> LoadEntireFile(const char* filePath)
 {
-	int v;
-	is.read((char*)&v, sizeof(v));
-	return v;
+	std::ifstream file(filePath, std::ifstream::binary);
+
+	if (file)
+	{
+
+		file.seekg(0, file.end);
+		std::streampos end_pos = file.tellg();
+		file.seekg(0, file.beg);
+		std::vector<std::byte> buf(static_cast<size_t>(end_pos));
+
+		if (end_pos > 0 && file.read(reinterpret_cast<char*>(buf.data()), end_pos))
+		{
+			return buf;
+		}
+	}
+	throw std::exception("Error loading script file");
 }
-
-
