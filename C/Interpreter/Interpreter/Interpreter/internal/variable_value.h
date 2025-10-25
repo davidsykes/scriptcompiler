@@ -1,16 +1,19 @@
 #pragma once
 
-
-typedef struct VariableValue VariableValue;
+typedef struct VariableValue {
+	int is_integer;
+	int integer;
+	const char* string;
+} VariableValue;
 
 
 VariableValue* variable_value_create();
 VariableValue* variable_value_create_integer(int value);
 VariableValue* variable_value_create_string(const char* value);
-VariableValue* variable_value_create_copy(VariableValue* value);
 void variable_value_delete(VariableValue*);
 
 void variable_value_set_integer(VariableValue* value, int integer);
 int variable_value_get_integer(VariableValue* value);
 void variable_value_set_string(VariableValue* value, const char* string);
 const char* variable_value_get_string(VariableValue* value);
+void variable_value_copy(VariableValue* target, VariableValue* source);

@@ -6,7 +6,7 @@
 #define VARIABLE_STACK_SIZE	10
 
 typedef struct VariableStack {
-	VariableValue** values;
+	VariableValue values[10];
 	int pointer;
 } VariableStack;
 
@@ -17,31 +17,30 @@ void vs_push_value(VariableStack* stack, VariableValue* value)
 		fatal("Variable stack overflow");
 		return;
 	}
-	stack->values[stack->pointer] = value;
+	variable_value_copy(&stack->values[stack->pointer], value);
+
 	++stack->pointer;
 }
 
-VariableValue* vs_pop_value(VariableStack* stack)
+void vs_pop_copy_value(VariableStack* stack, VariableValue* value)
 {
 	if (stack->pointer <= 0)
 	{
 		fatal("Variable stack underflow");
-		return NULL;
+		return;
 	}
 	--stack->pointer;
-	return stack->values[stack->pointer];
+	variable_value_copy(value, &stack->values[stack->pointer]);
 }
 
-
-VariableValue** vs_get_parameter_pointer(VariableStack* stack, int parameter_count)
+VariableValue* vs_get_parameter_pointer(VariableStack* stack, int parameter_count)
 {
-	return stack->values + (stack->pointer - parameter_count);
+	return &stack->values[stack->pointer - parameter_count];
 }
 
 VariableStack* variable_stack_create()
 {
 	VariableStack* stack = xmalloc(MEM_VARIABLE_STACK, sizeof(*stack));
-	stack->values = xmalloc(MEM_VARIABLE_STACK, VARIABLE_STACK_SIZE * sizeof(VariableValue*));
 	stack->pointer = 0;
 
 	return stack;
@@ -49,6 +48,5 @@ VariableStack* variable_stack_create()
 
 void variable_stack_delete(VariableStack* stack)
 {
-	xfree(stack->values);
 	xfree(stack);
 }

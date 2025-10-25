@@ -41,9 +41,10 @@ int script_interpreter_interpret(
 		case POP_VARIABLE:
 		{
 			const char* varname = scn_fetch_string(code);
-			VariableValue* value = vs_pop_value(variable_stack);
+			VariableValue value;
+			vs_pop_copy_value(variable_stack, &value);
 			variable_collection_set_variable(
-				interpreter->global_variables, varname, value);
+				interpreter->global_variables, varname, &value);
 		}
 		break;
 
@@ -51,10 +52,9 @@ int script_interpreter_interpret(
 		{
 			int parameter_count = scn_fetch_int(code);
 			const char* fnname = scn_fetch_string(code);
-			VariableValue** parameters = vs_get_parameter_pointer(variable_stack, parameter_count);
+			VariableValue* parameters = vs_get_parameter_pointer(variable_stack, parameter_count);
 			interpreter->fn_routine(fnname, parameters, parameter_count, script->fn_return_value);
-			VariableValue* value_copy = variable_value_create_copy(script->fn_return_value);
-			vs_push_value(variable_stack, value_copy);
+			vs_push_value(variable_stack, script->fn_return_value);
 		}
 		break;
 
@@ -64,9 +64,9 @@ int script_interpreter_interpret(
 		case DROPSKIPPAUSEREPEAT:
 		{
 			int jump = scn_fetch_int(code);
-			VariableValue* value = vs_pop_value(variable_stack);
-			int intvalue = variable_value_get_integer(value);
-			free(value);
+			VariableValue value;
+			vs_pop_copy_value(variable_stack, &value);
+			int intvalue = variable_value_get_integer(&value);
 			if (intvalue == DROPSKIPPAUSEREPEAT_PAUSE)
 				return SCRIPT_PAUSED;
 			if (intvalue == DROPSKIPPAUSEREPEAT_REPEAT)
@@ -83,12 +83,13 @@ int script_interpreter_interpret(
 
 		case POP_LOCAL_VARIABLE:
 		{
-			VariableValue* value = vs_pop_value(variable_stack);
+			VariableValue value;
+			vs_pop_copy_value(variable_stack, &value);
 			const char* varname = scn_fetch_string(code);
 			variable_collection_set_variable(
 				script->local_variables,
 				varname,
-				value
+				&value
 			);
 		}
 		break;

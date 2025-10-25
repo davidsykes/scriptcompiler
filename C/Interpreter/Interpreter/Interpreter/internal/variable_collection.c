@@ -83,5 +83,5 @@ VariableValue* variable_collection_get_variable(
 	VariableCollection* collection, const char* name)
 {
 	VariableValue* variable = find_or_create_variable(collection, name);
-	return variable_value_create_copy(variable);
+	return variable;
 }

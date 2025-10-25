@@ -3,7 +3,7 @@
 #include "public/script_interpreter_interface.h"
 #include "internal/memory_tracker.h"
 
-static void FnRoutine(const char* fn_routine_name, VariableValue** parameters, int parameter_count, VariableValue* return_value)
+static void FnRoutine(const char* fn_routine_name, VariableValue* parameters, int parameter_count, VariableValue* return_value)
 {
 	variable_value_set_integer(return_value, 0);
 }

@@ -1,5 +1,5 @@
 #include "test_rig.h"
-
+#include "../internal/memory_tracker.h"
 
 void run_test_rig(void* (*setup)(),
     void (*teardown)(void*),

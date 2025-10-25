@@ -21,14 +21,14 @@ static void code_add_integer(ScriptInterpreterTestsContext* context, int value);
 static void code_add_string(ScriptInterpreterTestsContext* context, const char* value);
 static void code_add_fn_routine(ScriptInterpreterTestsContext* context, const char* name, int parameter_count);
 
-static void FnRoutine(const char* name, VariableValue** parameters, int parameter_count, VariableValue* fn_return_variable)
+static void FnRoutine(const char* name, VariableValue* parameters, int parameter_count, VariableValue* fn_return_variable)
 {
 	size_t p = strlen(name);
 	strcpy_s(last_called_routine, p+1, name);
 	for (int i = 0; i < parameter_count; i++)
 	{
-		size_t p2 = strlen(variable_value_get_string(parameters[i]));
-		strcpy_s(last_called_routine + p, p2 + 1, variable_value_get_string(parameters[i]));
+		size_t p2 = strlen(variable_value_get_string(&parameters[i]));
+		strcpy_s(last_called_routine + p, p2 + 1, variable_value_get_string(&parameters[i]));
 		p += p2;
 	}
 	variable_value_set_integer(fn_return_variable, fn_return_value);

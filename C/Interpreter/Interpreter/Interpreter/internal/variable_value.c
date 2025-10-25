@@ -3,13 +3,6 @@
 #include "variable_value.h"
 
 
-typedef struct VariableValue {
-	int is_integer;
-	int integer;
-	const char* string;
-} VariableValue;
-
-
 VariableValue* variable_value_create_integer(int integer)
 {
 	VariableValue* value = xmalloc(MEM_VARIABLE_VALUE, sizeof(*value));
@@ -37,16 +30,12 @@ VariableValue* variable_value_create_string(const char* str)
 	return value;
 }
 
-VariableValue* variable_value_create_copy(VariableValue* value)
+
+void variable_value_copy(VariableValue* target, VariableValue* source)
 {
-	if (value->is_integer)
-	{
-		return variable_value_create_integer(value->integer);
-	}
-	else
-	{
-		return variable_value_create_string(value->string);
-	}
+	target->is_integer = source->is_integer;
+	target->integer = source->integer;
+	target->string = source->string;
 }
 
 void variable_value_delete(VariableValue* value)

@@ -26,9 +26,13 @@ static void values_can_be_pushed_and_popped(VariableStackTestsContext* context)
 	vs_push_value(stack, context->value2);
 	vs_push_value(stack, context->value3);
 
-	assert(vs_pop_value(stack) == context->value3);
-	assert(vs_pop_value(stack) == context->value2);
-	assert(vs_pop_value(stack) == context->value1);
+	VariableValue val;
+	vs_pop_copy_value(stack, &val);
+	assert(val.integer == context->value3->integer);
+	vs_pop_copy_value(stack, &val);
+	assert(val.integer == context->value2->integer);
+	vs_pop_copy_value(stack, &val);
+	assert(val.integer == context->value1->integer);
 }
 
 static void popping_off_the_bottom_generates_an_error(VariableStackTestsContext* context)
@@ -37,8 +41,9 @@ static void popping_off_the_bottom_generates_an_error(VariableStackTestsContext*
 	fatal_fn = mock_fatal;
 
 	vs_push_value(stack, context->value1);
-	vs_pop_value(stack);
-	vs_pop_value(stack);
+	VariableValue val;
+	vs_pop_copy_value(stack, &val);
+	vs_pop_copy_value(stack, &val);
 
 	assert(strcmp(_error_message, "Variable stack underflow") == 0);
 }
@@ -64,10 +69,10 @@ static void a_pointer_to_values_on_the_stack_can_be_returned(VariableStackTestsC
 	vs_push_value(stack, context->value2);
 	vs_push_value(stack, context->value3);
 
-	VariableValue** params = vs_get_parameter_pointer(stack, 2);
+	VariableValue* params = vs_get_parameter_pointer(stack, 2);
 
-	assert(params[0] == context->value2);
-	assert(params[1] == context->value3);
+	assert(params[0].integer == context->value2->integer);
+	assert(params[1].integer == context->value3->integer);
 }
 
 static void* set_up()

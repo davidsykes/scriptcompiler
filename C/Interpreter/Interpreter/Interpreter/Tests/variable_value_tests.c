@@ -38,6 +38,20 @@ static void strings_are_zero_integers(VariableValueTestsContext* context)
 	assert(variable_value_get_integer(context->value1) == 0);
 }
 
+static void variables_can_be_copied(VariableValueTestsContext* context)
+{
+	VariableValue copy;
+	context->value1->is_integer = 123;
+	context->value1->integer = 456;
+	context->value1->string = 0x1234;
+
+	variable_value_copy(&copy, context->value1);
+
+	assert(copy.is_integer == 123);
+	assert(copy.integer == 456);
+	assert(copy.string == 0x1234);
+}
+
 static void* set_up()
 {
 	VariableValueTestsContext* context = xmalloc(MEM_TEST, sizeof(*context));
@@ -59,6 +73,7 @@ void run_variable_value_tests()
 		string_values_can_be_set,
 		integers_are_null_strings,
 		strings_are_zero_integers,
+		variables_can_be_copied,
 		0
 	};
 
